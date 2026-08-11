@@ -51,12 +51,21 @@ export const metadata: Metadata = {
     siteName: "Nguyen Minh Duy — Data Engineer",
     title: "Nguyen Minh Duy — Data Engineer",
     description: "Building reliable data platforms from ingestion to analytics.",
+    images: [
+      {
+        url: "/og.png",
+        width: 1200,
+        height: 630,
+        alt: "Nguyen Minh Duy — Data Engineer",
+      },
+    ],
   },
 
   twitter: {
     card: "summary_large_image",
     title: "Nguyen Minh Duy — Data Engineer",
     description: "Building reliable data platforms from ingestion to analytics.",
+    images: ["/og.png"],
   },
 
   alternates: {

@@ -274,6 +274,14 @@ function PipelineSection() {
         <p className="mt-3 text-xs text-text-muted">
           Daily batch — GitHub REST API → Python/DuckDB → DQ checks → JSON/Parquet
         </p>
+        <a
+          href="https://github.com/minzi03/portfolio/tree/main/pipeline"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-2 inline-block text-xs text-accent hover:text-accent-hover"
+        >
+          View pipeline source ↗
+        </a>
       </Container>
     </section>
   );
