@@ -1,0 +1,23 @@
+{
+  "pipeline": "portfolio-data",
+  "status": "success",
+  "started_at": "2026-08-11T17:08:54.240173+00:00",
+  "completed_at": "2026-08-11T17:08:54.971492+00:00",
+  "duration_seconds": 0.7,
+  "records_processed": 34,
+  "dq": {
+    "total": 8,
+    "passed": 8,
+    "failed": 0,
+    "checks": {
+      "source_not_empty": "passed",
+      "repo_name_not_null": "passed",
+      "stars_non_negative": "passed",
+      "forks_non_negative": "passed",
+      "updated_at_valid": "passed",
+      "unique_repo_names": "passed",
+      "freshness_within_7_days": "passed",
+      "schema_valid": "passed"
+    }
+  }
+}

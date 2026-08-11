@@ -1,0 +1,24 @@
+{
+  "title": "Data Model — Star Schema",
+  "nodes": [
+    { "id": "fact_transaction", "label": "fact_transaction", "type": "fact", "description": "Grain: one banking transaction. Measures: amount, fee, balance." },
+    { "id": "dim_customer", "label": "dim_customer", "type": "dimension", "description": "SCD Type 2. Customer demographics and segmentation." },
+    { "id": "dim_account", "label": "dim_account", "type": "dimension", "description": "Account type, status, Open date." },
+    { "id": "dim_date", "label": "dim_date", "type": "dimension", "description": "Calendar dimension. Year, month, day, quarter." },
+    { "id": "dim_channel", "label": "dim_channel", "type": "dimension", "description": "Transaction channel: ATM, mobile, web, branch." },
+    { "id": "dim_merchant", "label": "dim_merchant", "type": "dimension", "description": "Merchant category and name." },
+    { "id": "dim_card", "label": "dim_card", "type": "dimension", "description": "Card type, issuer, status." },
+    { "id": "dim_product", "label": "dim_product", "type": "dimension", "description": "Banking product: savings, loan, credit." },
+    { "id": "dim_branch", "label": "dim_branch", "type": "dimension", "description": "Branch location and region." }
+  ],
+  "edges": [
+    { "source": "dim_customer", "target": "fact_transaction", "label": "customer_key" },
+    { "source": "dim_account", "target": "fact_transaction", "label": "account_key" },
+    { "source": "dim_date", "target": "fact_transaction", "label": "date_key" },
+    { "source": "dim_channel", "target": "fact_transaction", "label": "channel_key" },
+    { "source": "dim_merchant", "target": "fact_transaction", "label": "merchant_key" },
+    { "source": "dim_card", "target": "fact_transaction", "label": "card_key" },
+    { "source": "dim_product", "target": "fact_transaction", "label": "product_key" },
+    { "source": "dim_branch", "target": "fact_transaction", "label": "branch_key" }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "title": "System Architecture",
+  "nodes": [
+    { "id": "postgres", "label": "PostgreSQL", "type": "source", "technology": ["PostgreSQL"], "description": "OLTP source — customer, account, transaction data" },
+    { "id": "spark-batch", "label": "Spark Batch", "type": "processing", "technology": ["Apache Spark", "PySpark"], "description": "Full and incremental batch ingestion" },
+    { "id": "debezium", "label": "Debezium", "type": "cdc", "technology": ["Debezium"], "description": "CDC from PostgreSQL WAL" },
+    { "id": "kafka", "label": "Kafka", "type": "streaming", "technology": ["Apache Kafka"], "description": "Transport CDC events" },
+    { "id": "spark-streaming", "label": "Spark Streaming", "type": "processing", "technology": ["Spark Structured Streaming"], "description": "Micro-batch CDC consumer" },
+    { "id": "minio", "label": "MinIO", "type": "storage", "technology": ["MinIO"], "description": "S3-compatible object storage for Iceberg" },
+    { "id": "iceberg", "label": "Apache Iceberg", "type": "lakehouse", "technology": ["Apache Iceberg"], "description": "Open table format with ACID, time travel, schema evolution" },
+    { "id": "bronze", "label": "Bronze", "type": "layer", "technology": [], "description": "Raw ingested data" },
+    { "id": "silver", "label": "Silver", "type": "layer", "technology": [], "description": "Validated, deduplicated, current-state datasets" },
+    { "id": "gold", "label": "Gold", "type": "layer", "technology": [], "description": "Business-ready dimensional models" },
+    { "id": "trino", "label": "Trino", "type": "query", "technology": ["Trino"], "description": "Distributed SQL query engine" },
+    { "id": "dbt", "label": "dbt", "type": "transformation", "technology": ["dbt"], "description": "Business logic, metrics, documentation" },
+    { "id": "airflow", "label": "Airflow", "type": "orchestration", "technology": ["Apache Airflow"], "description": "DAG orchestration and scheduling" },
+    { "id": "superset", "label": "Superset", "type": "bi", "technology": ["Apache Superset"], "description": "BI dashboards and analytics" },
+    { "id": "openmetadata", "label": "OpenMetadata", "type": "governance", "technology": ["OpenMetadata"], "description": "Data catalog, lineage, governance" }
+  ],
+  "edges": [
+    { "source": "postgres", "target": "spark-batch", "label": "batch" },
+    { "source": "postgres", "target": "debezium", "label": "WAL" },
+    { "source": "debezium", "target": "kafka", "label": "CDC events" },
+    { "source": "kafka", "target": "spark-streaming", "label": "consume" },
+    { "source": "spark-batch", "target": "bronze", "label": "ingest" },
+    { "source": "spark-streaming", "target": "bronze", "label": "MERGE" },
+    { "source": "minio", "target": "iceberg", "label": "store" },
+    { "source": "bronze", "target": "silver", "label": "Spark" },
+    { "source": "silver", "target": "gold", "label": "Spark" },
+    { "source": "gold", "target": "trino", "label": "query" },
+    { "source": "gold", "target": "dbt", "label": "transform" },
+    { "source": "trino", "target": "superset", "label": "visualize" },
+    { "source": "dbt", "target": "superset", "label": "metrics" }
+  ]
+}

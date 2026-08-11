@@ -1,0 +1,26 @@
+{
+  "title": "Data Lineage",
+  "nodes": [
+    { "id": "src-customers", "label": "source.customers", "type": "source", "description": "OLTP customers table" },
+    { "id": "src-transactions", "label": "source.transactions", "type": "source", "description": "OLTP transactions table" },
+    { "id": "brz-customers", "label": "bronze.customers", "type": "layer", "description": "Raw ingested customers" },
+    { "id": "brz-transactions", "label": "bronze.transactions", "type": "layer", "description": "Raw ingested transactions" },
+    { "id": "slv-customers", "label": "silver.customers", "type": "layer", "description": "Deduplicated, validated" },
+    { "id": "slv-transactions", "label": "silver.transactions", "type": "layer", "description": "Deduplicated, watermarked" },
+    { "id": "gld-dim-customer", "label": "gold.dim_customer", "type": "dimension", "description": "SCD Type 2 customer dimension" },
+    { "id": "gld-fact-tx", "label": "gold.fact_transactions", "type": "fact", "description": "Enriched transaction facts" },
+    { "id": "dbt-metrics", "label": "dbt.customer_metrics", "type": "transformation", "description": "Business metrics and aggregates" },
+    { "id": "superset-dash", "label": "superset.customer360", "type": "bi", "description": "Customer 360 dashboard" }
+  ],
+  "edges": [
+    { "source": "src-customers", "target": "brz-customers", "label": "ingest" },
+    { "source": "src-transactions", "target": "brz-transactions", "label": "ingest" },
+    { "source": "brz-customers", "target": "slv-customers", "label": "validate" },
+    { "source": "brz-transactions", "target": "slv-transactions", "label": "validate" },
+    { "source": "slv-customers", "target": "gld-dim-customer", "label": "SCD2" },
+    { "source": "slv-transactions", "target": "gld-fact-tx", "label": "enrich" },
+    { "source": "gld-dim-customer", "target": "dbt-metrics", "label": "join" },
+    { "source": "gld-fact-tx", "target": "dbt-metrics", "label": "aggregate" },
+    { "source": "dbt-metrics", "target": "superset-dash", "label": "visualize" }
+  ]
+}

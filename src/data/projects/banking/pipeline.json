@@ -1,0 +1,26 @@
+{
+  "title": "Data Pipeline",
+  "nodes": [
+    { "id": "pg-wal", "label": "PostgreSQL WAL", "type": "source", "description": "Write-Ahead Log captures all row changes" },
+    { "id": "debezium", "label": "Debezium", "type": "processing", "description": "Reads WAL, produces CDC events" },
+    { "id": "kafka", "label": "Kafka Topics", "type": "streaming", "description": "customers, accounts, transactions..." },
+    { "id": "spark-ss", "label": "Spark Structured Streaming", "type": "processing", "description": "Micro-batch consumer with watermarking" },
+    { "id": "dedup", "label": "Dedup + Watermark", "type": "processing", "description": "Remove duplicates, apply time watermark" },
+    { "id": "iceberg-merge", "label": "Iceberg MERGE", "type": "processing", "description": "Idempotent upsert into Iceberg tables" },
+    { "id": "bronze-cdc", "label": "Bronze (CDC)", "type": "layer", "description": "Raw CDC events materialized" },
+    { "id": "silver-cdc", "label": "Silver (CDC)", "type": "layer", "description": "Current-state, deduplicated" },
+    { "id": "gold-dim", "label": "Gold Dimensions", "type": "layer", "description": "SCD Type 1/2 dimensions" },
+    { "id": "gold-fact", "label": "Gold Facts", "type": "layer", "description": "Fact tables with full context" }
+  ],
+  "edges": [
+    { "source": "pg-wal", "target": "debezium", "label": "replication" },
+    { "source": "debezium", "target": "kafka", "label": "publish" },
+    { "source": "kafka", "target": "spark-ss", "label": "consume" },
+    { "source": "spark-ss", "target": "dedup", "label": "process" },
+    { "source": "dedup", "target": "iceberg-merge", "label": "write" },
+    { "source": "iceberg-merge", "target": "bronze-cdc", "label": "" },
+    { "source": "bronze-cdc", "target": "silver-cdc", "label": "validate" },
+    { "source": "silver-cdc", "target": "gold-dim", "label": "model" },
+    { "source": "silver-cdc", "target": "gold-fact", "label": "model" }
+  ]
+}
