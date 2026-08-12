@@ -51,13 +51,26 @@ export default function CredentialCard({ credential, onClick }: CredentialCardPr
         </div>
       )}
 
-      {/* Evidence indicator */}
-      {credential.evidence === "redacted" && (
-        <p className="mt-2 text-[10px] text-text-muted">🔒 Sensitive — redacted</p>
-      )}
-      {credential.evidence === "metadata-only" && (
-        <p className="mt-2 text-[10px] text-text-muted">📋 Metadata only</p>
-      )}
+      {/* Verification + Evidence */}
+      <div className="mt-3 flex items-center gap-2">
+        {credential.verifyUrl && (
+          <a
+            href={credential.verifyUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => e.stopPropagation()}
+            className="inline-flex items-center gap-1 rounded border border-green-500/30 bg-green-500/10 px-2 py-0.5 text-[10px] font-medium text-green-400 transition-colors hover:bg-green-500/20"
+          >
+            ✓ Verified
+          </a>
+        )}
+        {credential.evidence === "redacted" && (
+          <span className="text-[10px] text-text-muted">🔒 Redacted</span>
+        )}
+        {credential.evidence === "metadata-only" && (
+          <span className="text-[10px] text-text-muted">📋 Metadata</span>
+        )}
+      </div>
     </button>
   );
 }

@@ -2,12 +2,21 @@ import Link from "next/link";
 import Container from "@/components/ui/Container";
 import PipelineStatus from "@/components/data/pipeline-status";
 import ArchitecturePreview from "@/components/projects/ArchitecturePreview";
+import ExperienceHighlightCard from "@/components/experience/ExperienceHighlightCard";
 import { siteConfig } from "@/data/site-config";
 import { experiences } from "@/data/experience";
 import { projects, getFeaturedProjects } from "@/data/projects";
+import { skills } from "@/data/skills";
 import { articles } from "@/data/writing";
 import { education } from "@/data/education";
 import { getFeaturedCredentials } from "@/data/credentials";
+
+/* ─── Hero Evidence ─── */
+const heroStats = [
+  { label: "Projects", value: String(projects.length) },
+  { label: "Technologies", value: String(new Set(skills.map((s) => s.name)).size) },
+  { label: "Experiences", value: String(experiences.length) },
+];
 
 function formatDateRange(start: string, end?: string): string {
   const s = new Date(start + "-01");
@@ -38,10 +47,28 @@ function Hero() {
           <h1 className="text-4xl font-bold tracking-tight text-text-primary sm:text-5xl">
             {siteConfig.name}
           </h1>
-          <p className="mt-2 text-xl font-semibold text-text-secondary">Data Engineer</p>
+          <div className="mt-2 flex items-center gap-3">
+            <p className="text-xl font-semibold text-text-secondary">Data Engineer</p>
+            {siteConfig.availability.status === "open" && (
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-green-500/30 bg-green-500/10 px-3 py-0.5 text-xs font-medium text-green-400">
+                <span className="h-1.5 w-1.5 rounded-full bg-green-400 animate-pulse" />
+                {siteConfig.availability.label}
+              </span>
+            )}
+          </div>
           <p className="mt-4 max-w-lg text-base leading-relaxed text-text-secondary">
             {siteConfig.tagline}
           </p>
+
+          {/* Evidence-derived stats */}
+          <div className="mt-6 flex gap-6">
+            {heroStats.map((stat) => (
+              <div key={stat.label}>
+                <p className="text-2xl font-bold font-mono text-accent">{stat.value}</p>
+                <p className="text-xs text-text-muted">{stat.label}</p>
+              </div>
+            ))}
+          </div>
 
           {/* CTAs */}
           <div className="mt-8 flex flex-wrap gap-3">
@@ -256,7 +283,11 @@ function ExperienceSection() {
                 <span className="font-mono text-xs text-text-muted">{formatDateRange(exp.startDate, exp.endDate)}</span>
               </div>
               <p className="text-sm text-accent">{exp.role}</p>
-              <p className="mt-1 text-sm text-text-secondary">{exp.highlightsCompat[0]}</p>
+              {exp.highlights[0] && (
+                <ul className="mt-1">
+                  <ExperienceHighlightCard highlight={exp.highlights[0]} compact />
+                </ul>
+              )}
             </div>
           ))}
         </div>

@@ -1,26 +1,10 @@
 import type {
-  Experience as ExperienceBase,
+  Experience,
   ExperienceHighlight,
   ExperienceMetric,
 } from "@/data/types";
 
-export type { ExperienceBase, ExperienceHighlight, ExperienceMetric };
-
-/* ─── Backward-compatible Experience type ─── */
-/* Phase 1: includes deprecated alias fields so existing consumers compile. */
-
-export interface Experience extends ExperienceBase {
-  /** @deprecated Use `startDate`/`endDate` */
-  period: string;
-  /** @deprecated Category is implicit (Internship) */
-  type: string;
-  /** @deprecated Derived from highlights */
-  description: string;
-  /** @deprecated Use structured ExperienceHighlight[] */
-  highlightsCompat: string[];
-  /** @deprecated Use `technologies` */
-  stack: string[];
-}
+export type { Experience, ExperienceHighlight, ExperienceMetric };
 
 export const experiences: Experience[] = [
   {
@@ -83,25 +67,6 @@ export const experiences: Experience[] = [
           "Reduced onboarding time and environment inconsistencies across the team",
         technologies: ["Docker", "Apache Spark", "Trino"],
       },
-    ],
-    // Compat aliases — remove after component migration
-    period: "Jan 2026 – Apr 2026",
-    type: "Internship",
-    description:
-      "Data Engineer Intern at Katalyst AI — Lakehouse infrastructure, CDC pipelines, data quality governance.",
-    highlightsCompat: [
-      "Optimized analytical query performance — reduced benchmark query latency from ~25s to ~8–12s (52–68% reduction)",
-      "Built CDC ingestion pipeline using Debezium + Kafka for near-real-time data freshness",
-      "Designed data quality validation framework across Bronze/Silver/Gold Medallion layers",
-      "Containerized development environment with Docker for reproducible data pipelines",
-    ],
-    stack: [
-      "Apache Iceberg",
-      "Apache Spark",
-      "Dremio",
-      "CDC",
-      "Data Lakehouse",
-      "Docker",
     ],
   },
   {
@@ -177,25 +142,5 @@ export const experiences: Experience[] = [
       },
     ],
     relatedProjectIds: ["modern-data-stack", "movie-data-warehouse"],
-    // Compat aliases — remove after component migration
-    period: "Sep 2025 – Dec 2025",
-    type: "Internship",
-    description:
-      "Data Engineer Intern at QuanSkill — Config-driven ingestion, multi-tenant isolation, metadata-driven orchestration.",
-    highlightsCompat: [
-      "Config-driven ingestion: Designed YAML-configurable DAG templates, reducing new source onboarding from days to hours",
-      "Multi-tenant data isolation: Schema-per-tenant partitioning with Row-Level Security in PostgreSQL",
-      "Metadata-driven orchestration: Built metadata store for automatic pipeline generation and dependency management",
-      "Data quality validation: Implemented configurable quality rules with automated alerting on failures",
-      "Incremental sync: Watermark-based extraction tracking high-water marks per source",
-      "Data warehouse design: Star schema modeling for analytics workloads",
-    ],
-    stack: [
-      "Python",
-      "Apache Airflow",
-      "PostgreSQL",
-      "Docker",
-      "Data Modeling",
-    ],
   },
 ];

@@ -14,6 +14,10 @@ export const siteConfig = {
   linkedin: "https://www.linkedin.com/in/minzi03/",
   location: "Linh Xuan Ward, Thu Duc City, Ho Chi Minh City",
   tagline: "Building reliable data platforms from ingestion and streaming to Lakehouse and analytics.",
+  availability: {
+    status: "open" as const, // "open" | "closed" | "consulting"
+    label: "Open to opportunities",
+  },
   heroMetrics: [
     { value: "4.6M+", label: "Curated transactions", context: "Banking Data Platform" },
     { value: "16", label: "Source datasets", context: "Banking Data Platform" },

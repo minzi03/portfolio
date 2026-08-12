@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Container from "@/components/ui/Container";
+import ExperienceHighlightCard from "@/components/experience/ExperienceHighlightCard";
 import { siteConfig } from "@/data/site-config";
 import { experiences } from "@/data/experience";
 import { projects } from "@/data/projects";
@@ -86,11 +87,8 @@ export default function ResumePage() {
                     <p className="font-mono text-xs text-text-muted">{formatDateRange(exp.startDate, exp.endDate)}</p>
                   </div>
                   <ul className="mt-2 space-y-1">
-                    {exp.highlightsCompat.slice(0, 3).map((h, i) => (
-                      <li key={i} className="flex gap-2 text-sm text-text-secondary">
-                        <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent/50" />
-                        {h}
-                      </li>
+                    {exp.highlights.slice(0, 3).map((h, i) => (
+                      <ExperienceHighlightCard key={i} highlight={h} compact />
                     ))}
                   </ul>
                 </div>

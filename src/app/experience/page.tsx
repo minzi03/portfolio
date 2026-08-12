@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Container from "@/components/ui/Container";
+import ExperienceHighlightCard from "@/components/experience/ExperienceHighlightCard";
 import { experiences } from "@/data/experience";
 
 export const metadata: Metadata = {
@@ -50,15 +51,10 @@ export default function ExperiencePage() {
                 </div>
               </div>
 
-              <p className="mt-4 text-sm leading-relaxed text-text-secondary">{exp.highlightsCompat[0]}</p>
-
-              {/* Highlights — Phase 1: use compat string bullets */}
-              <ul className="mt-5 space-y-2">
-                {exp.highlightsCompat.map((h, i) => (
-                  <li key={i} className="flex gap-2 text-sm text-text-secondary">
-                    <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
-                    {h}
-                  </li>
+              {/* Highlights — structured evidence */}
+              <ul className="mt-5 space-y-3">
+                {exp.highlights.map((h, i) => (
+                  <ExperienceHighlightCard key={i} highlight={h} />
                 ))}
               </ul>
 
