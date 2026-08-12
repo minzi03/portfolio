@@ -80,7 +80,6 @@ export const experiences: Experience[] = [
       "Python",
       "Apache Airflow",
       "PostgreSQL",
-      "Docker",
       "Data Modeling",
     ],
     highlights: [

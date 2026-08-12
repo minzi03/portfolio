@@ -41,6 +41,12 @@ function evidenceSummary(skill: { projectIds?: string[]; experienceIds?: string[
   return links;
 }
 
+/* Collect unique evidence links for a category */
+function categoryEvidence(catSkills: { projectIds?: string[]; experienceIds?: string[] }[]): string[] {
+  const all = catSkills.flatMap((s) => evidenceSummary(s));
+  return [...new Set(all)];
+}
+
 /* Group skills by category */
 const skillGroups = (Object.keys(CATEGORY_LABELS) as SkillCategory[]).map((cat) => ({
   name: CATEGORY_LABELS[cat],
@@ -70,41 +76,36 @@ export default function StackPage() {
               <span className="text-xs text-text-muted">{levelLabels[level]}</span>
             </div>
           ))}
-          <div className="flex items-center gap-2">
-            <span className="inline-block h-2.5 w-2.5 rounded-full bg-text-muted/30" />
-            <span className="text-xs text-text-muted">Has evidence</span>
-          </div>
         </div>
 
         {/* Categories */}
         <div className="mt-10 space-y-8">
-          {skillGroups.map((cat) => (
-            <div key={cat.name}>
-              <h2 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-primary">
-                {cat.name}
-              </h2>
-              <div className="flex flex-wrap gap-2">
-                {cat.skills.map((skill) => {
-                  const evidence = evidenceSummary(skill);
-                  const hasEvidence = evidence.length > 0;
-                  return (
+          {skillGroups.map((cat) => {
+            const evidenceLinks = categoryEvidence(cat.skills);
+            return (
+              <div key={cat.name}>
+                <h2 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-primary">
+                  {cat.name}
+                </h2>
+                <div className="flex flex-wrap gap-2">
+                  {cat.skills.map((skill) => (
                     <span
                       key={skill.name}
-                      className={`group relative rounded-lg px-3 py-1.5 text-sm font-medium ${levelColors[skill.level]} ${
-                        hasEvidence ? "ring-1 ring-accent/20" : ""
-                      }`}
-                      title={hasEvidence ? `Evidence: ${evidence.join(", ")}` : undefined}
+                      className={`rounded-lg px-3 py-1.5 text-sm font-medium ${levelColors[skill.level]}`}
                     >
                       {skill.name}
-                      {hasEvidence && (
-                        <span className="ml-1.5 inline-block h-1.5 w-1.5 rounded-full bg-accent/60" />
-                      )}
                     </span>
-                  );
-                })}
+                  ))}
+                </div>
+                {/* Always-visible evidence summary for this category */}
+                {evidenceLinks.length > 0 && (
+                  <p className="mt-2 text-xs text-text-muted">
+                    Used in: {evidenceLinks.join(" · ")}
+                  </p>
+                )}
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </Container>
     </div>

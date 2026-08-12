@@ -24,6 +24,7 @@ export default function ThemeToggle() {
     <button
       onClick={toggle}
       aria-label="Toggle theme"
+      aria-pressed={dark}
       className="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-bg-surface text-text-secondary transition-colors hover:text-text-primary"
     >
       {dark ? (

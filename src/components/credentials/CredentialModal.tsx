@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import type { Credential } from "@/data/credentials";
 import { categoryLabels } from "@/data/credentials";
 import { getProjectBySlug } from "@/data/projects";
@@ -10,9 +11,44 @@ interface CredentialModalProps {
 }
 
 export default function CredentialModal({ credential, onClose }: CredentialModalProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+
   const relatedProjects = credential.relatedProjects
     ?.map((slug) => getProjectBySlug(slug))
     .filter(Boolean);
+
+  /* Focus the modal on mount */
+  useEffect(() => {
+    containerRef.current?.focus();
+  }, []);
+
+  /* Escape key handler */
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        onClose();
+        return;
+      }
+      /* Focus trap: Tab cycles within modal */
+      if (e.key === "Tab" && containerRef.current) {
+        const focusable = containerRef.current.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])'
+        );
+        if (focusable.length === 0) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    }
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [onClose]);
 
   return (
     <div
@@ -23,7 +59,9 @@ export default function CredentialModal({ credential, onClose }: CredentialModal
       aria-label={credential.title}
     >
       <div
-        className="relative max-h-[85vh] w-full max-w-lg overflow-y-auto rounded-2xl border border-border bg-bg p-6 shadow-xl"
+        ref={containerRef}
+        tabIndex={-1}
+        className="relative max-h-[85vh] w-full max-w-lg overflow-y-auto rounded-2xl border border-border bg-bg p-6 shadow-xl focus:outline-none"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close button */}

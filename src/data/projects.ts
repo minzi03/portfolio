@@ -133,7 +133,7 @@ export const projects: Project[] = [
     scope: "academic",
     featured: false,
     period: "Oct 2025 – Nov 2025",
-    tech: ["SQL", "Python", "ETL", "Data Modeling"],
+    tech: ["SQL", "Python", "Data Modeling"],
     tags: ["data-warehouse", "modeling", "etl", "sql"],
     github: "https://github.com/minzi03/Movie-Data-Warehouse-ETL-OLAP",
     // Engineering reasoning

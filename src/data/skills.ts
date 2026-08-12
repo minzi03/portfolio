@@ -50,7 +50,7 @@ export const skills: Skill[] = [
     name: "Apache Airflow",
     category: "data-platforms",
     level: "professional",
-    projectIds: ["banking-data-platform", "movie-data-warehouse"],
+    projectIds: ["banking-data-platform"],
     experienceIds: ["quanskill-data-engineer-intern"],
     credentialIds: ["ibm-data-engineering"],
     evidenceNote: "DAG orchestration for batch pipelines, config-driven DAG templates.",
@@ -381,15 +381,6 @@ export const skills: Skill[] = [
     evidenceNote: "Semi-structured data format for APIs and configs.",
   },
   {
-    id: "azure-data-lake-storage",
-    name: "Azure Data Lake Storage",
-    category: "cloud-storage",
-    level: "project",
-    projectIds: ["azure-ecommerce"],
-    credentialIds: ["azure-dp203"],
-    evidenceNote: "Cloud storage for Azure data lake architecture.",
-  },
-  {
     id: "hive",
     name: "Hive",
     category: "data-platforms",
@@ -418,8 +409,7 @@ export const skills: Skill[] = [
     name: "ERP",
     category: "bi-governance",
     level: "exploring",
-    credentialIds: [],
-    evidenceNote: "Enterprise Resource Planning concepts — FPT certificate.",
+    evidenceNote: "Enterprise Resource Planning concepts — academic coursework.",
   },
 ];
 

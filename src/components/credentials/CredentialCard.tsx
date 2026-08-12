@@ -10,10 +10,17 @@ interface CredentialCardProps {
 
 export default function CredentialCard({ credential, onClick }: CredentialCardProps) {
   return (
-    <button
-      type="button"
+    <div
+      role="button"
+      tabIndex={0}
       onClick={onClick}
-      className="group w-full rounded-xl border border-border bg-bg-surface p-5 text-left transition-colors hover:border-accent/30"
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onClick();
+        }
+      }}
+      className="group w-full rounded-xl border border-border bg-bg-surface p-5 text-left transition-colors hover:border-accent/30 cursor-pointer"
     >
       {/* Issuer badge */}
       <p className="mb-2 font-mono text-[11px] uppercase tracking-wider text-accent">
@@ -59,6 +66,7 @@ export default function CredentialCard({ credential, onClick }: CredentialCardPr
             target="_blank"
             rel="noopener noreferrer"
             onClick={(e) => e.stopPropagation()}
+            aria-label={`Verify credential: ${credential.title}`}
             className="inline-flex items-center gap-1 rounded border border-green-500/30 bg-green-500/10 px-2 py-0.5 text-[10px] font-medium text-green-400 transition-colors hover:bg-green-500/20"
           >
             ✓ Verified
@@ -71,6 +79,6 @@ export default function CredentialCard({ credential, onClick }: CredentialCardPr
           <span className="text-[10px] text-text-muted">📋 Metadata</span>
         )}
       </div>
-    </button>
+    </div>
   );
 }

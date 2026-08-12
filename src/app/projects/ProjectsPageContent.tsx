@@ -195,7 +195,20 @@ export default function ProjectsPageContent() {
             </p>
 
             {/* Filters */}
-            <div className="flex flex-wrap gap-2" role="radiogroup" aria-label="Filter projects by category">
+            <div
+              className="flex flex-wrap gap-2"
+              role="radiogroup"
+              aria-label="Filter projects by category"
+              onKeyDown={(e) => {
+                if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
+                const currentIndex = FILTER_OPTIONS.findIndex((o) => o.value === activeFilter);
+                const nextIndex =
+                  e.key === "ArrowRight"
+                    ? (currentIndex + 1) % FILTER_OPTIONS.length
+                    : (currentIndex - 1 + FILTER_OPTIONS.length) % FILTER_OPTIONS.length;
+                setActiveFilter(FILTER_OPTIONS[nextIndex].value);
+              }}
+            >
               {FILTER_OPTIONS.map((opt) => (
                 <button
                   key={opt.value}
@@ -203,7 +216,7 @@ export default function ProjectsPageContent() {
                   role="radio"
                   aria-checked={activeFilter === opt.value}
                   onClick={() => setActiveFilter(opt.value)}
-                  className={`rounded-lg px-3 py-1.5 text-sm transition-colors ${
+                  className={`rounded-lg px-3 py-1.5 text-sm transition-colors focus-visible:outline-2 focus-visible:outline-accent ${
                     activeFilter === opt.value
                       ? "bg-accent text-bg"
                       : "border border-border text-text-secondary hover:text-text-primary"
