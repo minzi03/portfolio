@@ -16,11 +16,12 @@ export const experiences: Experience[] = [
     endDate: "2026-03",
     technologies: [
       "Apache Iceberg",
-      "Apache Spark",
       "Dremio",
-      "CDC",
-      "Data Lakehouse",
-      "Docker",
+      "Apache NiFi",
+      "Star Schema",
+      "SCD Type 1/2",
+      "Row Access Policies",
+      "Column Masking",
     ],
     highlights: [
       {
@@ -42,30 +43,39 @@ export const experiences: Experience[] = [
       },
       {
         action:
-          "Built CDC ingestion pipeline for near-real-time data freshness",
+          "Built Oracle-to-MinIO data ingestion pipeline using Apache NiFi",
         approach:
-          "Implemented Change Data Capture using Debezium + Kafka, integrated with Iceberg MERGE for idempotent loads",
+          "Configured NiFi processors for Oracle source extraction, transformed and loaded data into MinIO object storage as Iceberg-compatible files",
         outcome:
-          "Enabled near-real-time analytical data freshness from source systems",
-        technologies: ["Apache Kafka", "Debezium", "Apache Iceberg"],
+          "Established automated data ingestion from Oracle sources into the Lakehouse storage layer",
+        technologies: ["Apache NiFi", "Apache Iceberg"],
       },
       {
         action:
-          "Designed data quality validation framework across Medallion layers",
+          "Implemented Dremio API automation for dataset management",
         approach:
-          "Implemented automated quality checks at Bronze/Silver/Gold boundaries with schema validation, completeness checks, and referential integrity verification",
+          "Built automated workflows using Dremio REST API to manage dataset configurations, promotion, and reflection scheduling",
         outcome:
-          "Established systematic data quality governance across the Lakehouse",
-        technologies: ["Apache Spark", "Apache Iceberg"],
+          "Reduced manual dataset management overhead through API-driven automation",
+        technologies: ["Dremio"],
       },
       {
         action:
-          "Containerized development environment for reproducible data pipelines",
+          "Evaluated Dremio v25 vs v24 for analytical workloads",
         approach:
-          "Built Docker-based local development stack with Iceberg, Spark, and Trino for team-wide reproducibility",
+          "Conducted benchmark comparison of Dremio versions on Iceberg tables, documenting performance differences and feature improvements",
         outcome:
-          "Reduced onboarding time and environment inconsistencies across the team",
-        technologies: ["Docker", "Apache Spark", "Trino"],
+          "Provided evidence-based recommendation for version upgrade",
+        technologies: ["Dremio", "Apache Iceberg"],
+      },
+      {
+        action:
+          "Designed Row Access Policies and Column Masking for data governance",
+        approach:
+          "Implemented Dremio row-level access policies and column masking rules to enforce data access controls across analytical layers",
+        outcome:
+          "Enabled role-based data access without application-layer overhead",
+        technologies: ["Dremio"],
       },
     ],
   },
@@ -78,66 +88,68 @@ export const experiences: Experience[] = [
     endDate: undefined,
     technologies: [
       "Python",
-      "Apache Airflow",
+      "Docker",
+      "GitHub Actions",
       "PostgreSQL",
-      "Data Modeling",
+      "pgvector",
+      "Streamlit",
+      "PDF Processing",
     ],
     highlights: [
       {
         action:
-          "Designed config-driven ingestion framework for multi-source data onboarding",
+          "Built config-driven ingestion framework for multi-format data onboarding",
         approach:
-          "Built YAML-configurable DAG templates in Airflow, enabling new data source onboarding without code changes",
+          "Designed YAML-configurable ingestion templates supporting CSV, Excel, REST API, and PDF sources, with a Raw → Staging → Clean pipeline flow for each",
         outcome:
-          "Reduced new source onboarding time from days to hours through configuration-driven pipeline generation",
-        technologies: ["Apache Airflow", "Python", "PostgreSQL"],
+          "Enabled new source onboarding through configuration changes without code modifications",
+        technologies: ["Python", "PostgreSQL"],
         projectIds: ["modern-data-stack"],
       },
       {
         action:
-          "Implemented multi-tenant data isolation architecture",
+          "Implemented validation, logging, and file manifest tracking",
         approach:
-          "Designed schema-per-tenant partitioning with Row-Level Security policies in PostgreSQL, ensuring data separation at the database layer",
+          "Built automated validation checks at each pipeline stage with structured logging and file manifest generation for auditability",
         outcome:
-          "Achieved secure multi-tenant data isolation without application-layer overhead",
-        technologies: ["PostgreSQL"],
+          "Improved pipeline observability and debugging through systematic validation and tracking",
+        technologies: ["Python"],
       },
       {
         action:
-          "Built metadata-driven pipeline orchestration system",
+          "Developed page-level PDF extraction pipeline",
         approach:
-          "Created a metadata store tracking source schemas, pipeline dependencies, and data lineage, with Airflow DAGs reading configuration from the metadata layer",
+          "Built PDF processing pipeline with page-level extraction, parsing structured data from multi-page documents into normalized outputs",
         outcome:
-          "Enabled automatic pipeline generation and dependency management from metadata definitions",
-        technologies: ["Apache Airflow", "Python", "PostgreSQL"],
+          "Enabled automated ingestion of PDF-sourced data into downstream systems",
+        technologies: ["Python"],
       },
       {
         action:
-          "Developed automated data quality validation framework",
+          "Designed shared data contracts for standardized outputs",
         approach:
-          "Implemented configurable quality rules with alerting, running validation checks on each pipeline run with automated Slack notifications on failures",
+          "Created standardized output schemas consumed by PostgreSQL/pgvector, RAG pipelines, classification models, and Streamlit dashboards",
         outcome:
-          "Reduced data quality incident response time through automated detection and alerting",
-        technologies: ["Python", "PostgreSQL"],
+          "Established consistent data interfaces across multiple downstream consumers",
+        technologies: ["Python", "PostgreSQL", "pgvector"],
       },
       {
         action:
-          "Built incremental data synchronization with Watermark-based tracking",
+          "Containerized pipeline infrastructure with Docker Compose",
         approach:
-          "Implemented watermark-based incremental extraction tracking high-water marks per source, processing only new or changed records on each run",
+          "Built Docker Compose stacks for local development and deployment, packaging pipeline services with their dependencies",
         outcome:
-          "Reduced pipeline runtime and resource consumption through selective data extraction",
-        technologies: ["Python", "Apache Airflow"],
+          "Enabled reproducible development environments and consistent deployment across team",
+        technologies: ["Docker"],
       },
       {
         action:
-          "Designed data warehouse schema for analytics workloads",
+          "Implemented CI/CD pipelines with GitHub Actions",
         approach:
-          "Created star schema modeling with dimension and fact tables optimized for analytical query patterns",
+          "Built GitHub Actions workflows for automated testing, validation, and deployment of pipeline code",
         outcome:
-          "Enabled business analytics team to run complex queries without impacting source systems",
-        technologies: ["PostgreSQL", "Data Modeling"],
-        projectIds: ["movie-data-warehouse"],
+          "Established automated quality gates and deployment processes",
+        technologies: ["GitHub Actions", "Docker"],
       },
     ],
     relatedProjectIds: ["modern-data-stack", "movie-data-warehouse"],
