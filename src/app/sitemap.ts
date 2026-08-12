@@ -45,6 +45,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     ...articleUrls,
     {
+      url: `${siteConfig.url}/credentials`,
+      lastModified: new Date(),
+      priority: 0.8,
+    },
+    {
       url: `${siteConfig.url}/resume`,
       lastModified: new Date(),
       priority: 0.6,

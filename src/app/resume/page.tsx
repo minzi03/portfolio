@@ -3,7 +3,8 @@ import Container from "@/components/ui/Container";
 import { siteConfig } from "@/data/site-config";
 import { experiences } from "@/data/experience";
 import { projects } from "@/data/projects";
-import { certifications } from "@/data/certifications";
+import { certifications } from "@/data/credentials";
+import { education } from "@/data/education";
 import { skillCategories } from "@/data/skills";
 
 export const metadata: Metadata = {
@@ -127,13 +128,11 @@ export default function ResumePage() {
           <section>
             <h2 className="mb-3 text-sm font-semibold uppercase tracking-wider text-accent">Education</h2>
             <div>
-              <h3 className="text-base font-semibold text-text-primary">
-                VNU-HCM University of Information Technology (UIT)
-              </h3>
+              <h3 className="text-base font-semibold text-text-primary">{education.school}</h3>
               <p className="text-sm text-text-secondary">
-                Bachelor of Information Technology — Major in Information Systems · GPA: 3.1 / 4.0
+                {education.degree} — {education.major} · Average: {education.gpa}
               </p>
-              <p className="text-xs text-text-muted">Graduated Jun 2026</p>
+              <p className="text-xs text-text-muted">{education.period} · {education.credits} credits · Classification: {education.classification}</p>
             </div>
           </section>
 
@@ -150,6 +149,9 @@ export default function ResumePage() {
                 </div>
               ))}
             </div>
+            <a href="/credentials" className="mt-3 inline-block text-sm text-accent hover:text-accent-hover">
+              View all credentials &amp; achievements →
+            </a>
           </section>
         </div>
       </Container>

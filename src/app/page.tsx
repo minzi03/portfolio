@@ -5,6 +5,8 @@ import { siteConfig } from "@/data/site-config";
 import { experiences } from "@/data/experience";
 import { getFeaturedProjects } from "@/data/projects";
 import { articles } from "@/data/writing";
+import { education } from "@/data/education";
+import { getFeaturedCredentials } from "@/data/credentials";
 
 /* ─── Section Header ─── */
 function SectionHeader({ label, title }: { label: string; title: string }) {
@@ -230,6 +232,64 @@ function ExperienceSection() {
   );
 }
 
+/* ─── Education ─── */
+function EducationSection() {
+  return (
+    <section className="border-b border-border bg-bg-surface py-16">
+      <Container>
+        <SectionHeader label="Education" title="Academic Background" />
+        <div className="rounded-xl border border-border bg-bg p-6">
+          <h3 className="text-lg font-semibold text-text-primary">{education.school}</h3>
+          <p className="text-sm text-text-secondary">{education.degree} — {education.major}</p>
+          <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-text-muted">
+            <span>{education.period}</span>
+            <span>Average: {education.gpa}</span>
+            <span>{education.credits} credits</span>
+          </div>
+          {education.awards.length > 0 && (
+            <ul className="mt-4 space-y-1.5">
+              {education.awards.map((award) => (
+                <li key={award} className="flex gap-2 text-sm text-text-secondary">
+                  <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
+                  {award}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+/* ─── Credentials Teaser ─── */
+function CredentialsTeaser() {
+  const featured = getFeaturedCredentials();
+
+  return (
+    <section className="border-b border-border bg-bg py-16">
+      <Container>
+        <SectionHeader label="Credentials" title="Certifications & Achievements" />
+        <p className="mb-6 text-sm text-text-secondary">
+          {featured.length} featured credentials across data engineering, cloud, and streaming.
+        </p>
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {featured.map((cred) => (
+            <div key={cred.id} className="rounded-xl border border-border bg-bg-surface p-4">
+              <p className="font-mono text-[11px] uppercase tracking-wider text-accent">{cred.issuer}</p>
+              <p className="mt-1 text-sm font-semibold text-text-primary">{cred.title}</p>
+              {cred.issued && <p className="mt-1 text-xs text-text-muted">{cred.issued}</p>}
+            </div>
+          ))}
+        </div>
+        <Link href="/credentials" className="mt-6 inline-block text-sm text-accent hover:text-accent-hover">
+          Explore all credentials →
+        </Link>
+      </Container>
+    </section>
+  );
+}
+
 /* ─── Latest Writing ─── */
 function LatestWriting() {
   return (
@@ -327,7 +387,9 @@ export default function Home() {
       <WhatIBuild />
       <FeaturedProjects />
       <ExperienceSection />
+      <EducationSection />
       <LatestWriting />
+      <CredentialsTeaser />
       <PipelineSection />
       <Contact />
     </>

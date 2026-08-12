@@ -24,10 +24,8 @@ export const projects: Project[] = [
     role: "Solo Data Engineer",
     featured: true,
     metrics: [
-      { value: "4.6M+", label: "Transactions" },
+      { value: "4.6M+", label: "Curated transactions" },
       { value: "16", label: "Source datasets" },
-      { value: "8", label: "Dimensions" },
-      { value: "5", label: "Fact tables" },
       { value: "53", label: "Cataloged tables" },
       { value: "22", label: "Lineage edges" },
     ],

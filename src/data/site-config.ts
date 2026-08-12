@@ -15,7 +15,7 @@ export const siteConfig = {
   location: "Linh Xuan Ward, Thu Duc City, Ho Chi Minh City",
   tagline: "Building reliable data platforms from ingestion and streaming to Lakehouse and analytics.",
   heroMetrics: [
-    { value: "4.6M+", label: "Financial transactions", context: "Banking Data Platform" },
+    { value: "4.6M+", label: "Curated transactions", context: "Banking Data Platform" },
     { value: "16", label: "Source datasets", context: "Banking Data Platform" },
     { value: "53", label: "Cataloged tables", context: "Banking Data Platform" },
     { value: "22", label: "Lineage edges", context: "Banking Data Platform" },
@@ -25,6 +25,7 @@ export const siteConfig = {
     { href: "/experience", label: "Experience" },
     { href: "/projects", label: "Projects" },
     { href: "/writing", label: "Writing" },
+    { href: "/credentials", label: "Credentials" },
     { href: "/about", label: "About" },
   ],
   resumeUrl: "/resume",
