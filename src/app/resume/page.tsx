@@ -7,6 +7,15 @@ import { certifications } from "@/data/credentials";
 import { education } from "@/data/education";
 import { skillCategories } from "@/data/skills";
 
+function formatDateRange(start: string, end?: string): string {
+  const s = new Date(start + "-01");
+  const startStr = s.toLocaleDateString("en-US", { month: "short", year: "numeric" });
+  if (!end) return `${startStr} – Present`;
+  const e = new Date(end + "-01");
+  const endStr = e.toLocaleDateString("en-US", { month: "short", year: "numeric" });
+  return `${startStr} – ${endStr}`;
+}
+
 export const metadata: Metadata = {
   title: "Resume",
   description: "Resume of Nguyen Minh Duy — Data Engineer.",
@@ -74,10 +83,10 @@ export default function ResumePage() {
                       <h3 className="text-base font-semibold text-text-primary">{exp.company}</h3>
                       <p className="text-sm text-accent">{exp.role}</p>
                     </div>
-                    <p className="font-mono text-xs text-text-muted">{exp.period}</p>
+                    <p className="font-mono text-xs text-text-muted">{formatDateRange(exp.startDate, exp.endDate)}</p>
                   </div>
                   <ul className="mt-2 space-y-1">
-                    {exp.highlights.slice(0, 3).map((h, i) => (
+                    {exp.highlightsCompat.slice(0, 3).map((h, i) => (
                       <li key={i} className="flex gap-2 text-sm text-text-secondary">
                         <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent/50" />
                         {h}
@@ -95,10 +104,10 @@ export default function ResumePage() {
             <div className="space-y-4">
               {projects.filter(p => p.featured).map((project) => (
                 <div key={project.slug}>
-                  <h3 className="text-base font-semibold text-text-primary">{project.name}</h3>
-                  <p className="text-sm text-text-secondary">{project.tagline}</p>
+                  <h3 className="text-base font-semibold text-text-primary">{project.title}</h3>
+                  <p className="text-sm text-text-secondary">{project.subtitle}</p>
                   <div className="mt-1.5 flex flex-wrap gap-1.5">
-                    {project.stack.slice(0, 5).map((s) => (
+                    {project.tech.slice(0, 5).map((s) => (
                       <span key={s} className="rounded border border-border px-2 py-0.5 font-mono text-[11px] text-text-muted">
                         {s}
                       </span>

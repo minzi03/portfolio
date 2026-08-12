@@ -9,6 +9,15 @@ export const metadata: Metadata = {
   openGraph: { title: "Experience | Nguyen Minh Duy", description: "Data Engineer internships at QuanSkill and Katalyst." },
 };
 
+function formatDateRange(start: string, end?: string): string {
+  const s = new Date(start + "-01");
+  const startStr = s.toLocaleDateString("en-US", { month: "short", year: "numeric" });
+  if (!end) return `${startStr} – Present`;
+  const e = new Date(end + "-01");
+  const endStr = e.toLocaleDateString("en-US", { month: "short", year: "numeric" });
+  return `${startStr} – ${endStr}`;
+}
+
 export default function ExperiencePage() {
   return (
     <div className="bg-bg py-16 sm:py-24">
@@ -36,16 +45,16 @@ export default function ExperiencePage() {
                   <p className="text-sm text-accent">{exp.role}</p>
                 </div>
                 <div className="text-right">
-                  <p className="font-mono text-sm text-text-muted">{exp.period}</p>
-                  <p className="text-xs text-text-muted">{exp.location} · {exp.type}</p>
+                  <p className="font-mono text-sm text-text-muted">{formatDateRange(exp.startDate, exp.endDate)}</p>
+                  <p className="text-xs text-text-muted">{exp.location}</p>
                 </div>
               </div>
 
-              <p className="mt-4 text-sm leading-relaxed text-text-secondary">{exp.description}</p>
+              <p className="mt-4 text-sm leading-relaxed text-text-secondary">{exp.highlightsCompat[0]}</p>
 
-              {/* Highlights */}
+              {/* Highlights — Phase 1: use compat string bullets */}
               <ul className="mt-5 space-y-2">
-                {exp.highlights.map((h, i) => (
+                {exp.highlightsCompat.map((h, i) => (
                   <li key={i} className="flex gap-2 text-sm text-text-secondary">
                     <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
                     {h}
@@ -55,7 +64,7 @@ export default function ExperiencePage() {
 
               {/* Stack */}
               <div className="mt-5 flex flex-wrap gap-1.5">
-                {exp.stack.map((s) => (
+                {(exp.technologies ?? []).map((s) => (
                   <span
                     key={s}
                     className="rounded border border-border bg-bg px-2 py-0.5 font-mono text-[11px] text-text-muted"

@@ -104,7 +104,7 @@ export default function CredentialModal({ credential, onClose }: CredentialModal
                     href={`/projects/${p!.slug}`}
                     className="text-text-secondary transition-colors hover:text-accent"
                   >
-                    {p!.name}
+                    {p!.title}
                   </a>
                 </li>
               ))}

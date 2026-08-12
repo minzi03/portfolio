@@ -1,12 +1,22 @@
 import Link from "next/link";
 import Container from "@/components/ui/Container";
 import PipelineStatus from "@/components/data/pipeline-status";
+import ArchitecturePreview from "@/components/projects/ArchitecturePreview";
 import { siteConfig } from "@/data/site-config";
 import { experiences } from "@/data/experience";
-import { getFeaturedProjects } from "@/data/projects";
+import { projects, getFeaturedProjects } from "@/data/projects";
 import { articles } from "@/data/writing";
 import { education } from "@/data/education";
 import { getFeaturedCredentials } from "@/data/credentials";
+
+function formatDateRange(start: string, end?: string): string {
+  const s = new Date(start + "-01");
+  const startStr = s.toLocaleDateString("en-US", { month: "short", year: "numeric" });
+  if (!end) return `${startStr} – Present`;
+  const e = new Date(end + "-01");
+  const endStr = e.toLocaleDateString("en-US", { month: "short", year: "numeric" });
+  return `${startStr} – ${endStr}`;
+}
 
 /* ─── Section Header ─── */
 function SectionHeader({ label, title }: { label: string; title: string }) {
@@ -157,47 +167,73 @@ function WhatIBuild() {
 
 /* ─── Featured Projects ─── */
 function FeaturedProjects() {
-  const featured = getFeaturedProjects();
+  const flagship = projects.find((p) => p.featured);
+  const supporting = projects.filter((p) => !p.featured).slice(0, 2);
 
   return (
     <section className="border-b border-border bg-bg-surface py-16">
       <Container>
         <SectionHeader label="Work" title="Featured Projects" />
-        <div className="space-y-4">
-          {featured.map((project, i) => (
-            <Link
-              key={project.slug}
-              href={`/projects/${project.slug}`}
-              className={`group block rounded-xl border border-border p-6 transition-colors hover:border-accent/30 ${
-                i === 0 ? "bg-bg" : "bg-bg-surface"
-              }`}
-            >
-              <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-                <div className="flex-1">
-                  <h3 className="text-lg font-semibold text-text-primary group-hover:text-accent">
-                    {project.name}
-                  </h3>
-                  <p className="mt-1 text-sm text-text-secondary">{project.tagline}</p>
-                  <div className="mt-3 flex flex-wrap gap-1.5">
-                    {project.stack.slice(0, 6).map((s) => (
-                      <span key={s} className="rounded border border-border bg-bg-surface px-2 py-0.5 font-mono text-[11px] text-text-muted">
-                        {s}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-                <div className="flex flex-wrap gap-4 text-center">
-                  {project.metrics.slice(0, 3).map((m) => (
-                    <div key={m.label}>
-                      <p className="text-lg font-bold font-mono text-accent">{m.value}</p>
-                      <p className="text-[11px] text-text-muted">{m.label}</p>
-                    </div>
+
+        {/* Flagship */}
+        {flagship && (
+          <Link
+            href={`/projects/${flagship.slug}`}
+            className="group block rounded-xl border border-accent/20 bg-bg p-6 transition-colors hover:border-accent/40"
+          >
+            <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+              <div className="flex-1 space-y-3">
+                <p className="font-mono text-xs uppercase tracking-widest text-accent">Flagship</p>
+                <h3 className="text-xl font-bold text-text-primary group-hover:text-accent">
+                  {flagship.title}
+                </h3>
+                <p className="text-sm text-text-secondary">{flagship.subtitle}</p>
+                <ArchitecturePreview projectId={flagship.id} />
+                <div className="flex flex-wrap gap-1.5">
+                  {flagship.tech.slice(0, 6).map((s) => (
+                    <span key={s} className="rounded border border-border bg-bg-surface px-2 py-0.5 font-mono text-[11px] text-text-muted">
+                      {s}
+                    </span>
                   ))}
                 </div>
               </div>
-            </Link>
-          ))}
-        </div>
+              <div className="flex flex-wrap gap-4 text-center">
+                {flagship.impact && flagship.impact.slice(0, 3).map((m) => (
+                  <div key={m.id}>
+                    <p className="text-lg font-bold font-mono text-accent">{m.value}</p>
+                    <p className="text-[11px] text-text-muted">{m.label}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </Link>
+        )}
+
+        {/* Supporting */}
+        {supporting.length > 0 && (
+          <div className="mt-4 grid gap-3 sm:grid-cols-2">
+            {supporting.map((project) => (
+              <Link
+                key={project.slug}
+                href={`/projects/${project.slug}`}
+                className="group block rounded-xl border border-border bg-bg p-5 transition-colors hover:border-accent/30"
+              >
+                <h4 className="text-sm font-semibold text-text-primary group-hover:text-accent">
+                  {project.title}
+                </h4>
+                <p className="mt-1 text-xs text-text-muted line-clamp-2">{project.subtitle}</p>
+                <div className="mt-2 flex flex-wrap gap-1">
+                  {project.tech.slice(0, 4).map((s) => (
+                    <span key={s} className="rounded border border-border bg-bg-surface px-1.5 py-0.5 font-mono text-[10px] text-text-muted">
+                      {s}
+                    </span>
+                  ))}
+                </div>
+              </Link>
+            ))}
+          </div>
+        )}
+
         <Link href="/projects" className="mt-6 inline-block text-sm text-accent hover:text-accent-hover">
           View all projects →
         </Link>
@@ -217,10 +253,10 @@ function ExperienceSection() {
             <div key={exp.id} className="relative pl-6 before:absolute before:left-0 before:top-2 before:h-2 before:w-2 before:rounded-full before:bg-accent">
               <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
                 <h3 className="text-base font-semibold text-text-primary">{exp.company}</h3>
-                <span className="font-mono text-xs text-text-muted">{exp.period}</span>
+                <span className="font-mono text-xs text-text-muted">{formatDateRange(exp.startDate, exp.endDate)}</span>
               </div>
               <p className="text-sm text-accent">{exp.role}</p>
-              <p className="mt-1 text-sm text-text-secondary">{exp.description}</p>
+              <p className="mt-1 text-sm text-text-secondary">{exp.highlightsCompat[0]}</p>
             </div>
           ))}
         </div>
