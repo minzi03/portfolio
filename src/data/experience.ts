@@ -12,8 +12,8 @@ export const experiences: Experience[] = [
     company: "Katalyst AI",
     role: "Data Engineer Intern",
     location: "Ho Chi Minh City",
-    startDate: "2026-01",
-    endDate: "2026-04",
+    startDate: "2025-12",
+    endDate: "2026-03",
     technologies: [
       "Apache Iceberg",
       "Apache Spark",
@@ -74,8 +74,8 @@ export const experiences: Experience[] = [
     company: "QuanSkill",
     role: "Data Engineer Intern",
     location: "Ho Chi Minh City",
-    startDate: "2025-09",
-    endDate: "2025-12",
+    startDate: "2026-05",
+    endDate: undefined,
     technologies: [
       "Python",
       "Apache Airflow",
