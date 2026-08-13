@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import ScrollToTop from "@/components/layout/ScrollToTop";
+import { Analytics } from "@vercel/analytics/react";
 import { siteConfig } from "@/data/site-config";
 import "./globals.css";
 
@@ -122,6 +124,34 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
                 siteConfig.github,
                 siteConfig.linkedin,
               ],
+              "knowsAbout": [
+                "Data Engineering",
+                "Apache Spark",
+                "Apache Kafka",
+                "Apache Airflow",
+                "Apache Iceberg",
+                "dbt",
+                "SQL",
+                "Python",
+                "Lakehouse Architecture",
+                "ETL",
+                "ELT",
+                "CDC",
+                "Data Modeling",
+              ],
+              "hasCredential": [
+                {
+                  "@type": "EducationalOccupationalCredential",
+                  "credentialCategory": "degree",
+                  "educationalLevel": "Bachelor's Degree",
+                  "name": "Bachelor of Engineering in Information Technology",
+                },
+                {
+                  "@type": "EducationalOccupationalCredential",
+                  "credentialCategory": "certificate",
+                  "name": "IBM Data Engineering Professional Certificate",
+                },
+              ],
             }),
           }}
         />
@@ -131,8 +161,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           Skip to main content
         </a>
         <Navbar />
-        <main id="main-content" className="flex-1">{children}</main>
+        <main id="main-content" className="flex-1 pt-16">{children}</main>
         <Footer />
+        <ScrollToTop />
+        <Analytics />
       </body>
     </html>
   );

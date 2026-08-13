@@ -74,7 +74,7 @@ export default function GraphExplorer({ data }: { data: GraphData }) {
                       <button
                         key={node.id}
                         onClick={() => setSelected(isSelected ? null : node)}
-                        className={`min-h-[44px] rounded-lg border px-3 py-2 text-left text-xs font-medium transition-all ${
+                        className={`min-h-[44px] rounded-sm border px-3 py-2 text-left text-xs font-medium transition-all ${
                           style.bg
                         } ${style.border} ${style.text} ${
                           isSelected ? "ring-2 ring-accent/50" : "hover:opacity-80"
@@ -90,7 +90,7 @@ export default function GraphExplorer({ data }: { data: GraphData }) {
           </div>
 
           {/* Edges */}
-          <div className="mt-4 rounded-lg border border-border bg-bg p-3">
+          <div className="mt-4 rounded-sm border border-border bg-bg p-3">
             <p className="mb-2 font-mono text-[10px] uppercase tracking-wider text-text-muted">Flow</p>
             <div className="space-y-1">
               {data.edges.map((edge, i) => (
@@ -112,10 +112,10 @@ export default function GraphExplorer({ data }: { data: GraphData }) {
         {/* Detail panel */}
         <div className="w-full shrink-0 lg:w-72">
           {selected ? (
-            <div className="rounded-lg border border-border bg-bg p-4">
+            <div className="rounded-sm border border-border bg-bg p-4">
               <div className="flex items-center justify-between">
                 <p className="font-mono text-xs font-semibold text-accent">{selected.label}</p>
-                <button onClick={() => setSelected(null)} className="flex h-8 w-8 items-center justify-center rounded text-text-muted hover:text-text-primary">
+                <button onClick={() => setSelected(null)} className="flex h-10 w-10 items-center justify-center rounded text-text-muted hover:text-text-primary">
                   ×
                 </button>
               </div>
@@ -156,7 +156,7 @@ export default function GraphExplorer({ data }: { data: GraphData }) {
               </div>
             </div>
           ) : (
-            <div className="rounded-lg border border-dashed border-border bg-bg p-4 text-center text-sm text-text-muted">
+            <div className="rounded-sm border border-dashed border-border bg-bg p-4 text-center text-sm text-text-muted">
               Click a node to see details
             </div>
           )}

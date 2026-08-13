@@ -43,17 +43,30 @@ export default function ArchitecturePreview({ projectId }: { projectId: string }
   if (!steps) return null;
 
   return (
-    <div className="flex items-center gap-1.5 text-[11px] text-text-muted overflow-x-auto">
-      {steps.map((step, i) => (
-        <span key={i} className="flex items-center gap-1.5 whitespace-nowrap">
-          <span className="rounded border border-border bg-bg px-1.5 py-0.5 font-mono">
-            {step.label}
+    <div className="rounded-sm border border-border bg-bg px-3 py-2.5 overflow-x-auto">
+      <div className="flex items-center gap-1 text-[11px] text-text-muted min-w-max">
+        {steps.map((step, i) => (
+          <span key={i} className="flex items-center gap-1">
+            <span className="flex flex-col items-center rounded-sm border border-border bg-bg-surface px-2 py-1">
+              <span className="font-mono text-[10px] font-medium text-text-primary">{step.label}</span>
+              {step.detail && (
+                <span className="text-[9px] text-text-muted">{step.detail}</span>
+              )}
+            </span>
+            {i < steps.length - 1 && (
+              <svg
+                className="mx-0.5 h-3 w-3 shrink-0 text-accent/50"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            )}
           </span>
-          {i < steps.length - 1 && (
-            <span className="text-text-muted/50">→</span>
-          )}
-        </span>
-      ))}
+        ))}
+      </div>
     </div>
   );
 }

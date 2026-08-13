@@ -7,13 +7,23 @@
   --bg-elevated: #f1f5f9;
   --text-primary: #0f172a;
   --text-secondary: #475569;
-  --text-muted: #94a3b8;
-  --accent: #0ea5e9;
+  --text-muted: #64748b;
+  --accent: #0284c7;
   --accent-hover: #0284c7;
   --purple: #8b5cf6;
   --green: #22c55e;
   --border: #e2e8f0;
   --code-bg: #f1f5f9;
+
+  /* Radius tokens */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-feature: 12px;
+
+  /* Motion tokens */
+  --motion-fast: 150ms;
+  --motion-medium: 250ms;
 }
 
 .dark {
@@ -22,12 +32,12 @@
   --bg-elevated: #1e293b;
   --text-primary: #e2e8f0;
   --text-secondary: #94a3b8;
-  --text-muted: #64748b;
+  --text-muted: #8896aa;
   --accent: #38bdf8;
   --accent-hover: #7dd3fc;
   --purple: #a78bfa;
   --green: #4ade80;
-  --border: #1e293b;
+  --border: #2d3a4f;
   --code-bg: #1e293b;
 }
 
@@ -46,11 +56,19 @@
   --color-code-bg: var(--code-bg);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  /* Tighter radius scale */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 10px;
+  --radius-xl: 14px;
+  --radius-2xl: 18px;
 }
 
 /* ─── Base ─── */
 html {
   overflow-x: hidden;
+  scroll-padding-top: 64px; /* navbar height offset for anchor scroll */
 }
 
 body {
@@ -113,4 +131,213 @@ body {
 .skip-link:focus {
   left: 0;
   top: 0;
+}
+
+/* ─── Responsive Utilities ─── */
+
+/* Touch-friendly targets — minimum 44px for mobile */
+@media (max-width: 640px) {
+  /* Ensure buttons have minimum touch target size */
+  button, a[role="button"], [role="button"] {
+    min-height: 44px;
+  }
+
+  /* Increase padding on interactive elements */
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Better tap spacing for lists */
+  li + li {
+    margin-top: 2px;
+  }
+}
+
+/* Smooth scrolling for mobile */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* ─── Section Fade-In Animation ─── */
+.fade-in-hidden {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.fade-in-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-in-hidden,
+  .fade-in-visible {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .animate-pulse {
+    animation: none;
+  }
+}
+
+/* Remove default outline for mouse users */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ─── Screen Reader Only ─── */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* ─── Visual Polish ─── */
+
+/* Card hover — lift + shadow */
+.card-hover {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px -8px rgba(0, 0, 0, 0.12);
+}
+.dark .card-hover:hover {
+  box-shadow: 0 8px 24px -8px rgba(0, 0, 0, 0.4);
+}
+
+/* Gradient accent line — used as section divider */
+.gradient-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  opacity: 0.3;
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, var(--accent), var(--purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Hide scrollbar */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Glow ring on focus */
+.focus-glow:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--accent);
+}
+
+/* ─── Print Styles ─── */
+@media print {
+  @page {
+    margin: 1.5cm 1.8cm;
+    size: A4;
+  }
+
+  /* Hide non-essential elements */
+  nav, footer, .skip-link, [role="navigation"],
+  .scroll-to-top, .fade-in-hidden, .fade-in-visible,
+  [data-testid="hero-cta-group"] {
+    display: none !important;
+  }
+
+  /* Reset body */
+  body {
+    background: white !important;
+    color: #1a1a1a !important;
+    font-size: 10pt;
+    line-height: 1.35;
+  }
+
+  main {
+    padding-top: 0 !important;
+  }
+
+  /* Force print colors, no dark mode */
+  *, *::before, *::after {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  .bg-bg, .bg-bg-surface, .bg-bg-elevated {
+    background: white !important;
+  }
+
+  .gradient-divider, .gradient-text {
+    background: none !important;
+    color: inherit !important;
+  }
+
+  /* Orphans / widows */
+  h1, h2, h3, h4, p {
+    orphans: 3;
+    widows: 3;
+  }
+
+  /* Page break control */
+  h1, h2, h3, h4 {
+    page-break-after: avoid;
+    break-after: avoid;
+  }
+
+  section {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  /* Don't break inside cards */
+  .rounded-xl, .rounded-2xl {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  /* Links — show URL except anchors/mailto/tel */
+  a[href]:not([href^="#"]):not([href^="mailto"]):not([href^="tel"]):after {
+    content: " (" attr(href) ")";
+    font-size: 0.75em;
+    font-weight: normal;
+    color: #666;
+  }
+
+  nav a[href]:after, header a[href]:after {
+    content: none !important;
+  }
+
+  /* Images */
+  img {
+    max-width: 100% !important;
+    page-break-inside: avoid;
+  }
+
+  /* Ensure borders print */
+  .border, [class*="border-"] {
+    border-color: #ccc !important;
+  }
+
+  /* No card hover or decorative transforms */
+  .card-hover {
+    transform: none !important;
+  }
 }

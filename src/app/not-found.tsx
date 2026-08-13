@@ -1,24 +1,61 @@
 import Link from "next/link";
-import Container from "@/components/ui/Container";
 
 export default function NotFound() {
   return (
     <div className="flex flex-1 items-center bg-bg py-24">
-      <Container>
-        <p className="font-mono text-sm text-accent">404</p>
-        <h1 className="mt-2 text-3xl font-bold tracking-tight text-text-primary">
+      <div className="mx-auto max-w-2xl px-6 text-center">
+        {/* Large 404 */}
+        <p className="font-mono text-[80px] font-bold leading-none text-accent/20 sm:text-[120px]">
+          404
+        </p>
+
+        {/* Data-themed message */}
+        <h1 className="mt-2 text-2xl font-bold tracking-tight text-text-primary sm:text-3xl">
           Page not found
         </h1>
-        <p className="mt-3 max-w-md text-sm text-text-secondary">
+        <p className="mt-3 max-w-md text-sm leading-relaxed text-text-secondary">
           The dataset you&apos;re looking for isn&apos;t available in this collection.
+          It may have been moved, deleted, or never existed.
         </p>
-        <Link
-          href="/"
-          className="mt-6 inline-flex h-10 items-center rounded-lg bg-accent px-5 text-sm font-medium text-bg transition-colors hover:bg-accent-hover"
-        >
-          Back to home
-        </Link>
-      </Container>
+
+        {/* ASCII data pipeline — decorative */}
+        <pre aria-hidden="true" className="mx-auto mt-6 inline-block text-left font-mono text-[11px] leading-tight text-text-muted/40">
+{`  request
+     │
+     ▼
+  ┌──────┐
+  │ 404  │  ← not found
+  └──────┘
+     │
+     ▼
+  redirect → /`}
+        </pre>
+
+        {/* Quick links */}
+        <div className="mt-8 flex flex-wrap justify-center gap-3">
+          <Link
+            href="/"
+            className="inline-flex h-11 items-center rounded-md bg-accent px-5 text-sm font-medium text-bg transition-colors hover:bg-accent-hover"
+          >
+            Back to home
+          </Link>
+          <a
+            href="#contact"
+            className="inline-flex h-11 items-center rounded-md border border-border px-5 text-sm font-medium text-text-secondary transition-colors hover:text-text-primary"
+          >
+            Contact me
+          </a>
+        </div>
+
+        {/* Section quick nav */}
+        <div className="mt-8 flex flex-wrap justify-center gap-x-4 gap-y-2 text-xs text-text-muted">
+          <a href="/#about" className="transition-colors hover:text-text-primary">About</a>
+          <a href="/#flagship" className="transition-colors hover:text-text-primary">Projects</a>
+          <a href="/#experience" className="transition-colors hover:text-text-primary">Experience</a>
+          <a href="/#method" className="transition-colors hover:text-text-primary">Method</a>
+          <a href="/resume" className="transition-colors hover:text-text-primary">Resume</a>
+        </div>
+      </div>
     </div>
   );
 }

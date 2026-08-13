@@ -1,10 +1,4 @@
-import type {
-  Experience,
-  ExperienceHighlight,
-  ExperienceMetric,
-} from "@/data/types";
-
-export type { Experience, ExperienceHighlight, ExperienceMetric };
+import type { Experience } from "@/data/types";
 
 export const experiences: Experience[] = [
   {

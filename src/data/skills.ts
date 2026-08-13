@@ -183,14 +183,6 @@ export const skills: Skill[] = [
     evidenceNote: "Source database with schema-per-tenant multi-tenancy.",
   },
   {
-    id: "mysql",
-    name: "MySQL",
-    category: "data-platforms",
-    level: "exploring",
-    credentialIds: ["ibm-data-engineering"],
-    evidenceNote: "Relational database for structured data storage.",
-  },
-  {
     id: "mongodb",
     name: "MongoDB",
     category: "data-platforms",
@@ -223,20 +215,6 @@ export const skills: Skill[] = [
     experienceIds: ["katalyst-data-engineer-intern"],
     credentialIds: ["ibm-data-engineering"],
     evidenceNote: "Server environment for data infrastructure.",
-  },
-  {
-    id: "cmake",
-    name: "CMake",
-    category: "tools-infrastructure",
-    level: "exploring",
-    evidenceNote: "Build system — explored in systems programming context.",
-  },
-  {
-    id: "c-language",
-    name: "C",
-    category: "programming",
-    level: "exploring",
-    evidenceNote: "Systems programming — foundational knowledge.",
   },
   {
     id: "data-modeling",
@@ -353,13 +331,6 @@ export const skills: Skill[] = [
     evidenceNote: "Data manipulation for smaller-scale transformations.",
   },
   {
-    id: "jupyter",
-    name: "Jupyter",
-    category: "tools-infrastructure",
-    level: "exploring",
-    evidenceNote: "Interactive data exploration and prototyping.",
-  },
-  {
     id: "csv",
     name: "CSV",
     category: "data-platforms",
@@ -390,21 +361,6 @@ export const skills: Skill[] = [
     level: "professional",
     experienceIds: ["katalyst-data-engineer-intern"],
     evidenceNote: "Oracle-to-MinIO ingestion pipeline for Lakehouse data flow.",
-  },
-  {
-    id: "cockroachdb",
-    name: "CockroachDB",
-    category: "data-platforms",
-    level: "exploring",
-    credentialIds: ["ibm-data-engineering"],
-    evidenceNote: "Distributed SQL database — explored in IBM coursework.",
-  },
-  {
-    id: "erp",
-    name: "ERP",
-    category: "bi-governance",
-    level: "exploring",
-    evidenceNote: "Enterprise Resource Planning concepts — academic coursework.",
   },
   {
     id: "dremio",

@@ -52,6 +52,16 @@ export interface ArchitectureReference {
   thumbnail?: string;
 }
 
+/** A piece of visual evidence for a project */
+export interface ProjectEvidence {
+  id: string;
+  title: string;
+  description?: string;
+  asset: string; // Path under /public (e.g. "/evidence/projects/banking/architecture.webp")
+  type: "architecture" | "pipeline" | "data-model" | "dashboard" | "code" | "terminal" | "diagram";
+  aspectRatio?: "16:9" | "4:3" | "1:1";
+}
+
 export interface ADR {
   id: string;
   title: string;
@@ -86,6 +96,9 @@ export interface Project {
   impact?: ProjectMetric[];
   limitations?: string[];
   improvements?: string[];
+
+  /** Visual evidence — screenshots, diagrams, dashboards */
+  evidence?: ProjectEvidence[];
 
   relatedExperienceIds?: string[];
   tags?: string[];
