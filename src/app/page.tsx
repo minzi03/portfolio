@@ -8,6 +8,7 @@ import ExperienceHighlightCard from "@/components/experience/ExperienceHighlight
 import ArchitectureTeaser from "@/components/projects/ArchitectureTeaser";
 import CredentialCardLink from "@/components/credentials/CredentialCardLink";
 import CredentialTrustBadge from "@/components/credentials/CredentialTrustBadge";
+import ContactForm from "@/components/contact/ContactForm";
 import { LazyProjectGrid, LazySkillsProficiency } from "@/components/ui/LazySection";
 import { siteConfig } from "@/data/site-config";
 import { experiences } from "@/data/experience";
@@ -526,31 +527,43 @@ function Contact() {
   return (
     <section id="contact" aria-label="Contact" className="bg-bg py-16">
       <Container>
-        <div className="mb-8">
-          <p className="mb-1 font-mono text-xs uppercase tracking-widest text-accent">Connect</p>
-          <h2 className="text-2xl font-bold tracking-tight text-text-primary">Let&apos;s Build with Data</h2>
-        </div>
+        <div className="grid gap-12 lg:grid-cols-2">
+          {/* Left — info + links */}
+          <div>
+            <div className="mb-8">
+              <p className="mb-1 font-mono text-xs uppercase tracking-widest text-accent">Connect</p>
+              <h2 className="text-2xl font-bold tracking-tight text-text-primary">Let&apos;s Build with Data</h2>
+            </div>
 
-        <p className="max-w-md text-sm leading-relaxed text-text-secondary">
-          I&apos;m interested in Data Engineer and Data Platform opportunities.
-        </p>
+            <p className="max-w-md text-sm leading-relaxed text-text-secondary">
+              I&apos;m interested in Data Engineer and Data Platform opportunities.
+              Send me a message or reach out through any of these channels.
+            </p>
 
-        <div className="mt-6 flex flex-wrap gap-3">
-          <a
-            href={`mailto:${siteConfig.email}`}
-            className="inline-flex h-11 items-center rounded-md bg-accent px-5 text-sm font-medium text-bg transition-colors hover:bg-accent-hover"
-          >
-            Email me
-          </a>
-          <a href={siteConfig.github} target="_blank" rel="noopener noreferrer" className="inline-flex h-11 items-center rounded-md border border-border px-5 text-sm font-medium text-text-secondary transition-colors hover:text-text-primary">
-            GitHub <span className="sr-only">(opens in new tab)</span>
-          </a>
-          <a href={siteConfig.linkedin} target="_blank" rel="noopener noreferrer" className="inline-flex h-11 items-center rounded-md border border-border px-5 text-sm font-medium text-text-secondary transition-colors hover:text-text-primary">
-            LinkedIn <span className="sr-only">(opens in new tab)</span>
-          </a>
-          <a href={siteConfig.resumeUrl} className="inline-flex h-11 items-center rounded-md border border-border px-5 text-sm font-medium text-text-secondary transition-colors hover:text-text-primary">
-            Resume
-          </a>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <a
+                href={`mailto:${siteConfig.email}`}
+                className="inline-flex h-11 items-center rounded-md border border-border px-5 text-sm font-medium text-text-secondary transition-colors hover:text-text-primary"
+              >
+                Email
+              </a>
+              <a href={siteConfig.github} target="_blank" rel="noopener noreferrer" className="inline-flex h-11 items-center rounded-md border border-border px-5 text-sm font-medium text-text-secondary transition-colors hover:text-text-primary">
+                GitHub <span className="sr-only">(opens in new tab)</span>
+              </a>
+              <a href={siteConfig.linkedin} target="_blank" rel="noopener noreferrer" className="inline-flex h-11 items-center rounded-md border border-border px-5 text-sm font-medium text-text-secondary transition-colors hover:text-text-primary">
+                LinkedIn <span className="sr-only">(opens in new tab)</span>
+              </a>
+              <a href={siteConfig.resumeUrl} className="inline-flex h-11 items-center rounded-md border border-border px-5 text-sm font-medium text-text-secondary transition-colors hover:text-text-primary">
+                Resume
+              </a>
+            </div>
+          </div>
+
+          {/* Right — contact form */}
+          <div className="rounded-2xl border border-border bg-bg-surface p-6">
+            <h3 className="mb-4 text-lg font-semibold text-text-primary">Send a Message</h3>
+            <ContactForm />
+          </div>
         </div>
       </Container>
     </section>
