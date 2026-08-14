@@ -10,10 +10,38 @@ import { skillCategories } from "@/data/skills";
 import { formatDateRange } from "@/lib/format";
 
 export const metadata: Metadata = {
-  title: "Resume",
-  description: "Resume of Nguyen Minh Duy — Data Engineer.",
+  title: "Resume — Data Engineer",
+  description:
+    "Resume of Nguyen Minh Duy — Data Engineer with experience at Katalyst and QuanSkill. 10 production-grade projects, 95M+ records processed, 28 certifications. Skilled in Spark, Kafka, Iceberg, Airflow, dbt.",
+  keywords: [
+    "Data Engineer Resume",
+    "Nguyen Minh Duy Resume",
+    "Data Engineer CV",
+    "Spark",
+    "Kafka",
+    "Iceberg",
+    "Airflow",
+    "Portfolio",
+  ],
   alternates: { canonical: "/resume" },
-  openGraph: { title: "Resume | Nguyen Minh Duy", description: "Data Engineer resume — experience, projects, certifications." },
+  openGraph: {
+    title: "Resume — Data Engineer | Nguyen Minh Duy",
+    description:
+      "Data Engineer resume — experience, projects, certifications. 95M+ records processed across 10 production-grade projects.",
+    url: `${siteConfig.url}/resume`,
+    siteName: "Nguyen Minh Duy — Data Engineer Portfolio",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Resume — Data Engineer | Nguyen Minh Duy",
+    description:
+      "Data Engineer resume — experience, projects, certifications. 95M+ records processed across 10 production-grade projects.",
+    creator: "@minzi03",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 /* ═══════════════════════════════════════════════════════════════

@@ -25,22 +25,51 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const project = getProjectBySlug(slug);
   if (!project) return {};
+
+  const description = `${project.subtitle} — ${project.tech.slice(0, 5).join(", ")}. ${project.scope} scope project by Nguyen Minh Duy.`;
+
   return {
-    title: project.title,
-    description: project.subtitle,
+    title: `${project.title} — Data Engineering Case Study`,
+    description,
+    keywords: [
+      project.title,
+      project.category.replace(/-/g, " "),
+      ...project.tech,
+      "Data Engineering",
+      "Portfolio",
+      "Case Study",
+    ],
     alternates: {
       canonical: `/projects/${slug}`,
     },
     openGraph: {
       type: "article",
-      title: project.title,
-      description: project.subtitle,
-      images: [{ url: "/og.png", width: 1200, height: 630, alt: `${project.title} — Nguyen Minh Duy` }],
+      title: `${project.title} — Data Engineering Case Study`,
+      description,
+      url: `${siteConfig.url}/projects/${slug}`,
+      siteName: "Nguyen Minh Duy — Data Engineer Portfolio",
+      images: [
+        {
+          url: "/og.png",
+          width: 1200,
+          height: 630,
+          alt: `${project.title} — Nguyen Minh Duy Data Engineering Portfolio`,
+        },
+      ],
+      authors: ["Nguyen Minh Duy"],
+      publishedTime: project.period?.split("–")[0]?.trim(),
+      tags: project.tech,
     },
     twitter: {
       card: "summary_large_image",
-      title: project.title,
-      description: project.subtitle,
+      title: `${project.title} — Data Engineering Case Study`,
+      description,
+      images: ["/og.png"],
+      creator: "@minzi03",
+    },
+    robots: {
+      index: true,
+      follow: true,
     },
   };
 }
@@ -555,15 +584,43 @@ export default async function ProjectPage({ params }: Props) {
               "name": project.title,
               "description": project.summary,
               "url": `${siteConfig.url}/projects/${project.slug}`,
-              "codeRepository": siteConfig.github,
-              "programmingLanguage": project.tech.slice(0, 3),
+              "codeRepository": siteConfig.github ?? undefined,
+              "programmingLanguage": project.tech.slice(0, 5),
+              "author": {
+                "@type": "Person",
+                "name": "Nguyen Minh Duy",
+                "url": siteConfig.url,
+                "jobTitle": "Data Engineer",
+              },
+              "dateCreated": project.period?.split("–")[0]?.trim(),
+              "keywords": project.tech.join(", "),
+              "about": {
+                "@type": "Thing",
+                "name": project.category.replace(/-/g, " "),
+              },
+            },
+            {
+              "@context": "https://schema.org",
+              "@type": "Article",
+              "headline": project.title,
+              "description": project.subtitle,
+              "url": `${siteConfig.url}/projects/${project.slug}`,
               "author": {
                 "@type": "Person",
                 "name": "Nguyen Minh Duy",
                 "url": siteConfig.url,
               },
-              "dateCreated": project.period?.split("–")[0]?.trim(),
-              "keywords": project.tech.join(", "),
+              "publisher": {
+                "@type": "Person",
+                "name": "Nguyen Minh Duy",
+              },
+              "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": `${siteConfig.url}/projects/${project.slug}`,
+              },
+              "image": `${siteConfig.url}/og.png`,
+              "datePublished": project.period?.split("–")[0]?.trim(),
+              "keywords": project.tech.slice(0, 5).join(", "),
             },
           ]),
         }}

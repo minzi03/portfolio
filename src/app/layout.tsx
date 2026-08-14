@@ -21,62 +21,99 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
 
   title: {
-    default: "Nguyen Minh Duy — Data Engineer",
+    default: "Nguyen Minh Duy — Data Engineer | ETL, Lakehouse, CDC Pipelines",
     template: "%s | Nguyen Minh Duy",
   },
 
-  description: siteConfig.description,
+  description:
+    "Data Engineer portfolio — 10 production-grade projects with 95M+ records processed across Lakehouse, CDC, ETL/ELT, and analytics platforms. Apache Spark, Kafka, Iceberg, Airflow, dbt.",
 
   authors: [{ name: "Nguyen Minh Duy" }],
   creator: "Nguyen Minh Duy",
+  publisher: "Nguyen Minh Duy",
 
   keywords: [
     "Nguyen Minh Duy",
     "Data Engineer",
-    "Data Engineering",
+    "Data Engineering Portfolio",
     "Apache Spark",
     "Apache Kafka",
     "Apache Iceberg",
     "Apache Airflow",
     "dbt",
-    "Lakehouse",
+    "Lakehouse Architecture",
     "ETL",
     "ELT",
-    "CDC",
+    "CDC Pipeline",
     "Data Pipeline",
+    "Medallion Architecture",
+    "Star Schema",
+    "Data Quality",
+    "OpenMetadata",
+    "Docker",
+    "Python",
+    "SQL",
+    "Trino",
+    "Snowflake",
+    "Azure Databricks",
+    "Power BI",
+    "Data Modeling",
+    "SCD Type 2",
+    "Data Governance",
+    "Portfolio",
+    "Resume",
   ],
 
   openGraph: {
     type: "website",
     url: siteConfig.url,
     locale: "en_US",
-    siteName: "Nguyen Minh Duy — Data Engineer",
-    title: "Nguyen Minh Duy — Data Engineer",
-    description: "Building reliable data platforms from ingestion to analytics.",
+    siteName: "Nguyen Minh Duy — Data Engineer Portfolio",
+    title: "Nguyen Minh Duy — Data Engineer | ETL, Lakehouse, CDC Pipelines",
+    description:
+      "Data Engineer portfolio — 10 production-grade projects with 95M+ records processed. Apache Spark, Kafka, Iceberg, Airflow, dbt.",
     images: [
       {
         url: "/og.png",
         width: 1200,
         height: 630,
-        alt: "Nguyen Minh Duy — Data Engineer",
+        alt: "Nguyen Minh Duy — Data Engineer Portfolio",
       },
     ],
   },
 
   twitter: {
     card: "summary_large_image",
-    title: "Nguyen Minh Duy — Data Engineer",
-    description: "Building reliable data platforms from ingestion to analytics.",
+    title: "Nguyen Minh Duy — Data Engineer | ETL, Lakehouse, CDC Pipelines",
+    description:
+      "Data Engineer portfolio — 10 production-grade projects with 95M+ records processed. Apache Spark, Kafka, Iceberg, Airflow, dbt.",
     images: ["/og.png"],
+    creator: "@minzi03",
   },
 
   alternates: {
     canonical: "/",
+    languages: {
+      "en-US": "/",
+    },
   },
 
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon-16x16.png",
+    apple: "/apple-touch-icon.png",
   },
 };
 
@@ -108,51 +145,104 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Person",
-              "name": "Nguyen Minh Duy",
-              "jobTitle": "Data Engineer",
-              "url": siteConfig.url,
-              "email": siteConfig.email,
-              "address": {
-                "@type": "PostalAddress",
-                "addressLocality": "Ho Chi Minh City",
-                "addressCountry": "VN",
+            __html: JSON.stringify([
+              {
+                "@context": "https://schema.org",
+                "@type": "Person",
+                "name": "Nguyen Minh Duy",
+                "jobTitle": "Data Engineer",
+                "url": siteConfig.url,
+                "email": siteConfig.email,
+                "address": {
+                  "@type": "PostalAddress",
+                  "addressLocality": "Ho Chi Minh City",
+                  "addressCountry": "VN",
+                },
+                "sameAs": [
+                  siteConfig.github,
+                  siteConfig.linkedin,
+                ],
+                "knowsAbout": [
+                  "Data Engineering",
+                  "Apache Spark",
+                  "Apache Kafka",
+                  "Apache Airflow",
+                  "Apache Iceberg",
+                  "dbt",
+                  "SQL",
+                  "Python",
+                  "Lakehouse Architecture",
+                  "ETL",
+                  "ELT",
+                  "CDC",
+                  "Data Modeling",
+                  "Medallion Architecture",
+                  "Star Schema",
+                  "Data Quality",
+                ],
+                "hasCredential": [
+                  {
+                    "@type": "EducationalOccupationalCredential",
+                    "credentialCategory": "degree",
+                    "educationalLevel": "Bachelor's Degree",
+                    "name": "Bachelor of Engineering in Information Technology",
+                  },
+                  {
+                    "@type": "EducationalOccupationalCredential",
+                    "credentialCategory": "certificate",
+                    "name": "IBM Data Engineering Professional Certificate",
+                  },
+                  {
+                    "@type": "EducationalOccupationalCredential",
+                    "credentialCategory": "certificate",
+                    "name": "Google Advanced Data Analytics Professional Certificate",
+                  },
+                  {
+                    "@type": "EducationalOccupationalCredential",
+                    "credentialCategory": "certificate",
+                    "name": "Databricks Fundamentals",
+                  },
+                ],
+                "memberOf": [
+                  {
+                    "@type": "Organization",
+                    "name": "Katalyst",
+                    "description": "Data Engineer Intern — built production dimensional models and ingestion pipelines on Hanas Data Platform",
+                  },
+                ],
               },
-              "sameAs": [
-                siteConfig.github,
-                siteConfig.linkedin,
-              ],
-              "knowsAbout": [
-                "Data Engineering",
-                "Apache Spark",
-                "Apache Kafka",
-                "Apache Airflow",
-                "Apache Iceberg",
-                "dbt",
-                "SQL",
-                "Python",
-                "Lakehouse Architecture",
-                "ETL",
-                "ELT",
-                "CDC",
-                "Data Modeling",
-              ],
-              "hasCredential": [
-                {
-                  "@type": "EducationalOccupationalCredential",
-                  "credentialCategory": "degree",
-                  "educationalLevel": "Bachelor's Degree",
-                  "name": "Bachelor of Engineering in Information Technology",
+              {
+                "@context": "https://schema.org",
+                "@type": "WebSite",
+                "name": "Nguyen Minh Duy — Data Engineer Portfolio",
+                "url": siteConfig.url,
+                "description": "Data Engineer portfolio with 10 production-grade projects, 95M+ records processed, and 28 professional credentials.",
+                "author": {
+                  "@type": "Person",
+                  "name": "Nguyen Minh Duy",
                 },
-                {
-                  "@type": "EducationalOccupationalCredential",
-                  "credentialCategory": "certificate",
-                  "name": "IBM Data Engineering Professional Certificate",
+                "potentialAction": {
+                  "@type": "SearchAction",
+                  "target": {
+                    "@type": "EntryPoint",
+                    "urlTemplate": `${siteConfig.url}/?q={search_term_string}`,
+                  },
+                  "query-input": "required name=search_term_string",
                 },
-              ],
-            }),
+              },
+              {
+                "@context": "https://schema.org",
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                  {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Home",
+                    "item": siteConfig.url,
+                  },
+                ],
+              },
+            ]),
           }}
         />
       </head>
