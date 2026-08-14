@@ -4,6 +4,7 @@ import { useState, useMemo } from "react";
 import Link from "next/link";
 import type { ProjectCategory, ProjectScope } from "@/data/types";
 import { projects } from "@/data/projects";
+import ProjectThumbnail from "./ProjectThumbnail";
 
 /* ─── Filter configuration ─── */
 
@@ -111,8 +112,16 @@ export default function ProjectGrid() {
             key={project.id}
             href={`/projects/${project.slug}`}
             aria-label={`View case study for ${project.title}`}
-            className="card-hover group flex flex-col rounded-md border border-border bg-bg p-5 transition-colors hover:border-accent/30"
+            className="card-hover group flex flex-col rounded-md border border-border bg-bg transition-colors hover:border-accent/30 overflow-hidden"
           >
+            {/* Thumbnail */}
+            <ProjectThumbnail
+              category={project.category}
+              tech={project.tech}
+              className="h-28 w-full"
+            />
+
+            <div className="p-5 flex flex-col flex-1">
             {/* Category + status badges */}
             <div className="flex items-center gap-2">
               <span className="rounded bg-accent/10 px-2 py-0.5 text-[11px] font-medium text-accent">
@@ -159,6 +168,7 @@ export default function ProjectGrid() {
             <div className="mt-3 flex items-center gap-1.5 text-sm text-accent">
               <span>Case Study</span>
               <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">→</span>
+            </div>
             </div>
           </Link>
         ))}

@@ -78,3 +78,26 @@ export function getBlogPost(slug: string): BlogPost | null {
   const meta = extractMetadata(filePath);
   return { slug, ...meta };
 }
+
+/**
+ * Get related blog posts based on shared tags.
+ * Returns up to `limit` posts, sorted by tag overlap count descending.
+ */
+export function getRelatedPosts(slug: string, limit = 3): BlogPost[] {
+  const currentPost = getBlogPost(slug);
+  if (!currentPost) return [];
+
+  const allPosts = getAllBlogPosts();
+  const currentTags = new Set(currentPost.tags);
+
+  return allPosts
+    .filter((p) => p.slug !== slug)
+    .map((p) => ({
+      post: p,
+      sharedTags: p.tags.filter((t) => currentTags.has(t)).length,
+    }))
+    .filter((item) => item.sharedTags > 0)
+    .sort((a, b) => b.sharedTags - a.sharedTags)
+    .slice(0, limit)
+    .map((item) => item.post);
+}

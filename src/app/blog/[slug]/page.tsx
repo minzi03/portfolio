@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import Container from "@/components/ui/Container";
 import FadeIn from "@/components/ui/FadeIn";
-import { getAllBlogSlugs, getBlogPost } from "@/lib/blog";
+import { getAllBlogSlugs, getBlogPost, getRelatedPosts } from "@/lib/blog";
 import { siteConfig } from "@/data/site-config";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -44,6 +44,9 @@ export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params;
   const post = getBlogPost(slug);
   if (!post) notFound();
+
+  // Get related posts
+  const relatedPosts = getRelatedPosts(slug, 3);
 
   // Dynamic import of the MDX content
   const { default: PostContent } = await import(
@@ -161,6 +164,53 @@ export default async function BlogPostPage({ params }: Props) {
             </div>
           </article>
         </FadeIn>
+
+        {/* Related posts */}
+        {relatedPosts.length > 0 && (
+          <FadeIn>
+            <section className="mx-auto mt-16 max-w-3xl">
+              <h2 className="mb-6 text-lg font-semibold text-text-primary">
+                Related Posts
+              </h2>
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {relatedPosts.map((related) => (
+                  <Link
+                    key={related.slug}
+                    href={`/blog/${related.slug}`}
+                    className="group rounded-xl border border-border bg-bg-surface p-4 transition-all hover:border-accent/30 hover:bg-accent/5"
+                  >
+                    <div className="mb-2 flex items-center gap-2 text-[11px] text-text-muted">
+                      <time dateTime={related.date}>
+                        {new Date(related.date).toLocaleDateString("en-US", {
+                          month: "short",
+                          day: "numeric",
+                        })}
+                      </time>
+                      <span>·</span>
+                      <span>{related.readTime}</span>
+                    </div>
+                    <h3 className="text-sm font-semibold text-text-primary transition-colors group-hover:text-accent line-clamp-2">
+                      {related.title}
+                    </h3>
+                    <p className="mt-1 text-xs text-text-muted line-clamp-2">
+                      {related.description}
+                    </p>
+                    <div className="mt-2 flex flex-wrap gap-1">
+                      {related.tags.slice(0, 2).map((tag) => (
+                        <span
+                          key={tag}
+                          className="rounded bg-accent/10 px-1.5 py-0.5 text-[10px] text-accent"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </section>
+          </FadeIn>
+        )}
       </Container>
     </div>
   );

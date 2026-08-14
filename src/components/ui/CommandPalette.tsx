@@ -11,6 +11,7 @@ interface CommandItem {
   label: string;
   category: string;
   href?: string;
+  description?: string;
   onClick?: () => void;
 }
 
@@ -32,8 +33,17 @@ export default function CommandPalette() {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [selectedIdx, setSelectedIdx] = useState(0);
+  const [searchItems, setSearchItems] = useState<CommandItem[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
+
+  // Fetch search items from API on mount
+  useEffect(() => {
+    fetch("/api/search")
+      .then((res) => res.json())
+      .then((data: CommandItem[]) => setSearchItems(data))
+      .catch(() => {});
+  }, []);
 
   // Build credential items
   const credItems: CommandItem[] = useMemo(
@@ -55,11 +65,15 @@ export default function CommandPalette() {
         label: p.title,
         category: p.category.replace(/-/g, " "),
         href: `/projects/${p.slug}`,
+        description: p.subtitle,
       })),
     []
   );
 
-  const allItems = useMemo(() => [...NAV_ITEMS, ...projectItems, ...credItems], [credItems, projectItems]);
+  const allItems = useMemo(
+    () => [...NAV_ITEMS, ...projectItems, ...credItems, ...searchItems.filter((i) => i.id.startsWith("blog-"))],
+    [credItems, projectItems, searchItems]
+  );
 
   const results = useMemo(() => {
     if (!query.trim()) {
@@ -72,6 +86,7 @@ export default function CommandPalette() {
     const fuzzy = fuzzySearch(allItems, query, [
       (item) => item.label,
       (item) => item.category,
+      (item) => item.description ?? "",
     ]);
     return fuzzy.slice(0, 15).map((r) => r.item);
   }, [query, allItems, projectItems]);
@@ -179,7 +194,7 @@ export default function CommandPalette() {
               <input
                 ref={inputRef}
                 type="text"
-                placeholder="Search sections, projects, credentials..."
+                placeholder="Search sections, projects, blog, credentials..."
                 value={query}
                 onChange={(e) => { setQuery(e.target.value); setSelectedIdx(0); }}
                 onKeyDown={handleKeyDown}
@@ -208,14 +223,21 @@ export default function CommandPalette() {
                     aria-selected={i === selectedIdx}
                     onClick={() => navigateTo(item)}
                     onMouseEnter={() => setSelectedIdx(i)}
-                    className={`flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left text-sm transition-colors ${
+                    className={`flex w-full flex-col rounded-lg px-3 py-2.5 text-left text-sm transition-colors ${
                       i === selectedIdx
                         ? "bg-accent/10 text-accent"
                         : "text-text-secondary hover:bg-bg-surface"
                     }`}
                   >
-                    <span className="flex-1 truncate">{item.label}</span>
-                    <span className="shrink-0 text-[11px] text-text-muted">{item.category}</span>
+                    <div className="flex items-center gap-3">
+                      <span className="flex-1 truncate">{item.label}</span>
+                      <span className="shrink-0 text-[11px] text-text-muted">{item.category}</span>
+                    </div>
+                    {item.description && (
+                      <span className="mt-0.5 truncate text-[11px] text-text-muted line-clamp-1">
+                        {item.description}
+                      </span>
+                    )}
                   </button>
                 ))
               )}

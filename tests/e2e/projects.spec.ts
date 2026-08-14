@@ -26,13 +26,13 @@ test.describe("Projects", () => {
   test("project page has architecture section", async ({ page }) => {
     await page.goto("/projects/banking-data-platform");
     await page.waitForLoadState("networkidle");
-    await expect(page.getByText("Architecture").first()).toBeVisible();
+    await expect(page.getByText("04 — Architecture").first()).toBeVisible();
   });
 
   test("architecture diagram has zoom controls", async ({ page }) => {
     await page.goto("/projects/banking-data-platform");
     await page.waitForLoadState("networkidle");
-    await page.getByText("Architecture").first().scrollIntoViewIfNeeded();
+    await page.getByText("04 — Architecture").first().scrollIntoViewIfNeeded();
     await page.waitForTimeout(1000);
     await expect(page.getByRole("button", { name: "Zoom in" })).toBeVisible();
   });
