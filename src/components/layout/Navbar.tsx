@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useTheme } from "next-themes";
 import { siteConfig } from "@/data/site-config";
-import CommandPalette from "@/components/ui/CommandPalette";
+import { LazyCommandPalette } from "@/components/ui/LazySection";
 
 interface Section {
   id: string;
@@ -182,7 +182,7 @@ export default function Navbar() {
           {/* ── Right actions ── */}
           <div className="flex items-center gap-2">
             {/* Command palette trigger */}
-            <CommandPalette />
+            <LazyCommandPalette />
 
             {/* Resume */}
             <a

@@ -1,14 +1,14 @@
 import Link from "next/link";
+import { Suspense } from "react";
 import Container from "@/components/ui/Container";
 import FadeIn from "@/components/ui/FadeIn";
 import AnimatedCounter from "@/components/ui/AnimatedCounter";
 import ArchitecturePreview from "@/components/projects/ArchitecturePreview";
 import ExperienceHighlightCard from "@/components/experience/ExperienceHighlightCard";
-import SkillsProficiency from "@/components/skills/SkillsProficiency";
 import ArchitectureTeaser from "@/components/projects/ArchitectureTeaser";
-import ProjectGrid from "@/components/projects/ProjectGrid";
 import CredentialCardLink from "@/components/credentials/CredentialCardLink";
 import CredentialTrustBadge from "@/components/credentials/CredentialTrustBadge";
+import { LazyProjectGrid, LazySkillsProficiency } from "@/components/ui/LazySection";
 import { siteConfig } from "@/data/site-config";
 import { experiences } from "@/data/experience";
 import { projects } from "@/data/projects";
@@ -275,7 +275,7 @@ function ProjectsGrid() {
           </p>
         </div>
 
-        <ProjectGrid />
+        <LazyProjectGrid />
       </Container>
     </section>
   );
@@ -565,9 +565,13 @@ export default function Home() {
     <>
       <Hero />
       <FadeIn><FlagshipProject /></FadeIn>
-      <FadeIn><ProjectsGrid /></FadeIn>
+      <Suspense fallback={<div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">{Array.from({ length: 6 }).map((_, i) => <div key={i} className="h-64 animate-pulse rounded-2xl bg-zinc-800/30" />)}</div>}>
+        <FadeIn><ProjectsGrid /></FadeIn>
+      </Suspense>
       <FadeIn><ExperienceSection /></FadeIn>
-      <FadeIn><SkillsProficiency /></FadeIn>
+      <Suspense fallback={<div className="h-96 animate-pulse rounded-2xl bg-zinc-800/30" />}>
+        <FadeIn><LazySkillsProficiency /></FadeIn>
+      </Suspense>
       <FadeIn><EngineeringMethod /></FadeIn>
       <FadeIn><ProofAndKnowledge /></FadeIn>
       <FadeIn><Contact /></FadeIn>

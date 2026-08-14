@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Container from "@/components/ui/Container";
-import GraphExplorer from "@/components/graphs/graph-explorer";
-import ProjectEvidence from "@/components/projects/ProjectEvidence";
+import { LazyGraphExplorer, LazyProjectEvidence } from "@/components/ui/LazySection";
 import { projects, getProjectBySlug } from "@/data/projects";
 import { getProjectEvidence } from "@/data/projects/evidence";
 import { siteConfig } from "@/data/site-config";
@@ -247,7 +246,7 @@ function ArchitectureSection() {
   return (
     <section>
       <SectionHeader n="04" title="Architecture" />
-      <GraphExplorer data={archData} />
+      <LazyGraphExplorer data={archData} />
     </section>
   );
 }
@@ -272,7 +271,7 @@ function PipelineSection() {
   return (
     <section>
       <SectionHeader n="06" title="CDC Pipeline" />
-      <GraphExplorer data={pipeData} />
+      <LazyGraphExplorer data={pipeData} />
     </section>
   );
 }
@@ -281,7 +280,7 @@ function DataModelSection() {
   return (
     <section>
       <SectionHeader n="07" title="Data Model" />
-      <GraphExplorer data={modelData} />
+      <LazyGraphExplorer data={modelData} />
     </section>
   );
 }
@@ -290,7 +289,7 @@ function LineageSection() {
   return (
     <section>
       <SectionHeader n="08" title="Data Lineage" />
-      <GraphExplorer data={lineageData} />
+      <LazyGraphExplorer data={lineageData} />
     </section>
   );
 }
@@ -440,7 +439,7 @@ function ProjectCaseStudy({
       {project.tech && project.tech.length > 0 && <TechStackSection tech={project.tech} />}
       {hasBankingGraphs && <ArchitectureSection />}
       {hasBankingGraphs && <BankingExtraSections />}
-      {evidence.length > 0 && <ProjectEvidence evidence={evidence} />}
+      {evidence.length > 0 && <LazyProjectEvidence evidence={evidence} />}
       {project.adrs && project.adrs.length > 0 && <AdrSection adrs={project.adrs} />}
       {project.impact && project.impact.length > 0 && <ImpactSection metrics={project.impact} />}
       {project.limitations && project.limitations.length > 0 && (

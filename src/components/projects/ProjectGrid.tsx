@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Link from "next/link";
 import type { ProjectCategory, ProjectScope } from "@/data/types";
 import { projects } from "@/data/projects";
@@ -35,13 +35,17 @@ export default function ProjectGrid() {
   const [catFilter, setCatFilter] = useState<ProjectCategory | "all">("all");
   const [scopeFilter, setScopeFilter] = useState<ProjectScope | "all">("all");
 
-  const otherProjects = projects.filter((p) => !p.featured);
+  const otherProjects = useMemo(() => projects.filter((p) => !p.featured), []);
 
-  const filtered = otherProjects.filter((p) => {
-    if (catFilter !== "all" && p.category !== catFilter) return false;
-    if (scopeFilter !== "all" && p.scope !== scopeFilter) return false;
-    return true;
-  });
+  const filtered = useMemo(
+    () =>
+      otherProjects.filter((p) => {
+        if (catFilter !== "all" && p.category !== catFilter) return false;
+        if (scopeFilter !== "all" && p.scope !== scopeFilter) return false;
+        return true;
+      }),
+    [otherProjects, catFilter, scopeFilter]
+  );
 
   return (
     <div>
