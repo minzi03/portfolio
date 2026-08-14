@@ -25,6 +25,5 @@ export const education: Education = {
     "Academic & Conduct — Excellent (Semester 2, 2022–2023)",
     "Academic & Conduct — Excellent (Semester 2, 2023–2024)",
     "Academic & Conduct — Excellent (Semester 1, 2024–2025)",
-    "50% Tuition Merit Scholarship (Semester 1, 2025–2026)",
   ],
 };
