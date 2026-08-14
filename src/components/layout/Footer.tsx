@@ -1,6 +1,11 @@
+"use client";
+
+import { useI18n } from "@/lib/i18n";
 import { siteConfig } from "@/data/site-config";
 
 export default function Footer() {
+  const { t } = useI18n();
+
   return (
     <footer className="border-t border-border bg-bg-surface">
       <div className="mx-auto max-w-6xl px-6 py-12">
@@ -13,14 +18,13 @@ export default function Footer() {
               <span className="text-accent">.</span>
             </p>
             <p className="mt-2 max-w-sm text-sm leading-relaxed text-text-secondary">
-              Building reliable data platforms from ingestion to analytics.
-              Open to Data Engineer and Data Platform roles.
+              {t("footer.description")}
             </p>
             <a
               href={`mailto:${siteConfig.email}`}
               className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-accent transition-colors hover:text-accent-hover"
             >
-              Get in touch
+              {t("footer.contact")}
               <span aria-hidden="true">→</span>
             </a>
           </div>
@@ -28,14 +32,14 @@ export default function Footer() {
           {/* Quick links */}
           <nav aria-label="Footer navigation">
             <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-text-muted">
-              Navigate
+              {t("footer.navigation")}
             </h3>
             <ul className="space-y-2">
               {[
-                { href: "#hero", label: "Home" },
-                { href: "#flagship", label: "Projects" },
-                { href: "#experience", label: "Experience" },
-                { href: "#skills", label: "Skills" },
+                { href: "#hero", label: t("nav.home") },
+                { href: "#flagship", label: t("nav.projects") },
+                { href: "#experience", label: t("nav.experience") },
+                { href: "#skills", label: t("nav.skills") },
               ].map((link) => (
                 <li key={link.href}>
                   <a
@@ -52,7 +56,7 @@ export default function Footer() {
           {/* Connect */}
           <div>
             <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-text-muted">
-              Connect
+              {t("footer.connect")}
             </h3>
             <ul className="space-y-2">
               <li>
@@ -89,7 +93,7 @@ export default function Footer() {
                   <svg aria-hidden="true" className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
                   </svg>
-                  Email
+                  {t("contact.channels.email")}
                 </a>
               </li>
             </ul>
@@ -99,14 +103,14 @@ export default function Footer() {
         {/* ── Bottom bar ── */}
         <div className="mt-10 flex flex-col items-center justify-between gap-3 border-t border-border pt-6 sm:flex-row">
           <p className="text-xs text-text-muted">
-            © {new Date().getFullYear()} {siteConfig.name}. All rights reserved.
+            © {new Date().getFullYear()} {siteConfig.name}. {t("footer.rights")}
           </p>
           <p className="flex items-center gap-1.5 text-xs text-text-muted">
-            <span>Built with</span>
+            <span>{t("footer.builtWith")}</span>
             <svg aria-hidden="true" className="h-3 w-3 text-accent" viewBox="0 0 24 24" fill="currentColor">
               <path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
             </svg>
-            <span>Next.js &amp; Tailwind CSS</span>
+            <span>{t("footer.technologies")}</span>
           </p>
         </div>
       </div>

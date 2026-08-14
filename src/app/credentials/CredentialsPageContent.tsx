@@ -12,6 +12,7 @@ import {
   type CredentialCategory,
 } from "@/data/credentials";
 import { fuzzySearch } from "@/lib/fuzzy-search";
+import { useI18n } from "@/lib/i18n";
 
 type SortOption = "newest" | "oldest" | "alpha" | "category";
 
@@ -50,6 +51,7 @@ function sortCredentials(items: Credential[], sort: SortOption): Credential[] {
 }
 
 export default function CredentialsPageContent() {
+  const { t } = useI18n();
   const [active, setActive] = useState<CredentialCategory | "all">("all");
   const [sort, setSort] = useState<SortOption>("newest");
   const [search, setSearch] = useState("");
@@ -84,14 +86,13 @@ export default function CredentialsPageContent() {
         {/* Header */}
         <div className="max-w-2xl">
           <p className="mb-1 font-mono text-xs uppercase tracking-widest text-accent">
-            Credentials
+            {t("credentials.badge")}
           </p>
           <h1 className="text-3xl font-bold tracking-tight text-text-primary sm:text-4xl">
-            Credentials &amp; Achievements
+            {t("credentials.pageTitle")}
           </h1>
           <p className="mt-3 text-base text-text-secondary">
-            Certifications, technical assessments, academic recognition and milestones
-            across my data engineering journey.
+            {t("credentials.pageDescription")}
           </p>
         </div>
 

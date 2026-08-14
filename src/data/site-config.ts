@@ -16,3 +16,10 @@ export const siteConfig = {
   },
   resumeUrl: "/resume",
 } as const;
+
+export const focusAreas = [
+  { label: "Data Pipelines", detail: "ETL/ELT, batch & streaming" },
+  { label: "Lakehouse", detail: "Iceberg, Spark, Medallion" },
+  { label: "Orchestration", detail: "Airflow, dbt, scheduling" },
+  { label: "Data Quality", detail: "Validation, contracts, lineage" },
+];

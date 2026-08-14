@@ -4,22 +4,24 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import { useTheme } from "next-themes";
+import { useI18n } from "@/lib/i18n";
 import { siteConfig } from "@/data/site-config";
 import { LazyCommandPalette } from "@/components/ui/LazySection";
+import LanguageSwitcher from "@/components/ui/LanguageSwitcher";
 
 interface Section {
   id: string;
   label: string;
 }
 
-const sections: Section[] = [
-  { id: "hero", label: "Home" },
-  { id: "flagship", label: "Projects" },
-  { id: "experience", label: "Experience" },
-  { id: "skills", label: "Skills" },
-  { id: "method", label: "Method" },
-  { id: "knowledge", label: "Credentials" },
-  { id: "contact", label: "Contact" },
+const SECTION_KEYS = [
+  { id: "hero", key: "nav.home" },
+  { id: "flagship", key: "nav.projects" },
+  { id: "experience", key: "nav.experience" },
+  { id: "skills", key: "nav.skills" },
+  { id: "method", key: "nav.method" },
+  { id: "knowledge", key: "nav.credentials" },
+  { id: "contact", key: "nav.contact" },
 ];
 
 export default function Navbar() {
@@ -28,8 +30,11 @@ export default function Navbar() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [mounted, setMounted] = useState(false);
   const { resolvedTheme, setTheme } = useTheme();
+  const { t } = useI18n();
   const hamburgerRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
+
+  const sections = SECTION_KEYS.map((s) => ({ id: s.id, label: t(s.key) }));
 
   useEffect(() => setMounted(true), []);
 
@@ -37,7 +42,7 @@ export default function Navbar() {
   useEffect(() => {
     const observers: IntersectionObserver[] = [];
 
-    sections.forEach(({ id }) => {
+    SECTION_KEYS.forEach(({ id }) => {
       const el = document.getElementById(id);
       if (!el) return;
 
@@ -183,6 +188,9 @@ export default function Navbar() {
 
           {/* ── Right actions ── */}
           <div className="flex items-center gap-2">
+            {/* Language switcher */}
+            <LanguageSwitcher />
+
             {/* Command palette trigger */}
             <LazyCommandPalette />
 
@@ -321,6 +329,9 @@ export default function Navbar() {
         </div>
 
         <div className="mt-4 border-t border-border pt-4">
+          <div className="mb-3 flex items-center justify-center">
+            <LanguageSwitcher />
+          </div>
           <Link
             href="/blog"
             className="flex items-center gap-2 rounded-lg border border-zinc-700/50 px-3 py-2.5 text-sm font-medium text-text-muted transition-all hover:border-accent/30 hover:text-accent"
