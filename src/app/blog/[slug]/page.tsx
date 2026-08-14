@@ -53,6 +53,35 @@ export default async function BlogPostPage({ params }: Props) {
   return (
     <div className="bg-bg py-16 sm:py-24">
       <Container>
+        {/* JSON-LD for article */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Article",
+              headline: post.title,
+              description: post.description,
+              datePublished: post.date,
+              author: {
+                "@type": "Person",
+                name: "Nguyen Minh Duy",
+                url: siteConfig.url,
+              },
+              publisher: {
+                "@type": "Organization",
+                name: "Nguyen Minh Duy — Data Engineer Portfolio",
+                url: siteConfig.url,
+              },
+              mainEntityOfPage: {
+                "@type": "WebPage",
+                "@id": `${siteConfig.url}/blog/${slug}`,
+              },
+              keywords: post.tags.join(", "),
+            }),
+          }}
+        />
+
         {/* Breadcrumb */}
         <FadeIn>
           <nav className="mb-8 flex items-center gap-2 text-sm text-text-muted">

@@ -97,6 +97,9 @@ export const metadata: Metadata = {
     languages: {
       "en-US": "/",
     },
+    types: {
+      "application/rss+xml": `${siteConfig.url}/feed.xml`,
+    },
   },
 
   robots: {
