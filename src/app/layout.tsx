@@ -74,7 +74,7 @@ export const metadata: Metadata = {
       "Data Engineer portfolio — 10 production-grade projects with 95M+ records processed. Apache Spark, Kafka, Iceberg, Airflow, dbt.",
     images: [
       {
-        url: "/og.png",
+        url: `${siteConfig.url}/opengraph-image`,
         width: 1200,
         height: 630,
         alt: "Nguyen Minh Duy — Data Engineer Portfolio",
@@ -87,7 +87,7 @@ export const metadata: Metadata = {
     title: "Nguyen Minh Duy — Data Engineer | ETL, Lakehouse, CDC Pipelines",
     description:
       "Data Engineer portfolio — 10 production-grade projects with 95M+ records processed. Apache Spark, Kafka, Iceberg, Airflow, dbt.",
-    images: ["/og.png"],
+    images: [`${siteConfig.url}/opengraph-image`],
     creator: "@minzi03",
   },
 

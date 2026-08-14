@@ -23,14 +23,14 @@ export const metadata: Metadata = {
       "Professional certifications across data engineering, cloud platforms, analytics, SQL, and academic achievements.",
     url: `${siteConfig.url}/credentials`,
     siteName: "Nguyen Minh Duy — Data Engineer Portfolio",
-    images: [{ url: "/og.png", width: 1200, height: 630, alt: "Nguyen Minh Duy — Data Engineering Credentials" }],
+    images: [{ url: `${siteConfig.url}/opengraph-image`, width: 1200, height: 630, alt: "Nguyen Minh Duy — Data Engineering Credentials" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "28 Credentials & Certifications | Nguyen Minh Duy",
     description:
       "Professional certifications across data engineering, cloud platforms, analytics, SQL, and academic achievements.",
-    images: ["/og.png"],
+    images: [`${siteConfig.url}/opengraph-image`],
     creator: "@minzi03",
   },
   robots: {

@@ -50,7 +50,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       siteName: "Nguyen Minh Duy — Data Engineer Portfolio",
       images: [
         {
-          url: "/og.png",
+          url: `${siteConfig.url}/projects/${slug}/opengraph-image`,
           width: 1200,
           height: 630,
           alt: `${project.title} — Nguyen Minh Duy Data Engineering Portfolio`,
@@ -64,7 +64,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       card: "summary_large_image",
       title: `${project.title} — Data Engineering Case Study`,
       description,
-      images: ["/og.png"],
+      images: [`${siteConfig.url}/projects/${slug}/opengraph-image`],
       creator: "@minzi03",
     },
     robots: {
@@ -618,7 +618,7 @@ export default async function ProjectPage({ params }: Props) {
                 "@type": "WebPage",
                 "@id": `${siteConfig.url}/projects/${project.slug}`,
               },
-              "image": `${siteConfig.url}/og.png`,
+              "image": `${siteConfig.url}/projects/${project.slug}/opengraph-image`,
               "datePublished": project.period?.split("–")[0]?.trim(),
               "keywords": project.tech.slice(0, 5).join(", "),
             },
