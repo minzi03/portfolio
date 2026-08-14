@@ -8,6 +8,7 @@ import { movieImpact, movieADRs, movieProblem, movieConstraints, movieLimitation
 import { nexlabImpact, nexlabADRs, nexlabProblem, nexlabConstraints, nexlabLimitations, nexlabImprovements } from "./projects/nexlab-data-platform/case-study";
 import { cellphonesImpact, cellphonesADRs, cellphonesProblem, cellphonesConstraints, cellphonesLimitations, cellphonesImprovements } from "./projects/cellphones-analytics/case-study";
 import { dabImpact, dabADRs, dabProblem, dabConstraints, dabLimitations, dabImprovements } from "./projects/data-analysis-business/case-study";
+import { ie224Impact, ie224ADRs, ie224Problem, ie224Constraints, ie224Limitations, ie224Improvements } from "./projects/da-ie224/case-study";
 
 /** Project type — exported as `Project` for consumers */
 export type Project = ProjectBase;
@@ -255,6 +256,38 @@ export const projects: Project[] = [
     impact: dabImpact,
     limitations: dabLimitations,
     improvements: dabImprovements,
+  },
+  {
+    id: "da-ie224",
+    slug: "da-ie224",
+    title: "E-Commerce Multichannel Messaging Analysis",
+    subtitle: "10M messages — channel/campaign/customer segmentation with ML purchase prediction",
+    summary:
+      "Comprehensive analysis of 10M multichannel e-commerce messages (email, mobile_push, web_push) across 1,907 campaigns. Email dominates: 19.29% open rate, 3.98% click rate. Transactional messages 16x higher purchase rate than bulk. Customer segmentation (Champions/Potential/Loss) with KL Divergence validation. ML models: Random Forest 85.7% accuracy, Logistic Regression 82.18%. Conversion funnel: Sent → Opened (16.14%) → Clicked (14.55%) → Purchased (5.54%).",
+    category: "analytics",
+    status: "complete",
+    scope: "academic",
+    featured: false,
+    period: "Sep 2023 – Jan 2024",
+    tech: [
+      "Python",
+      "Pandas",
+      "NumPy",
+      "Scikit-learn",
+      "Matplotlib",
+      "Seaborn",
+      "SciPy",
+      "Power BI",
+    ],
+    tags: ["data-analysis", "e-commerce", "customer-segmentation", "machine-learning", "multichannel", "marketing-analytics", "classification"],
+    github: "https://github.com/minzi03/DA-IE224",
+    // Engineering reasoning
+    problem: ie224Problem,
+    constraints: ie224Constraints,
+    adrs: ie224ADRs,
+    impact: ie224Impact,
+    limitations: ie224Limitations,
+    improvements: ie224Improvements,
   },
 ];
 
