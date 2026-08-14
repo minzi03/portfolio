@@ -3,73 +3,103 @@ import type { Experience } from "@/data/types";
 export const experiences: Experience[] = [
   {
     id: "katalyst-data-engineer-intern",
-    company: "Katalyst AI",
+    company: "Katalyst",
     role: "Data Engineer Intern",
     location: "Ho Chi Minh City",
-    startDate: "2025-12",
-    endDate: "2026-03",
+    startDate: "2025-10",
+    endDate: "2025-12",
     technologies: [
       "Apache Iceberg",
-      "Dremio",
       "Apache NiFi",
+      "Dremio",
+      "MinIO",
       "Star Schema",
       "SCD Type 1/2",
-      "Row Access Policies",
-      "Column Masking",
+      "SQL",
+      "Lakehouse Architecture",
     ],
     highlights: [
       {
         action:
-          "Optimized analytical query performance for Dremio on Iceberg-backed tables",
+          "Built Dimension Customer with SCD Type 1 & 2 from Core Banking source on Iceberg Table",
         approach:
-          "Designed Dremio Reflections over Iceberg-backed analytical tables, tuned reflection strategies for representative query workloads",
+          "Analyzed 20-attribute corebank_customer_raw schema, designed SCD logic: Type 1 for CUS_BIRTH_INCORP_DATE (overwrite), Type 2 for remaining attributes (history tracking with EFFECTIVE_FROM, EFFECTIVE_TO, IS_CURRENT). Implemented on Iceberg Table via Dremio with surrogate key generation.",
         outcome:
-          "Reduced representative query latency for benchmark workloads",
+          "Created enterprise Dimension Customer with full historical tracking, enabling time-travel queries and audit trail on customer attribute changes.",
         metrics: [
           {
-            label: "Query latency",
-            before: "~25s",
-            after: "~8–12s",
-            value: "52–68% reduction",
+            label: "SCD attributes",
+            value: "19 Type 2 + 1 Type 1",
+          },
+          {
+            label: "Dimension columns",
+            value: "24 (incl. audit & SCD metadata)",
           },
         ],
-        technologies: ["Apache Iceberg", "Dremio"],
+        technologies: ["Apache Iceberg", "Dremio", "SQL"],
+        projectIds: ["katalyst-internship"],
       },
       {
         action:
-          "Built Oracle-to-MinIO data ingestion pipeline using Apache NiFi",
+          "Expanded Dimension Customer by integrating individual and corporate customer data from multiple staging sources",
         approach:
-          "Configured NiFi processors for Oracle source extraction, transformed and loaded data into MinIO object storage as Iceberg-compatible files",
+          "Joined stg_customer_raw_i (individual: gender, birth date) and stg_customer_raw_c (corporate: incorporation date, employee count) with main customer table via CUS_CUSTOMER_CODE. Applied conditional logic: individual → CUS_BIRTH, corporate → INCORP_DATE.",
         outcome:
-          "Established automated data ingestion from Oracle sources into the Lakehouse storage layer",
-        technologies: ["Apache NiFi", "Apache Iceberg"],
+          "Unified dimension covering both individual and corporate customers with enriched attributes for segmented analytics.",
+        metrics: [
+          {
+            label: "source tables integrated",
+            value: "3 (corebank + individual + corporate)",
+          },
+        ],
+        technologies: ["Apache Iceberg", "Dremio", "SQL"],
+        projectIds: ["katalyst-internship"],
       },
       {
         action:
-          "Implemented Dremio API automation for dataset management",
+          "Designed and implemented Star Schema with Fact Account and 3 Dimensions (Customer, Branch, Account)",
         approach:
-          "Built automated workflows using Dremio REST API to manage dataset configurations, promotion, and reflection scheduling",
+          "Built Fact Account (account_sk, customer_sk, branch_sk, current_balance, account_status) with surrogate keys from all 3 dimensions. Dimension Branch organized with 2-level hierarchy (area_4, area_6) for regional analysis. All dimensions use SCD Type 2 with row_hash for change detection.",
         outcome:
-          "Reduced manual dataset management overhead through API-driven automation",
-        technologies: ["Dremio"],
+          "Star Schema model enabling analytical queries across account balances, customer segments, and branch hierarchy.",
+        metrics: [
+          {
+            label: "model",
+            value: "1 Fact + 3 Dimensions",
+          },
+          {
+            label: "total attributes",
+            value: "6 (fact) + 24 (customer) + 15 (branch) + 14 (account)",
+          },
+        ],
+        technologies: ["Apache Iceberg", "Dremio", "Star Schema", "DBML"],
+        projectIds: ["katalyst-internship"],
       },
       {
         action:
-          "Evaluated Dremio v25 vs v24 for analytical workloads",
+          "Ingested Excel source data (Account, Branch) into Lakehouse via Dremio and MinIO",
         approach:
-          "Conducted benchmark comparison of Dremio versions on Iceberg tables, documenting performance differences and feature improvements",
+          "Uploaded corebank_account.xlsx and corebank_branch.xlsx to MinIO (S3-compatible storage), created datasets in Dremio, and converted to Iceberg Tables in lakehouse.etladmin schema for downstream query and analytics.",
         outcome:
-          "Provided evidence-based recommendation for version upgrade",
-        technologies: ["Dremio", "Apache Iceberg"],
+          "Established file-to-Lakehouse ingestion pattern for Excel-based source systems.",
+        technologies: ["Dremio", "MinIO", "Apache Iceberg"],
+        projectIds: ["katalyst-internship"],
       },
       {
         action:
-          "Designed Row Access Policies and Column Masking for data governance",
+          "Built Oracle-to-Lakehouse ingestion pipeline using Apache NiFi",
         approach:
-          "Implemented Dremio row-level access policies and column masking rules to enforce data access controls across analytical layers",
+          "Designed NiFi dataflow connecting to Oracle database, configured ExecuteSQL/ExecuteSQLRecord processors for extraction, ConvertRecord for format transformation, and PutS3Object for writing to MinIO. Data stored as Iceberg-compatible files queryable via Dremio.",
         outcome:
-          "Enabled role-based data access without application-layer overhead",
-        technologies: ["Dremio"],
+          "Automated ingestion from Oracle (relational + XML data) into Lakehouse storage layer.",
+        metrics: [
+          {
+            label: "Oracle data formats",
+            value: "2 (relational + XML)",
+          },
+        ],
+        technologies: ["Apache NiFi", "MinIO", "Apache Iceberg", "Dremio"],
+        projectIds: ["katalyst-internship"],
       },
     ],
   },

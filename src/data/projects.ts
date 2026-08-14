@@ -9,6 +9,7 @@ import { nexlabImpact, nexlabADRs, nexlabProblem, nexlabConstraints, nexlabLimit
 import { cellphonesImpact, cellphonesADRs, cellphonesProblem, cellphonesConstraints, cellphonesLimitations, cellphonesImprovements } from "./projects/cellphones-analytics/case-study";
 import { dabImpact, dabADRs, dabProblem, dabConstraints, dabLimitations, dabImprovements } from "./projects/data-analysis-business/case-study";
 import { ie224Impact, ie224ADRs, ie224Problem, ie224Constraints, ie224Limitations, ie224Improvements } from "./projects/da-ie224/case-study";
+import { katalystImpact, katalystADRs, katalystProblem, katalystConstraints, katalystLimitations, katalystImprovements } from "./projects/katalyst-internship/case-study";
 
 /** Project type — exported as `Project` for consumers */
 export type Project = ProjectBase;
@@ -288,6 +289,38 @@ export const projects: Project[] = [
     impact: ie224Impact,
     limitations: ie224Limitations,
     improvements: ie224Improvements,
+  },
+  {
+    id: "katalyst-internship",
+    slug: "katalyst-internship",
+    title: "Katalyst Hanas Data Platform",
+    subtitle: "Enterprise Lakehouse — NiFi → Iceberg → Dremio, Star Schema with SCD Type 2",
+    summary:
+      "Data Engineer internship at Katalyst: built production dimensional models and ingestion pipelines on Hanas Data Platform. Dim Customer (24 cols, SCD Type 2 on 19 attrs), Dim Branch (15 cols, 2-level hierarchy), Dim Account (14 cols), Fact Account (6 cols) — Star Schema with surrogate keys. Ingested from 3 sources (database, Excel, Oracle) via Apache NiFi into Iceberg Tables on MinIO, queryable via Dremio.",
+    category: "data-platform",
+    status: "complete",
+    scope: "production-like",
+    featured: false,
+    period: "Oct 2025 – Dec 2025",
+    tech: [
+      "Apache Iceberg",
+      "Apache NiFi",
+      "Dremio",
+      "MinIO",
+      "SQL",
+      "Star Schema",
+      "SCD Type 1/2",
+      "Lakehouse Architecture",
+    ],
+    tags: ["lakehouse", "iceberg", "nifi", "dremio", "star-schema", "scd", "enterprise", "banking", "internship"],
+    relatedExperienceIds: ["katalyst-data-engineer-intern"],
+    // Engineering reasoning
+    problem: katalystProblem,
+    constraints: katalystConstraints,
+    adrs: katalystADRs,
+    impact: katalystImpact,
+    limitations: katalystLimitations,
+    improvements: katalystImprovements,
   },
 ];
 
