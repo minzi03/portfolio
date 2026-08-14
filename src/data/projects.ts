@@ -6,6 +6,7 @@ import { mdsImpact, mdsADRs, mdsProblem, mdsConstraints, mdsLimitations, mdsImpr
 import { azureImpact, azureADRs, azureProblem, azureConstraints, azureLimitations, azureImprovements } from "./projects/azure-ecommerce/case-study";
 import { movieImpact, movieADRs, movieProblem, movieConstraints, movieLimitations, movieImprovements } from "./projects/movie-data-warehouse/case-study";
 import { nexlabImpact, nexlabADRs, nexlabProblem, nexlabConstraints, nexlabLimitations, nexlabImprovements } from "./projects/nexlab-data-platform/case-study";
+import { cellphonesImpact, cellphonesADRs, cellphonesProblem, cellphonesConstraints, cellphonesLimitations, cellphonesImprovements } from "./projects/cellphones-analytics/case-study";
 
 /** Project type — exported as `Project` for consumers */
 export type Project = ProjectBase;
@@ -172,6 +173,38 @@ export const projects: Project[] = [
     impact: nexlabImpact,
     limitations: nexlabLimitations,
     improvements: nexlabImprovements,
+  },
+  {
+    id: "cellphones-analytics",
+    slug: "cellphones-analytics",
+    title: "CellphoneS Analytics Pipeline",
+    subtitle: "Star Schema warehouse with 68 DQ checks, dual-source reconciliation, Power BI semantic model",
+    summary:
+      "End-to-end analytics pipeline for a Vietnamese phone retail chain: 5 CSV sources → string-first ingestion → quarantine-first dedup → Star Schema (3 dimensions, 3 facts) → operations mart with inventory status, DRR, and dual-source reconciliation. 68 structured quality checks, 30/30 pytest tests, 35+ DAX measures, BigQuery DDL with partitioning/clustering. Full grain integrity across transaction, periodic snapshot, and monthly target fact tables.",
+    category: "analytics",
+    status: "complete",
+    scope: "production-like",
+    featured: false,
+    period: "Jul 2026",
+    tech: [
+      "Python",
+      "Pandas",
+      "PyArrow",
+      "BigQuery",
+      "Power BI",
+      "DAX",
+      "Pytest",
+      "SQL",
+    ],
+    tags: ["star-schema", "data-quality", "power-bi", "bigquery", "etl", "reconciliation", "dax", "pytest"],
+    github: "https://github.com/minzi03/cellphones_analytics_engineer",
+    // Engineering reasoning
+    problem: cellphonesProblem,
+    constraints: cellphonesConstraints,
+    adrs: cellphonesADRs,
+    impact: cellphonesImpact,
+    limitations: cellphonesLimitations,
+    improvements: cellphonesImprovements,
   },
 ];
 
