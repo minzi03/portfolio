@@ -159,6 +159,48 @@ const translations: Record<Locale, Record<string, string>> = {
     "footer.builtWith": "Built with",
     "footer.technologies": "Next.js & Tailwind CSS",
 
+    // Comparison
+    "comparison.badge": "Compare",
+    "comparison.title": "Compare Projects",
+    "comparison.description": "Compare data engineering projects side by side. Analyze technology stacks, scope, and impact metrics.",
+    "comparison.metrics.tech": "Technology",
+    "comparison.metrics.scope": "Scope",
+    "comparison.metrics.category": "Category",
+    "comparison.metrics.impact": "Impact",
+    "comparison.selectProject": "Select project",
+    "comparison.selectPlaceholder": "-- Select a project --",
+    "comparison.emptyState": "Select two projects to start comparing",
+
+    // Skills Radar
+    "skills.radar.badge": "Skills",
+    "skills.radar.title": "Skills Radar",
+    "skills.radar.description": "Visual illustration of data engineering technical skills.",
+
+    // Timeline
+    "timeline.badge": "Career",
+    "timeline.title": "Timeline",
+    "timeline.description": "Professional development journey in data engineering.",
+
+    // Architecture
+    "architecture.badge": "Architecture",
+    "architecture.title": "Interactive Architecture",
+    "architecture.description": "Explore the complete data pipeline architecture from sources to analytics. Click on nodes to see details.",
+    "architecture.diagramTitle": "Data Pipeline Architecture",
+    "architecture.clearSelection": "Clear selection",
+    "architecture.selectNode": "Click on a node to see details",
+    "architecture.source": "Data Sources",
+    "architecture.ingest": "Ingestion",
+    "architecture.bronze": "Bronze Layer",
+    "architecture.silver": "Silver Layer",
+    "architecture.gold": "Gold Layer",
+    "architecture.analytics": "Analytics",
+    "architecture.governance": "Governance",
+    "architecture.orchestration": "Orchestration",
+
+    // Resume Export
+    "resume.export.button": "Export PDF",
+    "resume.export.exporting": "Exporting...",
+
     // Search
     "search.title": "Search",
     "search.noResults": "No results found.",
@@ -282,6 +324,48 @@ const translations: Record<Locale, Record<string, string>> = {
     "footer.rights": "Bảo lưu mọi quyền.",
     "footer.builtWith": "Xây dựng với",
     "footer.technologies": "Next.js & Tailwind CSS",
+
+    // Comparison
+    "comparison.badge": "So sánh",
+    "comparison.title": "So sánh Dự án",
+    "comparison.description": "So sánh các dự án kỹ thuật dữ liệu side by side. Phân tích stacks công nghệ, phạm vi, và các chỉ số tác động.",
+    "comparison.metrics.tech": "Công nghệ",
+    "comparison.metrics.scope": "Phạm vi",
+    "comparison.metrics.category": "Thể loại",
+    "comparison.metrics.impact": "Tác động",
+    "comparison.selectProject": "Chọn dự án",
+    "comparison.selectPlaceholder": "-- Chọn dự án --",
+    "comparison.emptyState": "Chọn hai dự án để bắt đầu so sánh",
+
+    // Skills Radar
+    "skills.radar.badge": "Kỹ năng",
+    "skills.radar.title": "Biểu đồ Kỹ năng",
+    "skills.radar.description": "Minh họa trực quan các kỹ năng kỹ thuật dữ liệu.",
+
+    // Timeline
+    "timeline.badge": "Sự nghiệp",
+    "timeline.title": "Dòng Thời gian",
+    "timeline.description": "Hành trình phát triển sự nghiệp trong kỹ thuật dữ liệu.",
+
+    // Architecture
+    "architecture.badge": "Kiến trúc",
+    "architecture.title": "Kiến trúc Tương tác",
+    "architecture.description": "Khám phá kiến trúc pipeline dữ liệu hoàn chỉnh từ nguồn đến phân tích. Nhấn vào nút để xem chi tiết.",
+    "architecture.diagramTitle": "Kiến trúc Pipeline Dữ liệu",
+    "architecture.clearSelection": "Xóa lựa chọn",
+    "architecture.selectNode": "Nhấn vào nút để xem chi tiết",
+    "architecture.source": "Nguồn Dữ liệu",
+    "architecture.ingest": "Thu thập",
+    "architecture.bronze": "Tầng Đồng",
+    "architecture.silver": "Tầng Bạc",
+    "architecture.gold": "Tầng Vàng",
+    "architecture.analytics": "Phân tích",
+    "architecture.governance": "Quản trị",
+    "architecture.orchestration": "Điều phối",
+
+    // Resume Export
+    "resume.export.button": "Xuất PDF",
+    "resume.export.exporting": "Đang xuất...",
 
     // Search
     "search.title": "Tìm kiếm",

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Container from "@/components/ui/Container";
 import ExperienceHighlightCard from "@/components/experience/ExperienceHighlightCard";
+import ExportResume from "@/components/resume/ExportResume";
 import { siteConfig } from "@/data/site-config";
 import { experiences } from "@/data/experience";
 import { projects } from "@/data/projects";
@@ -77,13 +78,7 @@ export default function ResumePage() {
             </p>
           </div>
           <div className="flex gap-3">
-            <a
-              href="/CV_Nguyen_Minh_Duy_DataEngineer.pdf"
-              download
-              className="inline-flex h-11 items-center rounded-md bg-accent px-5 text-sm font-medium text-bg transition-colors hover:bg-accent-hover"
-            >
-              Download PDF
-            </a>
+            <ExportResume />
             <a
               href={siteConfig.linkedin}
               target="_blank"
