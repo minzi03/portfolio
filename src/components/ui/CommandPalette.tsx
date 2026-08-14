@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef, useMemo } from "react";
 import { fuzzySearch } from "@/lib/fuzzy-search";
 import { credentials } from "@/data/credentials";
+import { projects } from "@/data/projects";
 
 interface CommandItem {
   id: string;
@@ -44,19 +45,34 @@ export default function CommandPalette() {
     []
   );
 
-  const allItems = useMemo(() => [...NAV_ITEMS, ...credItems], [credItems]);
+  // Build project items
+  const projectItems: CommandItem[] = useMemo(
+    () =>
+      projects.map((p) => ({
+        id: `project-${p.id}`,
+        label: p.title,
+        category: p.category.replace(/-/g, " "),
+        href: `/projects/${p.slug}`,
+      })),
+    []
+  );
+
+  const allItems = useMemo(() => [...NAV_ITEMS, ...projectItems, ...credItems], [credItems, projectItems]);
 
   const results = useMemo(() => {
     if (!query.trim()) {
-      // Show nav items first, then first 5 credentials
-      return [...NAV_ITEMS.slice(0, 10)];
+      // Show nav items first, then featured projects
+      const featuredProjects = projectItems.filter((p) =>
+        projects.find((proj) => proj.id === p.id.replace("project-", "") && proj.featured)
+      );
+      return [...NAV_ITEMS.slice(0, 10), ...featuredProjects.slice(0, 3)];
     }
     const fuzzy = fuzzySearch(allItems, query, [
       (item) => item.label,
       (item) => item.category,
     ]);
-    return fuzzy.slice(0, 12).map((r) => r.item);
-  }, [query, allItems]);
+    return fuzzy.slice(0, 15).map((r) => r.item);
+  }, [query, allItems, projectItems]);
 
   // Keyboard shortcut: Cmd/Ctrl + K
   useEffect(() => {

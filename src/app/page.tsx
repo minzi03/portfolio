@@ -6,6 +6,7 @@ import ArchitecturePreview from "@/components/projects/ArchitecturePreview";
 import ExperienceHighlightCard from "@/components/experience/ExperienceHighlightCard";
 import SkillsProficiency from "@/components/skills/SkillsProficiency";
 import ArchitectureTeaser from "@/components/projects/ArchitectureTeaser";
+import ProjectGrid from "@/components/projects/ProjectGrid";
 import CredentialCardLink from "@/components/credentials/CredentialCardLink";
 import CredentialTrustBadge from "@/components/credentials/CredentialTrustBadge";
 import { siteConfig } from "@/data/site-config";
@@ -28,8 +29,8 @@ function Hero() {
   ];
 
   const proofStats = [
-    { target: 4.6, suffix: "M+", decimals: 1, label: "Transactions" },
-    { target: 53, suffix: "", decimals: 0, label: "Tables" },
+    { target: 10, suffix: "", decimals: 0, label: "Projects" },
+    { target: 95, suffix: "M+", decimals: 0, label: "Records Processed" },
     { target: 28, suffix: "", decimals: 0, label: "Credentials" },
     { target: 47, suffix: "", decimals: 0, label: "Skills" },
   ];
@@ -260,69 +261,21 @@ function FlagshipProject() {
 
 /* ═══════════════════════════════════════════════════════════════
    04 — PROJECTS GRID
-   All projects except the featured one
+   All projects except the featured one — with filtering
    ═══════════════════════════════════════════════════════════════ */
 function ProjectsGrid() {
-  const otherProjects = projects.filter((p) => !p.featured);
-
   return (
     <section id="projects" aria-label="All projects" className="border-b border-border bg-bg-surface py-16">
       <Container>
         <div className="mb-8">
           <p className="mb-1 font-mono text-xs uppercase tracking-widest text-accent">Portfolio</p>
           <h2 className="text-2xl font-bold tracking-tight text-text-primary">All Projects</h2>
+          <p className="mt-2 max-w-2xl text-sm text-text-muted">
+            {projects.length - 1} projects across data platforms, cloud data, analytics, and data warehousing.
+          </p>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {otherProjects.map((project) => (
-            <Link
-              key={project.id}
-              href={`/projects/${project.slug}`}
-              aria-label={`View case study for ${project.title}`}
-              className="card-hover group flex flex-col rounded-md border border-border bg-bg p-5 transition-colors hover:border-accent/30"
-            >
-              {/* Category + status badges */}
-              <div className="flex items-center gap-2">
-                <span className="rounded bg-accent/10 px-2 py-0.5 text-[11px] font-medium text-accent">
-                  {project.category.replace(/-/g, " ")}
-                </span>
-                {project.status === "complete" && (
-                  <span className="rounded bg-green-500/10 px-2 py-0.5 text-[11px] font-medium text-green-400">
-                    Complete
-                  </span>
-                )}
-              </div>
-
-              {/* Title + subtitle */}
-              <h3 className="mt-3 text-base font-semibold text-text-primary group-hover:text-accent">
-                {project.title}
-              </h3>
-              <p className="mt-1 text-sm text-text-secondary line-clamp-2">
-                {project.subtitle}
-              </p>
-
-              {/* Tech stack */}
-              <div className="mt-auto pt-3 flex flex-wrap gap-1.5">
-                {project.tech.slice(0, 4).map((t) => (
-                  <span key={t} className="rounded-sm border border-border bg-bg-surface px-1.5 py-0.5 font-mono text-[10px] text-text-muted">
-                    {t}
-                  </span>
-                ))}
-                {project.tech.length > 4 && (
-                  <span className="rounded-sm border border-border bg-bg-surface px-1.5 py-0.5 font-mono text-[10px] text-text-muted">
-                    +{project.tech.length - 4}
-                  </span>
-                )}
-              </div>
-
-              {/* Link arrow */}
-              <div className="mt-3 flex items-center gap-1.5 text-sm text-accent">
-                <span>Case Study</span>
-                <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">→</span>
-              </div>
-            </Link>
-          ))}
-        </div>
+        <ProjectGrid />
       </Container>
     </section>
   );
