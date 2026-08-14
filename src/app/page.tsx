@@ -493,23 +493,23 @@ function ProofAndKnowledge() {
   return (
     <section id="knowledge" aria-label="Credentials" className="border-b border-border bg-bg-surface py-16">
       <Container>
-        <div className="mb-8 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+        <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p className="mb-1 font-mono text-xs uppercase tracking-widest text-accent">Credentials</p>
-            <h2 className="text-2xl font-bold tracking-tight text-text-primary">
+            <h2 className="text-lg font-bold tracking-tight text-text-primary">
               {featuredCredentials.length} Key Certifications
             </h2>
           </div>
           <Link
             href="/credentials"
-            className="text-sm font-medium text-accent hover:text-accent-hover"
+            className="text-xs font-medium text-accent hover:text-accent-hover"
           >
             View all {credentials.length} credentials →
           </Link>
         </div>
 
         {/* Credentials grid — compact 2-col */}
-        <div className="grid gap-3 sm:grid-cols-2">
+        <div className="grid gap-2 sm:grid-cols-2">
           {featuredCredentials.map((cred) => (
             <CredentialCardLink key={cred.id} credential={cred} />
           ))}

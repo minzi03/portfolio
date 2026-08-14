@@ -37,7 +37,7 @@ export default function CredentialCard({ credential, onClick }: CredentialCardPr
     >
       {/* Certificate image, PDF, or placeholder */}
       {hasImage && imageAsset ? (
-        <div className="relative aspect-[4/3] overflow-hidden bg-bg">
+        <div className="relative aspect-[16/7] overflow-hidden bg-bg">
           <Image
             src={imageAsset.asset}
             alt={`${credential.title} — certificate issued by ${credential.issuer}`}
@@ -48,7 +48,7 @@ export default function CredentialCard({ credential, onClick }: CredentialCardPr
           />
         </div>
       ) : hasPdf && pdfAsset ? (
-        <div className="relative aspect-[4/3] overflow-hidden bg-bg">
+        <div className="relative aspect-[16/7] overflow-hidden bg-bg">
           <object
             data={pdfAsset.asset}
             type="application/pdf"
@@ -56,39 +56,39 @@ export default function CredentialCard({ credential, onClick }: CredentialCardPr
             aria-label={`${credential.title} — PDF certificate`}
           >
             <div className="flex h-full w-full items-center justify-center">
-              <span className="text-4xl text-text-muted/30">📄</span>
+              <span className="text-3xl text-text-muted/30">📄</span>
             </div>
           </object>
         </div>
       ) : (
-        <div className={`flex aspect-[4/3] items-center justify-center ${meta.bg}`}>
-          <span className={`text-4xl ${meta.color}`}>{meta.icon}</span>
+        <div className={`flex aspect-[16/7] items-center justify-center ${meta.bg}`}>
+          <span className={`text-3xl ${meta.color}`}>{meta.icon}</span>
         </div>
       )}
 
       {/* Info */}
-      <div className="p-3">
+      <div className="p-2.5">
         {/* Category + Type badges */}
         <div className="flex items-center gap-1.5">
-          <span className={`inline-flex items-center gap-1 rounded-sm ${meta.bg} px-1.5 py-0.5 text-[9px] font-medium ${meta.color}`}>
+          <span className={`inline-flex items-center gap-1 rounded-sm ${meta.bg} px-1.5 py-0.5 text-[8px] font-medium ${meta.color}`}>
             {meta.icon} {categoryLabels[credential.category]}
           </span>
-          <span className="text-[9px] text-text-muted">
+          <span className="text-[8px] text-text-muted">
             {credentialTypeLabels[credential.credentialType]}
           </span>
         </div>
 
         {/* Title — max 2 lines */}
-        <h3 className="mt-2 text-sm font-semibold leading-snug text-text-primary group-hover:text-accent line-clamp-2">
+        <h3 className="mt-1.5 text-xs font-semibold leading-snug text-text-primary group-hover:text-accent line-clamp-2">
           {credential.title}
         </h3>
 
         {/* Issuer · Date */}
-        <p className="mt-1 text-xs text-text-muted">
+        <p className="mt-0.5 text-[11px] text-text-muted">
           {credential.issuer}
           {credential.issued && (
             <>
-              <span className="mx-1.5">·</span>
+              <span className="mx-1">·</span>
               {credential.issued}
             </>
           )}
@@ -96,17 +96,17 @@ export default function CredentialCard({ credential, onClick }: CredentialCardPr
 
         {/* Skills preview — show first 2 */}
         {credential.skills && credential.skills.length > 0 && (
-          <div className="mt-2 flex flex-wrap gap-1">
+          <div className="mt-1.5 flex flex-wrap gap-1">
             {credential.skills.slice(0, 2).map((skill) => (
               <span
                 key={skill}
-                className="rounded border border-border bg-bg px-1.5 py-0.5 text-[9px] text-text-muted"
+                className="rounded border border-border bg-bg px-1.5 py-0.5 text-[8px] text-text-muted"
               >
                 {skill}
               </span>
             ))}
             {credential.skills.length > 2 && (
-              <span className="text-[9px] text-text-muted">
+              <span className="text-[8px] text-text-muted">
                 +{credential.skills.length - 2}
               </span>
             )}
@@ -114,15 +114,15 @@ export default function CredentialCard({ credential, onClick }: CredentialCardPr
         )}
 
         {/* Trust badge + CTA */}
-        <div className="mt-2.5 flex items-center justify-between">
+        <div className="mt-2 flex items-center justify-between">
           <CredentialTrustBadge level={credential.evidence} />
 
           {hasVerifyUrl ? (
-            <span className="text-[11px] text-accent transition-colors hover:text-accent-hover">
+            <span className="text-[10px] text-accent transition-colors hover:text-accent-hover">
               Verify ↗
             </span>
           ) : (hasImage || hasPdf) ? (
-            <span className="text-[11px] text-text-muted transition-colors group-hover:text-accent">
+            <span className="text-[10px] text-text-muted transition-colors group-hover:text-accent">
               View evidence →
             </span>
           ) : null}
