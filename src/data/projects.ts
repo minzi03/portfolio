@@ -54,10 +54,10 @@ export const projects: Project[] = [
   {
     id: "modern-data-stack",
     slug: "modern-data-stack",
-    title: "Modern Data Stack Pipeline",
-    subtitle: "ELT pipeline with CDC, SCD Type 2, and Snowflake",
+    title: "Modern Datastack Pipeline",
+    subtitle: "CDC-based ELT with Kafka, Snowflake & dbt — 9 Docker services, 28 dbt tests",
     summary:
-      "Built an ELT pipeline using Python, PostgreSQL, Debezium, Kafka, Snowflake, dbt, and MinIO for SCD Type 2 dimension management. Designed a 5-table pipeline handling incremental loads and slowly changing dimensions for analytics-ready data.",
+      "End-to-end CDC pipeline: PostgreSQL WAL → Debezium (pgoutput) → Kafka → Python micro-batch consumer (50 records/30s) → MinIO Parquet lake → Airflow orchestration (10 tasks, 5-min schedule) → Snowflake COPY INTO → dbt (staging views → SCD2 snapshots → star schema marts). 9 dbt models, 28 dbt tests, 13 Python unit tests, 2 CI/CD workflows. Idempotent ingestion via Airflow Variables, SCD Type 2 for customer/account history, ShortCircuitOperator for empty batch optimization.",
     category: "data-platform",
     status: "complete",
     scope: "portfolio-demo",
@@ -71,8 +71,11 @@ export const projects: Project[] = [
       "Snowflake",
       "dbt",
       "MinIO",
+      "Apache Airflow",
+      "Docker Compose",
+      "GitHub Actions",
     ],
-    tags: ["cdc", "elt", "snowflake", "dbt", "streaming"],
+    tags: ["cdc", "elt", "snowflake", "dbt", "streaming", "scd-type-2", "micro-batch", "docker", "ci-cd"],
     github: "https://github.com/minzi03/Modern-Datastack-Pipeline",
     relatedExperienceIds: ["quanskill-data-engineer-intern"],
     // Engineering reasoning
