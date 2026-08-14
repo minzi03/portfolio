@@ -6,9 +6,10 @@ import CredentialTrustBadge from "./CredentialTrustBadge";
 interface CredentialCardProps {
   credential: Credential;
   onClick: (trigger: HTMLElement) => void;
+  compact?: boolean;
 }
 
-export default function CredentialCard({ credential, onClick }: CredentialCardProps) {
+export default function CredentialCard({ credential, onClick, compact = false }: CredentialCardProps) {
   const confirmedAssets = credential.evidenceAssets.filter(
     (a) => a.reviewState === "confirmed"
   );
@@ -23,6 +24,38 @@ export default function CredentialCard({ credential, onClick }: CredentialCardPr
   const hasVerifyUrl = Boolean(credential.verifyUrl);
 
   const meta = categoryMeta[credential.category];
+
+  if (compact) {
+    return (
+      <button
+        type="button"
+        onClick={(e) => onClick(e.currentTarget)}
+        aria-label={`${credential.title} — ${credential.issuer} — ${categoryLabels[credential.category]}`}
+        className={`group w-full overflow-hidden rounded-lg border bg-bg-surface text-left transition-all hover:shadow-sm cursor-pointer ${
+          credential.featured
+            ? "border-accent/20 hover:border-accent/40"
+            : "border-border hover:border-accent/20"
+        }`}
+      >
+        <div className="p-2">
+          {/* Category icon */}
+          <div className={`flex h-8 w-8 items-center justify-center rounded ${meta.bg}`}>
+            <span className={`text-sm ${meta.color}`}>{meta.icon}</span>
+          </div>
+
+          {/* Title — max 2 lines */}
+          <h3 className="mt-2 text-[11px] font-semibold leading-snug text-text-primary group-hover:text-accent line-clamp-2">
+            {credential.title}
+          </h3>
+
+          {/* Issuer */}
+          <p className="mt-0.5 text-[9px] text-text-muted line-clamp-1">
+            {credential.issuer}
+          </p>
+        </div>
+      </button>
+    );
+  }
 
   return (
     <button
