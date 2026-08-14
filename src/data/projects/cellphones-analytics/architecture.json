@@ -1,0 +1,70 @@
+{
+  "title": "Architecture: CellphoneS Retail Analytics Pipeline",
+  "description": "BI-ready analytics pipeline for Vietnamese phone retail chain (CellphoneS) with string-first CSV ingestion, Star Schema warehouse, 68 structured quality checks, and Power BI semantic model with 35+ DAX measures.",
+  "layers": [
+    {
+      "id": "sources",
+      "label": "Source Layer",
+      "nodes": [
+        { "id": "transactions", "label": "Sales Transactions", "type": "source", "description": "1,815 transaction records with product, store, quantity, revenue", "tech": ["CSV"] },
+        { "id": "inventory", "label": "Inventory Snapshots", "type": "source", "description": "1,350 periodic inventory records with stock levels", "tech": ["CSV"] },
+        { "id": "products", "label": "Product Catalog", "type": "source", "description": "10 phone products with brand, category, cost", "tech": ["CSV"] },
+        { "id": "stores", "label": "Store Directory", "type": "source", "description": "15 stores with region, RSM, AM hierarchy", "tech": ["CSV"] },
+        { "id": "targets", "label": "Sales Targets", "type": "source", "description": "45 monthly store-level sales targets", "tech": ["CSV"] }
+      ]
+    },
+    {
+      "id": "ingestion",
+      "label": "Ingestion Layer",
+      "nodes": [
+        { "id": "string-first", "label": "String-first Reader", "type": "processing", "description": "All CSVs read as dtype='string' to preserve leading zeros, then explicit type coercion via ColumnSpec contracts", "tech": ["Python", "Pandas"] }
+      ]
+    },
+    {
+      "id": "processing",
+      "label": "Processing Layer",
+      "nodes": [
+        { "id": "cleansing", "label": "Data Cleansing", "type": "processing", "description": "Deduplication, quarantine-first approach for conflicts, return handling with sign preservation", "tech": ["Python", "Pandas"] },
+        { "id": "quality", "label": "Quality Framework", "type": "governance", "description": "68 structured checks: schema compliance, null detection, uniqueness, FK integrity, inventory balance, grain validation", "tech": ["Python", "Pytest"] }
+      ]
+    },
+    {
+      "id": "modeling",
+      "label": "Modeling Layer",
+      "nodes": [
+        { "id": "star-schema", "label": "Star Schema", "type": "lakehouse", "description": "3 dimensions (date, store, product) + 3 facts (sales, inventory, target) + 1 operations mart", "tech": ["SQL"] },
+        { "id": "dim-date", "label": "Dim Date", "type": "layer", "description": "Calendar dimension with fiscal periods", "tech": ["SQL"] },
+        { "id": "dim-store", "label": "Dim Store", "type": "layer", "description": "Denormalized with Region/RSM/AM hierarchy", "tech": ["SQL"] },
+        { "id": "dim-product", "label": "Dim Product", "type": "layer", "description": "Denormalized with Brand/Category", "tech": ["SQL"] }
+      ]
+    },
+    {
+      "id": "output",
+      "label": "Output Layer",
+      "nodes": [
+        { "id": "parquet", "label": "Parquet Output", "type": "storage", "description": "Snappy-compressed Parquet for production BigQuery/Power BI ingestion", "tech": ["Parquet"] },
+        { "id": "csv-export", "label": "CSV Export", "type": "storage", "description": "UTF-8-SIG CSV for human inspection and audit", "tech": ["CSV"] }
+      ]
+    },
+    {
+      "id": "analytics",
+      "label": "Analytics Layer",
+      "nodes": [
+        { "id": "power-bi", "label": "Power BI Semantic Model", "type": "bi", "description": "35+ DAX measures: revenue, target achievement, inventory status, reconciliation, ranking", "tech": ["Power BI", "DAX"] }
+      ]
+    }
+  ],
+  "connections": [
+    { "from": "transactions", "to": "string-first", "label": "read" },
+    { "from": "inventory", "to": "string-first", "label": "read" },
+    { "from": "products", "to": "string-first", "label": "read" },
+    { "from": "stores", "to": "string-first", "label": "read" },
+    { "from": "targets", "to": "string-first", "label": "read" },
+    { "from": "string-first", "to": "cleansing", "label": "typed DataFrames" },
+    { "from": "cleansing", "to": "star-schema", "label": "populate" },
+    { "from": "star-schema", "to": "quality", "label": "validate" },
+    { "from": "star-schema", "to": "parquet", "label": "write" },
+    { "from": "star-schema", "to": "csv-export", "label": "write" },
+    { "from": "parquet", "to": "power-bi", "label": "import" }
+  ]
+}

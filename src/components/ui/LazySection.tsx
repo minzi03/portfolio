@@ -66,3 +66,13 @@ export const LazyProjectEvidence = dynamic(
     ),
   }
 );
+
+export const LazyInteractiveDiagram = dynamic(
+  () => import("@/components/graphs/InteractiveDiagram"),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="h-96 animate-pulse rounded-xl border border-zinc-700/30 bg-zinc-800/20" />
+    ),
+  }
+);

@@ -1,0 +1,67 @@
+{
+  "title": "Architecture: Movie Data Warehouse & OLAP Solution",
+  "description": "End-to-end Microsoft BI stack data warehouse for TMDB movie data: Python preprocessing, SSIS ETL loading Star Schema, SSAS MOLAP cube with MDX queries, served via SSRS/Power BI/Excel reporting, with ML revenue prediction extension.",
+  "layers": [
+    {
+      "id": "source",
+      "label": "Source Layer",
+      "nodes": [
+        { "id": "tmdb-csv", "label": "TMDB CSV Dataset", "type": "source", "description": "1.16M movies with 24 columns from Kaggle TMDB v11 dataset (204.7 MB)", "tech": ["CSV", "Kaggle"] }
+      ]
+    },
+    {
+      "id": "preprocessing",
+      "label": "Preprocessing Layer",
+      "nodes": [
+        { "id": "python-clean", "label": "Python/Pandas Preprocessing", "type": "processing", "description": "Null imputation, median zero-replacement, list splitting, feature binning, 57 ML features", "tech": ["Python", "Pandas"] }
+      ]
+    },
+    {
+      "id": "etl",
+      "label": "ETL Layer",
+      "nodes": [
+        { "id": "ssis", "label": "SQL Server SSIS", "type": "processing", "description": "Dimension and fact loading with data flow tasks and constraint management", "tech": ["SSIS", "SQL Server"] }
+      ]
+    },
+    {
+      "id": "storage",
+      "label": "Storage Layer",
+      "nodes": [
+        { "id": "sql-server", "label": "SQL Server Warehouse", "type": "storage", "description": "Star Schema: 8 dimension tables (Date, Movie, Genre, Company, Country, Language, Runtime, Adult) + 1 fact table", "tech": ["SQL Server"] }
+      ]
+    },
+    {
+      "id": "olap",
+      "label": "OLAP Layer",
+      "nodes": [
+        { "id": "ssas", "label": "SSAS MOLAP Cube", "type": "lakehouse", "description": "Multidimensional cube with 7 measures, 8 dimensions, time hierarchy (Year-Quarter-Month-Day)", "tech": ["SSAS", "MDX"] }
+      ]
+    },
+    {
+      "id": "reporting",
+      "label": "Reporting Layer",
+      "nodes": [
+        { "id": "ssrs", "label": "SSRS Reports", "type": "bi", "description": "3 paginated reports connected via OLEDB-MD data source", "tech": ["SSRS"] },
+        { "id": "power-bi", "label": "Power BI Dashboard", "type": "bi", "description": "Interactive dashboard (71.5 MB) with movie analytics", "tech": ["Power BI"] },
+        { "id": "excel", "label": "Excel PivotTable", "type": "bi", "description": "107 MB workbook with PivotTable analysis", "tech": ["Excel"] }
+      ]
+    },
+    {
+      "id": "ml",
+      "label": "ML Layer",
+      "nodes": [
+        { "id": "revenue-model", "label": "Revenue Prediction", "type": "processing", "description": "SVR model predicting box-office revenue from 57 features, 94.14% accuracy, R2=0.92", "tech": ["Scikit-learn", "SVR", "Python"] }
+      ]
+    }
+  ],
+  "connections": [
+    { "from": "tmdb-csv", "to": "python-clean", "label": "read CSV" },
+    { "from": "python-clean", "to": "ssis", "label": "cleaned data" },
+    { "from": "ssis", "to": "sql-server", "label": "load dimensions + fact" },
+    { "from": "sql-server", "to": "ssas", "label": "process cube" },
+    { "from": "ssas", "to": "ssrs", "label": "OLEDB-MD" },
+    { "from": "ssas", "to": "power-bi", "label": "connect" },
+    { "from": "ssas", "to": "excel", "label": "connect" },
+    { "from": "python-clean", "to": "revenue-model", "label": "train/predict" }
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "title": "Architecture: Modern Data Stack — CDC-based ELT Pipeline",
+  "description": "End-to-end CDC-based ELT pipeline capturing PostgreSQL OLTP changes via Debezium, buffering through Kafka to MinIO data lake, loading into Snowflake, and transforming with dbt into analytics-ready Star Schema.",
+  "layers": [
+    {
+      "id": "source",
+      "label": "Source Layer",
+      "nodes": [
+        { "id": "postgresql", "label": "PostgreSQL OLTP", "type": "source", "description": "Banking source database with customers, accounts, and transactions tables", "tech": ["PostgreSQL 15"] }
+      ]
+    },
+    {
+      "id": "ingestion",
+      "label": "Ingestion Layer",
+      "nodes": [
+        { "id": "debezium", "label": "Debezium CDC", "type": "cdc", "description": "Captures INSERT/UPDATE/DELETE via PostgreSQL WAL logical replication with pgoutput", "tech": ["Debezium", "Kafka Connect"] },
+        { "id": "kafka", "label": "Apache Kafka", "type": "streaming", "description": "Transport CDC events across 3 topics: customers, accounts, transactions", "tech": ["Apache Kafka", "Zookeeper"] }
+      ]
+    },
+    {
+      "id": "processing",
+      "label": "Processing Layer",
+      "nodes": [
+        { "id": "python-consumer", "label": "Python Micro-batch Consumer", "type": "processing", "description": "Buffers 50 records or 30s of data, writes Parquet files to MinIO", "tech": ["Python", "kafka-python", "PyArrow"] }
+      ]
+    },
+    {
+      "id": "storage",
+      "label": "Storage Layer",
+      "nodes": [
+        { "id": "minio", "label": "MinIO Data Lake", "type": "storage", "description": "S3-compatible object store for Parquet files as persistent, replayable data lake", "tech": ["MinIO"] }
+      ]
+    },
+    {
+      "id": "warehouse",
+      "label": "Warehouse Layer",
+      "nodes": [
+        { "id": "snowflake", "label": "Snowflake", "type": "lakehouse", "description": "Cloud data warehouse with COPY INTO for bulk Parquet ingestion", "tech": ["Snowflake"] }
+      ]
+    },
+    {
+      "id": "transformation",
+      "label": "Transformation Layer",
+      "nodes": [
+        { "id": "dbt", "label": "dbt", "type": "transformation", "description": "Staging views, SCD2 snapshots, dimension tables, incremental fact with CDC dedup", "tech": ["dbt"] }
+      ]
+    },
+    {
+      "id": "orchestration",
+      "label": "Orchestration Layer",
+      "nodes": [
+        { "id": "airflow", "label": "Apache Airflow", "type": "orchestration", "description": "Main ELT DAG (5min), ingestion DAG, SCD2 snapshots DAG with ShortCircuitOperator", "tech": ["Apache Airflow"] }
+      ]
+    },
+    {
+      "id": "analytics",
+      "label": "Analytics Layer",
+      "nodes": [
+        { "id": "star-schema", "label": "Star Schema Marts", "type": "bi", "description": "Dimension tables (customers, accounts) and incremental fact (transactions) in ANALYTICS schema", "tech": ["dbt", "SQL"] }
+      ]
+    }
+  ],
+  "connections": [
+    { "from": "postgresql", "to": "debezium", "label": "WAL logical replication" },
+    { "from": "debezium", "to": "kafka", "label": "CDC events" },
+    { "from": "kafka", "to": "python-consumer", "label": "consume" },
+    { "from": "python-consumer", "to": "minio", "label": "write Parquet" },
+    { "from": "minio", "to": "snowflake", "label": "COPY INTO" },
+    { "from": "snowflake", "to": "dbt", "label": "transform" },
+    { "from": "dbt", "to": "star-schema", "label": "materialize" },
+    { "from": "airflow", "to": "python-consumer", "label": "schedule" },
+    { "from": "airflow", "to": "dbt", "label": "orchestrate" }
+  ]
+}

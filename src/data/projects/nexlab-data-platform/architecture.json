@@ -1,0 +1,88 @@
+{
+  "title": "Architecture: NexLab NYC Taxi Data Platform",
+  "description": "Automated Lakehouse platform for 78M+ NYC taxi trip records using Apache Iceberg on MinIO, Spark processing, Airflow orchestration, Trino query engine, and bilingual Streamlit dashboard.",
+  "layers": [
+    {
+      "id": "source",
+      "label": "Source Layer",
+      "nodes": [
+        { "id": "nyc-tlc", "label": "NYC TLC Parquet Files", "type": "source", "description": "24 monthly Parquet files (2022-2023) with 78M+ records, ~10 GB compressed", "tech": ["Parquet", "NYC TLC"] }
+      ]
+    },
+    {
+      "id": "ingestion",
+      "label": "Ingestion Layer",
+      "nodes": [
+        { "id": "spark-ingest", "label": "Spark Ingestion", "type": "processing", "description": "Reads individual Parquet files with unionByName for schema variation handling", "tech": ["Apache Spark", "PySpark"] }
+      ]
+    },
+    {
+      "id": "lakehouse",
+      "label": "Lakehouse Layer",
+      "nodes": [
+        { "id": "minio", "label": "MinIO Object Storage", "type": "storage", "description": "S3-compatible storage for Iceberg table data and metadata", "tech": ["MinIO"] },
+        { "id": "iceberg", "label": "Apache Iceberg", "type": "lakehouse", "description": "Open table format with REST catalog, time travel, schema evolution, hidden partitioning", "tech": ["Apache Iceberg 1.4.3"] }
+      ]
+    },
+    {
+      "id": "medallion",
+      "label": "Medallion Layers",
+      "nodes": [
+        { "id": "bronze", "label": "Bronze", "type": "layer", "description": "Raw ingested taxi trip data (2 tables)", "tech": ["Iceberg"] },
+        { "id": "silver", "label": "Silver", "type": "layer", "description": "Cleansed and validated trip data with SHA-256 surrogate keys (2 tables)", "tech": ["Iceberg"] },
+        { "id": "gold", "label": "Gold", "type": "layer", "description": "Business-ready aggregates for revenue trends, zone performance, hourly demand (3 tables)", "tech": ["Iceberg"] }
+      ]
+    },
+    {
+      "id": "processing",
+      "label": "Processing Layer",
+      "nodes": [
+        { "id": "spark-process", "label": "Spark Processing", "type": "processing", "description": "7 ETL jobs for Bronze/Silver/Gold transformations with structlog logging", "tech": ["Apache Spark"] },
+        { "id": "dq-checks", "label": "Data Quality Framework", "type": "governance", "description": "18 quality checks (not_null, uniqueness, row_count, range) with PostgreSQL persistence", "tech": ["Python", "PostgreSQL"] }
+      ]
+    },
+    {
+      "id": "query",
+      "label": "Query Layer",
+      "nodes": [
+        { "id": "trino", "label": "Trino 435", "type": "bi", "description": "Fast interactive OLAP queries on Iceberg tables for dashboard serving", "tech": ["Trino"] }
+      ]
+    },
+    {
+      "id": "orchestration",
+      "label": "Orchestration Layer",
+      "nodes": [
+        { "id": "airflow", "label": "Apache Airflow", "type": "orchestration", "description": "7-task DAG: Bronze, Silver x2, Gold x3, DQ via SparkSubmitOperator", "tech": ["Apache Airflow"] }
+      ]
+    },
+    {
+      "id": "serving",
+      "label": "Serving Layer",
+      "nodes": [
+        { "id": "streamlit", "label": "Streamlit Dashboard", "type": "bi", "description": "Bilingual (EN/VI) interactive dashboard with Plotly charts for daily revenue, zone performance, hourly demand", "tech": ["Streamlit", "Plotly"] },
+        { "id": "fastapi", "label": "FastAPI Metadata", "type": "governance", "description": "REST API for ETL flags, DQ results, and pipeline audit logs", "tech": ["FastAPI"] }
+      ]
+    },
+    {
+      "id": "metadata",
+      "label": "Metadata Layer",
+      "nodes": [
+        { "id": "postgresql-ops", "label": "PostgreSQL Ops", "type": "storage", "description": "Separate ops schema for ETL flags, DQ results, pipeline audit logs", "tech": ["PostgreSQL"] }
+      ]
+    }
+  ],
+  "connections": [
+    { "from": "nyc-tlc", "to": "spark-ingest", "label": "read Parquet" },
+    { "from": "spark-ingest", "to": "bronze", "label": "write Iceberg" },
+    { "from": "minio", "to": "iceberg", "label": "store data" },
+    { "from": "bronze", "to": "silver", "label": "Spark ETL" },
+    { "from": "silver", "to": "gold", "label": "Spark aggregate" },
+    { "from": "iceberg", "to": "trino", "label": "query" },
+    { "from": "trino", "to": "streamlit", "label": "serve" },
+    { "from": "airflow", "to": "spark-process", "label": "SparkSubmit" },
+    { "from": "spark-process", "to": "dq-checks", "label": "validate" },
+    { "from": "dq-checks", "to": "postgresql-ops", "label": "persist results" },
+    { "from": "postgresql-ops", "to": "fastapi", "label": "expose" },
+    { "from": "fastapi", "to": "streamlit", "label": "metadata" }
+  ]
+}

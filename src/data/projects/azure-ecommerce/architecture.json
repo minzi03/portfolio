@@ -1,0 +1,64 @@
+{
+  "title": "Architecture: Azure E-Commerce Data Platform",
+  "description": "Cloud-native Azure data platform ingesting from heterogeneous sources (MySQL, MongoDB, HTTP, CSV) through ADF into ADLS Bronze/Silver/Gold layers via Databricks, served via Synapse Serverless SQL to Power BI.",
+  "layers": [
+    {
+      "id": "sources",
+      "label": "Source Layer",
+      "nodes": [
+        { "id": "mysql", "label": "MySQL OLTP", "type": "source", "description": "Olist e-commerce tables: orders, items, payments, customers, sellers, geolocation", "tech": ["MySQL"] },
+        { "id": "mongodb", "label": "MongoDB", "type": "source", "description": "Product catalog collection with nested category translations", "tech": ["MongoDB"] },
+        { "id": "github-api", "label": "GitHub HTTP API", "type": "source", "description": "Category name translations CSV hosted on GitHub", "tech": ["REST API"] },
+        { "id": "local-csv", "label": "Local CSV", "type": "source", "description": "Brazilian geolocation latitude/longitude dataset", "tech": ["CSV"] }
+      ]
+    },
+    {
+      "id": "ingestion",
+      "label": "Ingestion Layer",
+      "nodes": [
+        { "id": "adf", "label": "Azure Data Factory", "type": "orchestration", "description": "Parameterized Lookup-ForEach pipeline with Self-hosted IR for on-prem sources", "tech": ["Azure Data Factory", "Self-hosted IR"] },
+        { "id": "logic-app", "label": "Logic App Alerting", "type": "governance", "description": "WebActivity callback for email notification on pipeline completion/failure", "tech": ["Azure Logic Apps"] }
+      ]
+    },
+    {
+      "id": "storage",
+      "label": "Storage Layer",
+      "nodes": [
+        { "id": "adls", "label": "Azure Data Lake Gen2", "type": "storage", "description": "Bronze (raw CSV/JSON), Silver (cleansed Delta), Gold (Star Schema Delta)", "tech": ["ADLS Gen2"] }
+      ]
+    },
+    {
+      "id": "processing",
+      "label": "Processing Layer",
+      "nodes": [
+        { "id": "databricks", "label": "Azure Databricks", "type": "processing", "description": "PySpark notebooks for Bronze-to-Silver cleansing and Silver-to-Gold Star Schema modeling", "tech": ["Azure Databricks", "PySpark", "Delta Lake"] }
+      ]
+    },
+    {
+      "id": "serving",
+      "label": "Serving Layer",
+      "nodes": [
+        { "id": "synapse", "label": "Synapse Serverless SQL", "type": "bi", "description": "OPENROWSET over Delta/Parquet with 19 views (8 dim + 5 fact + 6 BI views)", "tech": ["Azure Synapse"] }
+      ]
+    },
+    {
+      "id": "analytics",
+      "label": "Analytics Layer",
+      "nodes": [
+        { "id": "power-bi", "label": "Power BI", "type": "bi", "description": "Interactive dashboards for sales, customer behavior, logistics, and payment analysis", "tech": ["Power BI"] }
+      ]
+    }
+  ],
+  "connections": [
+    { "from": "mysql", "to": "adf", "label": "JDBC extract" },
+    { "from": "mongodb", "to": "adf", "label": "Export query" },
+    { "from": "github-api", "to": "adf", "label": "HTTP copy" },
+    { "from": "local-csv", "to": "adf", "label": "File copy" },
+    { "from": "adf", "to": "adls", "label": "Bronze load" },
+    { "from": "adls", "to": "databricks", "label": "read" },
+    { "from": "databricks", "to": "adls", "label": "write Delta" },
+    { "from": "adls", "to": "synapse", "label": "OPENROWSET" },
+    { "from": "synapse", "to": "power-bi", "label": "DirectQuery" },
+    { "from": "adf", "to": "logic-app", "label": "WebActivity" }
+  ]
+}

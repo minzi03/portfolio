@@ -1,0 +1,55 @@
+{
+  "title": "Architecture: Vietnamese Pharma Stock Forecasting",
+  "description": "Comparative stock price forecasting pipeline for 3 Vietnamese pharmaceutical companies (AMV, DHT, DP3) using 8 models spanning statistical, ML, and deep learning with temporal train-test splits across 30/60/90-day horizons.",
+  "layers": [
+    {
+      "id": "source",
+      "label": "Source Layer",
+      "nodes": [
+        { "id": "investing-api", "label": "Investing.com Data", "type": "source", "description": "Historical OHLCV data for AMV (1,313), DHT (1,312), DP3 (1,137) from Mar 2019 - May 2024", "tech": ["Web Scraping", "CSV"] }
+      ]
+    },
+    {
+      "id": "preprocessing",
+      "label": "Preprocessing Layer",
+      "nodes": [
+        { "id": "data-prep", "label": "Data Preparation", "type": "processing", "description": "Temporal sorting, MinMaxScaler normalization, lookback window creation (time_step=30 for LSTM/RNN, 100 for GRU)", "tech": ["Python", "Pandas", "Scikit-learn"] }
+      ]
+    },
+    {
+      "id": "models",
+      "label": "Model Layer",
+      "nodes": [
+        { "id": "statistical", "label": "Statistical Models", "type": "processing", "description": "Linear Regression, LR with Calendar Fourier + DeterministicProcess, FFT frequency decomposition", "tech": ["Python", "Statsmodels"] },
+        { "id": "ml-models", "label": "ML Models", "type": "processing", "description": "ARIMA (auto-selected via pmdarima), LightGBM hybrid (LSTM predictions + OHLC features)", "tech": ["Python", "pmdarima", "LightGBM"] },
+        { "id": "deep-learning", "label": "Deep Learning Models", "type": "processing", "description": "3-layer stacked LSTM (50 units), single-layer GRU, 4-layer SimpleRNN with dropout", "tech": ["Python", "TensorFlow", "Keras"] }
+      ]
+    },
+    {
+      "id": "evaluation",
+      "label": "Evaluation Layer",
+      "nodes": [
+        { "id": "metrics", "label": "Evaluation Framework", "type": "governance", "description": "RMSE, MAPE, MSLE across 72 configurations (8 models x 3 companies x 3 splits)", "tech": ["Python", "NumPy"] }
+      ]
+    },
+    {
+      "id": "reporting",
+      "label": "Reporting Layer",
+      "nodes": [
+        { "id": "jupyter", "label": "Jupyter Notebooks", "type": "bi", "description": "42 notebooks (32 model + 6 lab + 4 class examples) with visualizations", "tech": ["Jupyter", "Matplotlib"] },
+        { "id": "ieee-report", "label": "IEEE OJIES Report", "type": "bi", "description": "957-line LaTeX report with 113 figures and 87 bibliography references", "tech": ["LaTeX"] }
+      ]
+    }
+  ],
+  "connections": [
+    { "from": "investing-api", "to": "data-prep", "label": "load data" },
+    { "from": "data-prep", "to": "statistical", "label": "normalized series" },
+    { "from": "data-prep", "to": "ml-models", "label": "normalized series" },
+    { "from": "data-prep", "to": "deep-learning", "label": "windowed sequences" },
+    { "from": "statistical", "to": "metrics", "label": "predictions" },
+    { "from": "ml-models", "to": "metrics", "label": "predictions" },
+    { "from": "deep-learning", "to": "metrics", "label": "predictions" },
+    { "from": "metrics", "to": "jupyter", "label": "results" },
+    { "from": "metrics", "to": "ieee-report", "label": "analysis" }
+  ]
+}

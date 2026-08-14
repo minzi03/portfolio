@@ -1,0 +1,63 @@
+{
+  "title": "Architecture: Katalyst Hanas Data Platform (Internship)",
+  "description": "Enterprise Lakehouse architecture for banking client during 2-month internship: Apache NiFi ingestion from multi-source (DB, Excel, Oracle), Apache Iceberg tables on MinIO, Dremio query engine, Star Schema with SCD Type 2 dimensions.",
+  "layers": [
+    {
+      "id": "sources",
+      "label": "Source Layer",
+      "nodes": [
+        { "id": "core-banking-db", "label": "Core Banking Database", "type": "source", "description": "Customer data (individual + corporate) with raw staging tables", "tech": ["Database"] },
+        { "id": "excel-files", "label": "Excel Files", "type": "source", "description": "Account and branch data in Excel format", "tech": ["Excel"] },
+        { "id": "oracle", "label": "Oracle Source", "type": "source", "description": "Relational tables and XML data from Oracle database", "tech": ["Oracle"] }
+      ]
+    },
+    {
+      "id": "ingestion",
+      "label": "Ingestion Layer",
+      "nodes": [
+        { "id": "nifi", "label": "Apache NiFi", "type": "orchestration", "description": "Visual dataflow pipelines for each source type with processor chains and provenance tracking", "tech": ["Apache NiFi"] }
+      ]
+    },
+    {
+      "id": "storage",
+      "label": "Storage Layer",
+      "nodes": [
+        { "id": "minio", "label": "MinIO Object Storage", "type": "storage", "description": "S3-compatible storage for Iceberg table data files", "tech": ["MinIO"] },
+        { "id": "iceberg", "label": "Apache Iceberg Tables", "type": "lakehouse", "description": "Open table format with snapshot isolation, schema evolution, time travel for audit", "tech": ["Apache Iceberg"] }
+      ]
+    },
+    {
+      "id": "transformation",
+      "label": "Transformation Layer",
+      "nodes": [
+        { "id": "star-schema", "label": "Star Schema", "type": "lakehouse", "description": "Fact Account (6 cols) + Dim Customer (24 cols) + Dim Branch (15 cols) + Dim Account (14 cols)", "tech": ["SQL"] },
+        { "id": "scd2", "label": "SCD Type 2 Logic", "type": "processing", "description": "EFFECTIVE_FROM, EFFECTIVE_TO, IS_CURRENT with row_hash change detection for 19 Customer attributes", "tech": ["SQL"] }
+      ]
+    },
+    {
+      "id": "query",
+      "label": "Query Layer",
+      "nodes": [
+        { "id": "dremio", "label": "Dremio", "type": "bi", "description": "Semantic layer and SQL query engine over Iceberg Tables with spaces/datasets/views", "tech": ["Dremio"] }
+      ]
+    },
+    {
+      "id": "governance",
+      "label": "Governance Layer",
+      "nodes": [
+        { "id": "audit-columns", "label": "Audit Metadata", "type": "governance", "description": "RECORD_SOURCE, SRC_SCN, LOAD_TIMESTAMP columns for lineage and audit", "tech": ["SQL"] }
+      ]
+    }
+  ],
+  "connections": [
+    { "from": "core-banking-db", "to": "nifi", "label": "JDBC" },
+    { "from": "excel-files", "to": "nifi", "label": "ReadExcel" },
+    { "from": "oracle", "to": "nifi", "label": "JDBC/XML" },
+    { "from": "nifi", "to": "minio", "label": "PutS3Object" },
+    { "from": "minio", "to": "iceberg", "label": "store" },
+    { "from": "iceberg", "to": "star-schema", "label": "model" },
+    { "from": "star-schema", "to": "scd2", "label": "apply" },
+    { "from": "iceberg", "to": "dremio", "label": "query" },
+    { "from": "nifi", "to": "audit-columns", "label": "track" }
+  ]
+}

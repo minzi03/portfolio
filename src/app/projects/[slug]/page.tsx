@@ -2,9 +2,10 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Container from "@/components/ui/Container";
-import { LazyGraphExplorer, LazyProjectEvidence } from "@/components/ui/LazySection";
+import { LazyGraphExplorer, LazyProjectEvidence, LazyInteractiveDiagram } from "@/components/ui/LazySection";
 import { projects, getProjectBySlug } from "@/data/projects";
 import { getProjectEvidence } from "@/data/projects/evidence";
+import { getArchitectureData, hasArchitectureData, type ArchitectureData } from "@/lib/architecture";
 import { siteConfig } from "@/data/site-config";
 import type { Project, ADR, ProjectMetric } from "@/data/types";
 
@@ -242,11 +243,11 @@ function TechStackSection({ tech }: { tech: string[] }) {
   );
 }
 
-function ArchitectureSection() {
+function ArchitectureSection({ data }: { data: ArchitectureData }) {
   return (
     <section>
       <SectionHeader n="04" title="Architecture" />
-      <LazyGraphExplorer data={archData} />
+      <LazyInteractiveDiagram data={data} />
     </section>
   );
 }
@@ -422,10 +423,12 @@ function ProjectCaseStudy({
   project,
   prevProject,
   nextProject,
+  architectureData,
 }: {
   project: Project;
   prevProject?: ProjectNav;
   nextProject?: ProjectNav;
+  architectureData?: ArchitectureData | null;
 }) {
   const hasBankingGraphs = project.slug === "banking-data-platform";
   const evidence = getProjectEvidence(project.id);
@@ -437,7 +440,7 @@ function ProjectCaseStudy({
         <ConstraintsSection constraints={project.constraints} />
       )}
       {project.tech && project.tech.length > 0 && <TechStackSection tech={project.tech} />}
-      {hasBankingGraphs && <ArchitectureSection />}
+      {architectureData && <ArchitectureSection data={architectureData} />}
       {hasBankingGraphs && <BankingExtraSections />}
       {evidence.length > 0 && <LazyProjectEvidence evidence={evidence} />}
       {project.adrs && project.adrs.length > 0 && <AdrSection adrs={project.adrs} />}
@@ -536,6 +539,9 @@ export default async function ProjectPage({ params }: Props) {
   const { slug } = await params;
   const project = getProjectBySlug(slug);
   if (!project) notFound();
+
+  // Load architecture data for this project
+  const architectureData = await getArchitectureData(slug);
 
   // Compute prev/next navigation
   const currentIndex = projects.findIndex((p) => p.slug === slug);
@@ -682,7 +688,7 @@ export default async function ProjectPage({ params }: Props) {
         </div>
 
         <div className="mt-12">
-          <ProjectCaseStudy project={project} prevProject={prevProject} nextProject={nextProject} />
+          <ProjectCaseStudy project={project} prevProject={prevProject} nextProject={nextProject} architectureData={architectureData} />
         </div>
       </Container>
     </div>

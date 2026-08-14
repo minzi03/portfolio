@@ -1,0 +1,60 @@
+{
+  "title": "Architecture: E-Commerce Multichannel Messaging Analysis",
+  "description": "Analysis pipeline for 10M+ e-commerce direct messages across email, mobile_push, and web_push channels with conversion funnel analysis, customer segmentation (Champions/Potential/Loss), and ML purchase prediction.",
+  "layers": [
+    {
+      "id": "source",
+      "label": "Source Layer",
+      "nodes": [
+        { "id": "messages", "label": "Messages Dataset", "type": "source", "description": "10M messages with channel, campaign, timestamp, open/click/purchase events (Apr 2021 - Apr 2023)", "tech": ["CSV", "Kaggle"] },
+        { "id": "campaigns", "label": "Campaigns Dataset", "type": "source", "description": "1,907 campaigns with type, provider, audience size metadata", "tech": ["CSV"] }
+      ]
+    },
+    {
+      "id": "preprocessing",
+      "label": "Preprocessing Layer",
+      "nodes": [
+        { "id": "data-clean", "label": "Data Cleaning", "type": "processing", "description": "Memory optimization (boolean encoding, datetime conversion), handling 100% empty category, 92.6% missing platform", "tech": ["Python", "Pandas"] },
+        { "id": "feature-eng", "label": "Feature Engineering", "type": "processing", "description": "Duration (open-to-click), engagement flags, temporal features, IQR outlier removal", "tech": ["Python", "Pandas"] }
+      ]
+    },
+    {
+      "id": "analysis",
+      "label": "Analysis Layer",
+      "nodes": [
+        { "id": "funnel", "label": "Conversion Funnel", "type": "processing", "description": "Sent (100%) -> Opened (16.14%) -> Clicked (14.55%) -> Purchased (5.54%) analysis", "tech": ["Python", "Pandas"] },
+        { "id": "segmentation", "label": "Customer Segmentation", "type": "processing", "description": "Behavioral segments: Champions (opened+clicked+purchased), Potential (opened+clicked), Loss (no engagement)", "tech": ["Python", "Pandas"] },
+        { "id": "kl-validation", "label": "KL Divergence Validation", "type": "governance", "description": "Validate segment separation with KL=0.127 between Champions and Potential", "tech": ["Python", "SciPy"] }
+      ]
+    },
+    {
+      "id": "modeling",
+      "label": "ML Layer",
+      "nodes": [
+        { "id": "logistic", "label": "Logistic Regression", "type": "processing", "description": "Interpretable baseline with L1/L2 regularization, coefficient analysis", "tech": ["Python", "Scikit-learn"] },
+        { "id": "random-forest", "label": "Random Forest", "type": "processing", "description": "85.7% accuracy purchase prediction with feature importance ranking", "tech": ["Python", "Scikit-learn"] },
+        { "id": "undersampling", "label": "Class Imbalance Handler", "type": "governance", "description": "RandomUnderSampler for 0.12% purchase rate minority class", "tech": ["Python", "imbalanced-learn"] }
+      ]
+    },
+    {
+      "id": "visualization",
+      "label": "Visualization Layer",
+      "nodes": [
+        { "id": "eda-plots", "label": "EDA Visualizations", "type": "bi", "description": "Channel comparison, platform breakdown, temporal patterns, funnel visualization", "tech": ["Python", "Matplotlib", "Seaborn"] }
+      ]
+    }
+  ],
+  "connections": [
+    { "from": "messages", "to": "data-clean", "label": "load" },
+    { "from": "campaigns", "to": "data-clean", "label": "load" },
+    { "from": "data-clean", "to": "feature-eng", "label": "transform" },
+    { "from": "feature-eng", "to": "funnel", "label": "analyze" },
+    { "from": "feature-eng", "to": "segmentation", "label": "segment" },
+    { "from": "segmentation", "to": "kl-validation", "label": "validate" },
+    { "from": "feature-eng", "to": "undersampling", "label": "balance" },
+    { "from": "undersampling", "to": "logistic", "label": "train" },
+    { "from": "undersampling", "to": "random-forest", "label": "train" },
+    { "from": "funnel", "to": "eda-plots", "label": "visualize" },
+    { "from": "segmentation", "to": "eda-plots", "label": "visualize" }
+  ]
+}
