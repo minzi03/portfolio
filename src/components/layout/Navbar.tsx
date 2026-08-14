@@ -1,6 +1,8 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
+import Link from "next/link";
 import { useTheme } from "next-themes";
 import { siteConfig } from "@/data/site-config";
 import { LazyCommandPalette } from "@/components/ui/LazySection";
@@ -185,12 +187,12 @@ export default function Navbar() {
             <LazyCommandPalette />
 
             {/* Blog */}
-            <a
+            <Link
               href="/blog"
               className="hidden items-center gap-1.5 rounded-lg border border-zinc-700/50 px-3 py-1.5 text-sm font-medium text-text-muted transition-all hover:border-accent/30 hover:text-accent sm:inline-flex"
             >
               Blog
-            </a>
+            </Link>
 
             {/* Resume */}
             <a
@@ -319,12 +321,12 @@ export default function Navbar() {
         </div>
 
         <div className="mt-4 border-t border-border pt-4">
-          <a
+          <Link
             href="/blog"
             className="flex items-center gap-2 rounded-lg border border-zinc-700/50 px-3 py-2.5 text-sm font-medium text-text-muted transition-all hover:border-accent/30 hover:text-accent"
           >
             Blog
-          </a>
+          </Link>
         </div>
 
         <div className="mt-3 border-t border-border pt-3">

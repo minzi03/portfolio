@@ -7,7 +7,6 @@ import ArchitecturePreview from "@/components/projects/ArchitecturePreview";
 import ExperienceHighlightCard from "@/components/experience/ExperienceHighlightCard";
 import ArchitectureTeaser from "@/components/projects/ArchitectureTeaser";
 import CredentialCardLink from "@/components/credentials/CredentialCardLink";
-import CredentialTrustBadge from "@/components/credentials/CredentialTrustBadge";
 import ContactForm from "@/components/contact/ContactForm";
 import { LazyProjectGrid, LazySkillsProficiency } from "@/components/ui/LazySection";
 import { siteConfig } from "@/data/site-config";

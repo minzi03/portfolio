@@ -56,14 +56,5 @@ export async function submitContactForm(
   //   html: `<p>From: ${data.name} (${data.email})</p><p>${data.message}</p>`,
   // });
 
-  // Log the submission for now
-  console.log("Contact form submission:", {
-    name: data.name,
-    email: data.email,
-    subject: data.subject,
-    message: data.message,
-    timestamp: new Date().toISOString(),
-  });
-
   return { success: true };
 }

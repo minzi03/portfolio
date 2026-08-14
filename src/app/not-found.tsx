@@ -39,21 +39,21 @@ export default function NotFound() {
           >
             Back to home
           </Link>
-          <a
+          <Link
             href="#contact"
             className="inline-flex h-11 items-center rounded-md border border-border px-5 text-sm font-medium text-text-secondary transition-colors hover:text-text-primary"
           >
             Contact me
-          </a>
+          </Link>
         </div>
 
         {/* Section quick nav */}
         <div className="mt-8 flex flex-wrap justify-center gap-x-4 gap-y-2 text-xs text-text-muted">
-          <a href="/#about" className="transition-colors hover:text-text-primary">About</a>
-          <a href="/#flagship" className="transition-colors hover:text-text-primary">Projects</a>
-          <a href="/#experience" className="transition-colors hover:text-text-primary">Experience</a>
-          <a href="/#method" className="transition-colors hover:text-text-primary">Method</a>
-          <a href="/resume" className="transition-colors hover:text-text-primary">Resume</a>
+          <Link href="/#about" className="transition-colors hover:text-text-primary">About</Link>
+          <Link href="/#flagship" className="transition-colors hover:text-text-primary">Projects</Link>
+          <Link href="/#experience" className="transition-colors hover:text-text-primary">Experience</Link>
+          <Link href="/#method" className="transition-colors hover:text-text-primary">Method</Link>
+          <Link href="/resume" className="transition-colors hover:text-text-primary">Resume</Link>
         </div>
       </div>
     </div>

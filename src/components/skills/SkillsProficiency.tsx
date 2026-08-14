@@ -4,7 +4,6 @@ import { useState } from "react";
 import type { Skill, SkillLevel } from "@/data/types";
 import { skills } from "@/data/skills";
 import { projects } from "@/data/projects";
-import { experiences } from "@/data/experience";
 import Container from "@/components/ui/Container";
 import DonutChart from "@/components/ui/DonutChart";
 

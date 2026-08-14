@@ -1,5 +1,3 @@
-import type { Project } from "@/data/types";
-
 interface DiagramNode {
   id: string;
   label: string;

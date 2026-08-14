@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
 import { useEffect, useRef, useState } from "react";
@@ -57,21 +58,19 @@ export default function DonutChart({
     return () => observer.disconnect();
   }, []);
 
-  // Build segments
-  let accumulated = 0;
-  const paths = segments.map((seg) => {
-    const pct = seg.value / total;
-    const dashLength = pct * circumference;
-    const dashOffset = -accumulated * circumference;
-    accumulated += pct;
+  // Build segments — use reduce to avoid mutating during render
+  const paths = segments.reduce<{ seg: DonutSegment; dashLength: number; dashOffset: number; pct: number }[]>(
+    (acc, seg) => {
+      const pct = seg.value / total;
+      const dashLength = pct * circumference;
+      const accumulatedBefore = acc.reduce((sum, p) => sum + p.pct, 0);
+      const dashOffset = -accumulatedBefore * circumference;
 
-    return {
-      ...seg,
-      dashLength,
-      dashOffset,
-      pct,
-    };
-  });
+      acc.push({ seg, dashLength, dashOffset, pct });
+      return acc;
+    },
+    []
+  );
 
   return (
     <div className="flex items-center gap-4">
@@ -96,22 +95,22 @@ export default function DonutChart({
         />
 
         {/* Animated segments */}
-        {paths.map((seg, i) => (
+        {paths.map((path, i) => (
           <circle
-            key={seg.label}
+            key={path.seg.label}
             cx={size / 2}
             cy={size / 2}
             r={radius}
             fill="none"
             stroke={`var(--donut-${i})`}
             strokeWidth={thickness}
-            strokeDasharray={`${animated ? seg.dashLength : 0} ${circumference}`}
-            strokeDashoffset={seg.dashOffset}
+            strokeDasharray={`${animated ? path.dashLength : 0} ${circumference}`}
+            strokeDashoffset={path.dashOffset}
             strokeLinecap="butt"
             style={{
               transition: `stroke-dasharray 0.8s ease ${i * 0.15}s`,
               // Map Tailwind color classes to CSS variables
-              [`--donut-${i}`]: getColorValue(seg.color),
+              [`--donut-${i}`]: getColorValue(path.seg.color),
             }}
           />
         ))}
@@ -119,7 +118,7 @@ export default function DonutChart({
 
       {/* Legend */}
       <div className="space-y-1.5">
-        {segments.map((seg, i) => (
+        {segments.map((seg) => (
           <div key={seg.label} className="flex items-center gap-2 text-xs">
             <span
               className="h-2.5 w-2.5 shrink-0 rounded-sm"

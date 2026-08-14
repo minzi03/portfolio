@@ -5,11 +5,10 @@ import Container from "@/components/ui/Container";
 import { LazyGraphExplorer, LazyProjectEvidence, LazyInteractiveDiagram } from "@/components/ui/LazySection";
 import { projects, getProjectBySlug } from "@/data/projects";
 import { getProjectEvidence } from "@/data/projects/evidence";
-import { getArchitectureData, hasArchitectureData, type ArchitectureData } from "@/lib/architecture";
+import { getArchitectureData, type ArchitectureData } from "@/lib/architecture";
 import { siteConfig } from "@/data/site-config";
 import type { Project, ADR, ProjectMetric } from "@/data/types";
 
-import archData from "@/data/projects/banking/architecture.json";
 import pipeData from "@/data/projects/banking/pipeline.json";
 import modelData from "@/data/projects/banking/model.json";
 import lineageData from "@/data/projects/banking/lineage.json";

@@ -59,7 +59,7 @@ export default function BlogPage() {
 
         {/* Post list */}
         <div className="space-y-6">
-          {posts.map((post, i) => (
+          {posts.map((post) => (
             <FadeIn key={post.slug}>
               <Link
                 href={`/blog/${post.slug}`}
