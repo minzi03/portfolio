@@ -112,7 +112,7 @@ export default function ProjectGrid() {
             key={project.id}
             href={`/projects/${project.slug}`}
             aria-label={`View case study for ${project.title}`}
-            className="card-hover group flex flex-col rounded-md border border-border bg-bg transition-colors hover:border-accent/30 overflow-hidden"
+            className="card-hover hover-scale group flex flex-col rounded-md border border-border bg-bg transition-colors hover:border-accent/30 overflow-hidden"
           >
             {/* Thumbnail */}
             <ProjectThumbnail

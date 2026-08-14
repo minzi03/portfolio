@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react";
 import Container from "@/components/ui/Container";
+import Breadcrumb from "@/components/ui/Breadcrumb";
 import CredentialCard from "@/components/credentials/CredentialCard";
 import CredentialModal from "@/components/credentials/CredentialModal";
 import {
@@ -83,6 +84,9 @@ export default function CredentialsPageContent() {
   return (
     <div className="bg-bg py-16 sm:py-24">
       <Container>
+        {/* Breadcrumb */}
+        <Breadcrumb items={[{ label: "Credentials" }]} />
+
         {/* Header */}
         <div className="max-w-2xl">
           <p className="mb-1 font-mono text-xs uppercase tracking-widest text-accent">

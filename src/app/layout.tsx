@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import { I18nProvider } from "@/lib/i18n";
+import { ToastProvider } from "@/components/ui/Toast";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import ScrollToTop from "@/components/layout/ScrollToTop";
@@ -249,6 +250,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           disableTransitionOnChange={false}
         >
           <I18nProvider>
+          <ToastProvider>
           <a href="#main-content" className="skip-link">
             Skip to main content
           </a>
@@ -257,6 +259,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <Footer />
           <ScrollToTop />
           <Analytics />
+          </ToastProvider>
           </I18nProvider>
         </ThemeProvider>
       </body>

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Container from "@/components/ui/Container";
+import Breadcrumb from "@/components/ui/Breadcrumb";
 import { LazyGraphExplorer, LazyProjectEvidence, LazyInteractiveDiagram } from "@/components/ui/LazySection";
 import { projects, getProjectBySlug } from "@/data/projects";
 import { getProjectEvidence } from "@/data/projects/evidence";
@@ -631,16 +632,8 @@ export default async function ProjectPage({ params }: Props) {
       />
 
       <Container>
-        {/* Top navigation */}
-        <nav className="mb-8 flex items-center gap-3 text-sm" aria-label="Project navigation">
-          <Link href="/#hero" className="text-text-muted transition-colors hover:text-text-primary">
-            ← Portfolio
-          </Link>
-          <span className="text-text-muted/30">/</span>
-          <Link href="/projects" className="text-text-muted transition-colors hover:text-text-primary">
-            Projects
-          </Link>
-        </nav>
+        {/* Breadcrumb */}
+        <Breadcrumb items={[{ label: "Projects", href: "/projects" }, { label: project.title }]} />
 
         <div className="max-w-2xl">
           <p className="mb-1 font-mono text-xs uppercase tracking-widest text-accent">Project</p>

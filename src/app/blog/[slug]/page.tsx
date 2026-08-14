@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import Container from "@/components/ui/Container";
 import FadeIn from "@/components/ui/FadeIn";
+import Breadcrumb from "@/components/ui/Breadcrumb";
 import { getAllBlogSlugs, getBlogPost, getRelatedPosts } from "@/lib/blog";
 import { siteConfig } from "@/data/site-config";
 
@@ -87,17 +88,7 @@ export default async function BlogPostPage({ params }: Props) {
 
         {/* Breadcrumb */}
         <FadeIn>
-          <nav className="mb-8 flex items-center gap-2 text-sm text-text-muted">
-            <Link href="/" className="transition-colors hover:text-accent">
-              Home
-            </Link>
-            <span>/</span>
-            <Link href="/blog" className="transition-colors hover:text-accent">
-              Blog
-            </Link>
-            <span>/</span>
-            <span className="text-text-primary">{post.title}</span>
-          </nav>
+          <Breadcrumb items={[{ label: "Blog", href: "/blog" }, { label: post.title }]} />
         </FadeIn>
 
         {/* Article header */}

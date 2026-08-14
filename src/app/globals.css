@@ -210,6 +210,77 @@ body {
   width: 100%;
 }
 
+/* ─── Toast Animation ─── */
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes slide-out {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-16px);
+  }
+}
+.animate-slide-in {
+  animation: slide-in 0.3s ease forwards;
+}
+
+/* ─── Scale Hover — cards and interactive elements ─── */
+.hover-scale {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.hover-scale:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+}
+
+/* ─── Glow Effect — for accent elements ─── */
+.glow-on-hover {
+  transition: box-shadow 0.3s ease;
+}
+.glow-on-hover:hover {
+  box-shadow: 0 0 20px rgba(var(--accent-rgb, 59, 130, 246), 0.3);
+}
+
+/* ─── Shimmer Effect — for loading states ─── */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+.shimmer {
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+/* ─── Focus Ring — accessible focus styles ─── */
+.focus-ring:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ─── Breadcrumb Separator ─── */
+.breadcrumb-separator::before {
+  content: "/";
+  margin: 0 0.5rem;
+  color: var(--text-muted);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .fade-in-hidden,
   .fade-in-visible {

@@ -1,12 +1,16 @@
 "use client";
 
 import { useI18n } from "@/lib/i18n";
+import Breadcrumb from "@/components/ui/Breadcrumb";
 
 export default function BlogHeader() {
   const { t } = useI18n();
 
   return (
     <div className="mb-12 max-w-2xl">
+      {/* Breadcrumb */}
+      <Breadcrumb items={[{ label: "Blog" }]} />
+
       <div className="flex items-center gap-3">
         <p className="mb-1 font-mono text-xs uppercase tracking-widest text-accent">
           {t("blog.badge")}
