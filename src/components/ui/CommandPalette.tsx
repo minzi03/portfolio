@@ -177,10 +177,15 @@ export default function CommandPalette() {
               <input
                 ref={inputRef}
                 type="text"
-                placeholder="Search sections, credentials..."
+                placeholder="Search sections, projects, credentials..."
                 value={query}
                 onChange={(e) => { setQuery(e.target.value); setSelectedIdx(0); }}
                 onKeyDown={handleKeyDown}
+                role="combobox"
+                aria-expanded={results.length > 0}
+                aria-controls="command-results"
+                aria-activedescendant={results[selectedIdx] ? `cmd-${results[selectedIdx].id}` : undefined}
+                aria-label="Search navigation, projects, and credentials"
                 className="h-12 flex-1 bg-transparent text-sm text-text-primary placeholder:text-text-muted focus:outline-none"
               />
               <kbd className="rounded border border-border bg-bg-surface px-1.5 py-0.5 font-mono text-[10px] text-text-muted">
@@ -189,13 +194,16 @@ export default function CommandPalette() {
             </div>
 
             {/* Results */}
-            <div ref={listRef} className="max-h-80 overflow-y-auto p-2">
+            <div ref={listRef} id="command-results" role="listbox" aria-label="Search results" className="max-h-80 overflow-y-auto p-2">
               {results.length === 0 ? (
                 <p className="py-8 text-center text-sm text-text-muted">No results found.</p>
               ) : (
                 results.map((item, i) => (
                   <button
                     key={item.id}
+                    id={`cmd-${item.id}`}
+                    role="option"
+                    aria-selected={i === selectedIdx}
                     onClick={() => navigateTo(item)}
                     onMouseEnter={() => setSelectedIdx(i)}
                     className={`flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left text-sm transition-colors ${

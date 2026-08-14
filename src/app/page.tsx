@@ -64,9 +64,9 @@ function Hero() {
             </p>
 
             {/* Proof metrics — inline strip */}
-            <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
+            <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4" role="list" aria-label="Portfolio statistics">
               {proofStats.map((stat) => (
-                <div key={stat.label} className="rounded-lg border border-border bg-bg-surface px-3 py-2 text-center">
+                <div key={stat.label} role="listitem" className="rounded-lg border border-border bg-bg-surface px-3 py-2 text-center">
                   <p className="text-lg font-bold font-mono text-accent">
                     <AnimatedCounter target={stat.target} suffix={stat.suffix} decimals={stat.decimals} />
                   </p>

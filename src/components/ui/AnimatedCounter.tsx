@@ -77,7 +77,7 @@ export default function AnimatedCounter({
   }, [target, suffix, duration, decimals, hasAnimated]);
 
   return (
-    <span ref={ref} className="tabular-nums">
+    <span ref={ref} className="tabular-nums" aria-live="polite" aria-atomic="true">
       {displayValue}
     </span>
   );

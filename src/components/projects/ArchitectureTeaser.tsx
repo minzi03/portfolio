@@ -30,7 +30,7 @@ export default function ArchitectureTeaser() {
   const hoveredNode = FLOW_NODES.find((n) => n.id === hoveredId);
 
   return (
-    <div className="rounded-lg border border-border bg-bg p-4">
+    <div className="rounded-lg border border-border bg-bg p-4" role="figure" aria-label="Architecture flow diagram showing data pipeline from sources through processing to analytics">
       <div className="flex items-center justify-between mb-3">
         <p className="font-mono text-[10px] uppercase tracking-wider text-text-muted">
           Architecture Flow

@@ -89,6 +89,7 @@ function SkillChip({ skill, dots, accent, isExpanded, onToggle }: SkillChipProps
       <button
         type="button"
         onClick={onToggle}
+        aria-expanded={isExpanded}
         className={`flex w-full items-center gap-2 rounded-lg border px-3 py-2 text-left text-sm transition-all ${
           accent
             ? "border-accent/20 bg-accent/5 hover:border-accent/40"
@@ -213,12 +214,13 @@ export default function SkillsProficiency() {
         </div>
 
         {/* Tier summary cards */}
-        <div className="mb-6 grid grid-cols-3 gap-3">
+        <div className="mb-6 grid grid-cols-3 gap-3" role="group" aria-label="Filter by proficiency level">
           {TIERS.map((tier) => (
             <button
               key={tier.level}
               type="button"
               onClick={() => setFilter(filter === tier.level ? "all" : tier.level)}
+              aria-pressed={filter === tier.level}
               className={`rounded-xl border p-4 text-left transition-all ${
                 filter === tier.level
                   ? tier.accent

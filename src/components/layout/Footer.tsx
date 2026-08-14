@@ -26,7 +26,7 @@ export default function Footer() {
           </div>
 
           {/* Quick links */}
-          <div>
+          <nav aria-label="Footer navigation">
             <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-text-muted">
               Navigate
             </h3>
@@ -47,7 +47,7 @@ export default function Footer() {
                 </li>
               ))}
             </ul>
-          </div>
+          </nav>
 
           {/* Connect */}
           <div>

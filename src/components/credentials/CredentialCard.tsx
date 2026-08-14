@@ -28,6 +28,7 @@ export default function CredentialCard({ credential, onClick }: CredentialCardPr
     <button
       type="button"
       onClick={(e) => onClick(e.currentTarget)}
+      aria-label={`${credential.title} — ${credential.issuer} — ${categoryLabels[credential.category]}`}
       className={`group w-full overflow-hidden rounded-xl border bg-bg-surface text-left transition-all hover:shadow-md cursor-pointer ${
         credential.featured
           ? "border-accent/30 hover:border-accent/50"

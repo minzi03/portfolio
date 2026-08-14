@@ -81,6 +81,8 @@ export default function DonutChart({
         height={size}
         viewBox={`0 0 ${size} ${size}`}
         className="shrink-0"
+        role="img"
+        aria-label={`Skill distribution: ${segments.map((s) => `${s.label} ${s.value}`).join(", ")}`}
       >
         {/* Background circle */}
         <circle

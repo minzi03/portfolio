@@ -48,12 +48,13 @@ export default function ProjectGrid() {
       {/* Filter bar */}
       <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         {/* Category filters */}
-        <div className="flex flex-wrap gap-1.5">
+        <div role="group" aria-label="Filter by category">
           {CATEGORIES.map((cat) => (
             <button
               key={cat.value}
               type="button"
               onClick={() => setCatFilter(cat.value)}
+              aria-pressed={catFilter === cat.value}
               className={`rounded-md px-3 py-1.5 text-xs font-medium transition-all ${
                 catFilter === cat.value
                   ? "bg-accent/15 text-accent border border-accent/30"
@@ -66,12 +67,13 @@ export default function ProjectGrid() {
         </div>
 
         {/* Scope filter */}
-        <div className="flex flex-wrap gap-1.5">
+        <div role="group" aria-label="Filter by scope">
           {SCOPES.map((scope) => (
             <button
               key={scope.value}
               type="button"
               onClick={() => setScopeFilter(scope.value)}
+              aria-pressed={scopeFilter === scope.value}
               className={`rounded-md px-2.5 py-1.5 text-[11px] font-medium transition-all ${
                 scopeFilter === scope.value
                   ? "bg-accent/15 text-accent border border-accent/30"
@@ -84,8 +86,8 @@ export default function ProjectGrid() {
         </div>
       </div>
 
-      {/* Results count */}
-      <p className="mb-4 text-xs text-text-muted">
+      {/* Results count — live region for screen readers */}
+      <p className="mb-4 text-xs text-text-muted" aria-live="polite" aria-atomic="true">
         {filtered.length} project{filtered.length !== 1 ? "s" : ""}
         {(catFilter !== "all" || scopeFilter !== "all") && (
           <button

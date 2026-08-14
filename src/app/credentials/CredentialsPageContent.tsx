@@ -190,9 +190,9 @@ export default function CredentialsPageContent() {
           })}
         </div>
 
-        {/* Results count */}
+        {/* Results count — live region for screen readers */}
         <div className="mt-4 flex items-center gap-2">
-          <p className="text-xs text-text-muted">
+          <p className="text-xs text-text-muted" aria-live="polite" aria-atomic="true">
             {filtered.length} credential{filtered.length !== 1 ? "s" : ""}
             {active !== "all" && <> in {categoryLabels[active]}</>}
             {search.trim() && <> matching &ldquo;{search.trim()}&rdquo;</>}
