@@ -10,6 +10,7 @@ import { cellphonesImpact, cellphonesADRs, cellphonesProblem, cellphonesConstrai
 import { dabImpact, dabADRs, dabProblem, dabConstraints, dabLimitations, dabImprovements } from "./projects/data-analysis-business/case-study";
 import { ie224Impact, ie224ADRs, ie224Problem, ie224Constraints, ie224Limitations, ie224Improvements } from "./projects/da-ie224/case-study";
 import { katalystImpact, katalystADRs, katalystProblem, katalystConstraints, katalystLimitations, katalystImprovements } from "./projects/katalyst-internship/case-study";
+import { is405Impact, is405ADRs, is405Problem, is405Constraints, is405Limitations, is405Improvements } from "./projects/is405-bigdata/case-study";
 
 /** Project type — exported as `Project` for consumers */
 export type Project = ProjectBase;
@@ -321,6 +322,38 @@ export const projects: Project[] = [
     impact: katalystImpact,
     limitations: katalystLimitations,
     improvements: katalystImprovements,
+  },
+  {
+    id: "is405-bigdata",
+    slug: "is405-bigdata",
+    title: "IS405 Big Data — Full Stack",
+    subtitle: "Hadoop MapReduce → PySpark → Spark MLLib → Apache Doris, 6 ML algorithms, 320K rows",
+    summary:
+      "Comprehensive Big Data coursework spanning the full distributed computing stack: Hadoop MapReduce (Java) for text processing and co-occurrence counting, PySpark RDD for statistical computations, Spark MLLib for 6 ML algorithms (LR, DT, NB, K-Means, KNN, TF-IDF). Custom from-scratch normal-equation linear regression on 320K heart disease records. Custom K-Means with Silhouette comparison (0.380 vs SparkML 0.270). MapReduce KNN classifier (86.4% accuracy). Apache Doris OLAP seminar.",
+    category: "data-platform",
+    status: "complete",
+    scope: "academic",
+    featured: false,
+    period: "Sep 2025 – Jan 2026",
+    tech: [
+      "Hadoop MapReduce",
+      "Java",
+      "PySpark",
+      "Spark SQL",
+      "Spark MLLib",
+      "NumPy",
+      "Plotly",
+      "Apache Doris",
+    ],
+    tags: ["big-data", "mapreduce", "pyspark", "spark-mllib", "kmeans", "knn", "linear-regression", "olap", "distributed-computing"],
+    github: "https://github.com/minzi03/is405_bigdata",
+    // Engineering reasoning
+    problem: is405Problem,
+    constraints: is405Constraints,
+    adrs: is405ADRs,
+    impact: is405Impact,
+    limitations: is405Limitations,
+    improvements: is405Improvements,
   },
 ];
 
