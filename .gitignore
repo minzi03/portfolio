@@ -46,3 +46,6 @@ next-env.d.ts
 # Private credentials bundle — never commit
 DataEngineer_NguyenMinhDuy/
 Credentials-Achievements/
+
+# Local project references
+repo_projects/
