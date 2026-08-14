@@ -5,6 +5,7 @@ import { bankingImpact, bankingADRs, bankingProblem, bankingConstraints, banking
 import { mdsImpact, mdsADRs, mdsProblem, mdsConstraints, mdsLimitations, mdsImprovements } from "./projects/modern-data-stack/case-study";
 import { azureImpact, azureADRs, azureProblem, azureConstraints, azureLimitations, azureImprovements } from "./projects/azure-ecommerce/case-study";
 import { movieImpact, movieADRs, movieProblem, movieConstraints, movieLimitations, movieImprovements } from "./projects/movie-data-warehouse/case-study";
+import { nexlabImpact, nexlabADRs, nexlabProblem, nexlabConstraints, nexlabLimitations, nexlabImprovements } from "./projects/nexlab-data-platform/case-study";
 
 /** Project type — exported as `Project` for consumers */
 export type Project = ProjectBase;
@@ -134,6 +135,40 @@ export const projects: Project[] = [
     impact: movieImpact,
     limitations: movieLimitations,
     improvements: movieImprovements,
+  },
+  {
+    id: "nexlab-data-platform",
+    slug: "nexlab-data-platform",
+    title: "NYC Taxi Data Platform",
+    subtitle: "Medallion Lakehouse with 78M records, 18 DQ checks, bilingual dashboard",
+    summary:
+      "Built an end-to-end data platform processing 78M+ NYC TLC taxi trip records across 24 months. Implemented Medallion Lakehouse (Bronze → Silver → Gold) with Apache Spark, Iceberg, MinIO, Trino, Airflow, and Streamlit. 18 data quality checks, 8 ADRs, 6 CI/CD jobs, bilingual EN/VI dashboard.",
+    category: "data-platform",
+    status: "complete",
+    scope: "production-like",
+    featured: false,
+    period: "Jan 2026 – Feb 2026",
+    tech: [
+      "Python",
+      "Apache Spark",
+      "Apache Iceberg",
+      "MinIO",
+      "Trino",
+      "Apache Airflow",
+      "Streamlit",
+      "PostgreSQL",
+      "Plotly",
+      "Docker Compose",
+    ],
+    tags: ["lakehouse", "medallion", "data-quality", "olap", "docker", "etl"],
+    github: "https://github.com/minzi03/nexlab_data_platform",
+    // Engineering reasoning
+    problem: nexlabProblem,
+    constraints: nexlabConstraints,
+    adrs: nexlabADRs,
+    impact: nexlabImpact,
+    limitations: nexlabLimitations,
+    improvements: nexlabImprovements,
   },
 ];
 
