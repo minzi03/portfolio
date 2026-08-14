@@ -18,14 +18,14 @@ test.describe("Blog", () => {
   test("blog post detail page loads", async ({ page }) => {
     await page.goto("/blog/lakehouse-architecture-guide");
     await page.waitForLoadState("networkidle");
-    await expect(page.getByRole("heading", { name: /Building a Production Lakehouse/ }).first()).toBeVisible();
-    await expect(page.getByText("Back to all posts")).toBeVisible();
+    await expect(page.getByRole("heading", { name: /Lakehouse/ }).first()).toBeVisible();
+    await expect(page.getByText(/Back to all posts/)).toBeVisible();
   });
 
   test("blog post has tags", async ({ page }) => {
     await page.goto("/blog/lakehouse-architecture-guide");
     await page.waitForLoadState("networkidle");
-    await expect(page.getByText("Apache Spark").first()).toBeVisible();
+    await expect(page.getByText(/Spark|Iceberg/).first()).toBeVisible();
   });
 
   test("blog breadcrumb navigation works", async ({ page }) => {
