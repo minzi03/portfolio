@@ -124,7 +124,7 @@ function Hero() {
               </div>
               {education.awards.length > 0 && (
                 <ul className="mt-3 space-y-1">
-                  {education.awards.slice(0, 2).map((award) => (
+                  {education.awards.map((award) => (
                     <li key={award} className="flex items-start gap-1.5 text-[11px] text-text-muted">
                       <span aria-hidden="true" className="mt-1 h-1 w-1 shrink-0 rounded-full bg-accent/50" />
                       {award}

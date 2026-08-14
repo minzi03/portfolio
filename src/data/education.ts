@@ -16,7 +16,7 @@ export const education: Education = {
   shortSchool: "UIT",
   degree: "Bachelor of Engineering",
   major: "Information Technology — Information Systems",
-  period: "Sep 2022 – Jul 2026",
+  period: "Sep 2021 – Jul 2026",
   gpa: "7.65 / 10",
   gpaRaw: "7.65",
   credits: 158,
