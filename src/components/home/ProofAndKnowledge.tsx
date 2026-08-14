@@ -28,8 +28,8 @@ export default function ProofAndKnowledge() {
           </Link>
         </div>
 
-        {/* Credentials grid — compact 3-col */}
-        <div className="grid gap-2 grid-cols-2 sm:grid-cols-3 lg:grid-cols-6">
+        {/* Credentials grid — medium 3-col */}
+        <div className="grid gap-3 grid-cols-2 sm:grid-cols-3 lg:grid-cols-3">
           {featuredCredentials.map((cred) => (
             <CredentialCardLink key={cred.id} credential={cred} compact />
           ))}

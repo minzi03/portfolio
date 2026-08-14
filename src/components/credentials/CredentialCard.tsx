@@ -31,26 +31,45 @@ export default function CredentialCard({ credential, onClick, compact = false }:
         type="button"
         onClick={(e) => onClick(e.currentTarget)}
         aria-label={`${credential.title} — ${credential.issuer} — ${categoryLabels[credential.category]}`}
-        className={`group w-full overflow-hidden rounded-lg border bg-bg-surface text-left transition-all hover:shadow-sm cursor-pointer ${
+        className={`group w-full overflow-hidden rounded-xl border bg-bg-surface text-left transition-all hover:shadow-md cursor-pointer ${
           credential.featured
-            ? "border-accent/20 hover:border-accent/40"
-            : "border-border hover:border-accent/20"
+            ? "border-accent/30 hover:border-accent/50"
+            : "border-border hover:border-accent/30"
         }`}
       >
-        <div className="p-2">
-          {/* Category icon */}
-          <div className={`flex h-8 w-8 items-center justify-center rounded ${meta.bg}`}>
-            <span className={`text-sm ${meta.color}`}>{meta.icon}</span>
+        {/* Certificate image or placeholder */}
+        {hasImage && imageAsset ? (
+          <div className="relative aspect-[16/9] overflow-hidden bg-bg">
+            <Image
+              src={imageAsset.asset}
+              alt={`${credential.title} — certificate issued by ${credential.issuer}`}
+              fill
+              className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+              loading="lazy"
+              sizes="(max-width: 640px) 50vw, 33vw"
+            />
           </div>
+        ) : (
+          <div className={`flex aspect-[16/9] items-center justify-center ${meta.bg}`}>
+            <span className={`text-2xl ${meta.color}`}>{meta.icon}</span>
+          </div>
+        )}
 
+        <div className="p-3">
           {/* Title — max 2 lines */}
-          <h3 className="mt-2 text-[11px] font-semibold leading-snug text-text-primary group-hover:text-accent line-clamp-2">
+          <h3 className="text-sm font-semibold leading-snug text-text-primary group-hover:text-accent line-clamp-2">
             {credential.title}
           </h3>
 
-          {/* Issuer */}
-          <p className="mt-0.5 text-[9px] text-text-muted line-clamp-1">
+          {/* Issuer · Date */}
+          <p className="mt-1 text-xs text-text-muted">
             {credential.issuer}
+            {credential.issued && (
+              <>
+                <span className="mx-1">·</span>
+                {credential.issued}
+              </>
+            )}
           </p>
         </div>
       </button>

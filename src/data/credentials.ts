@@ -128,7 +128,7 @@ export const credentials: Credential[] = [
     evidence: "verified",
     verifyUrl: "https://coursera.org/verify/professional-cert/RDVQOIJ79PWI",
     evidenceAssets: [
-      { asset: "/evidence/credentials/ibm-data-engineering.webp", trustLevel: "evidence", source: "certificate-image", reviewState: "confirmed" },
+      { asset: "/evidence/credentials/ibm-data-engineering.jpg", trustLevel: "evidence", source: "certificate-image", reviewState: "confirmed" },
     ],
     reconciliation: {
       certificateChecked: "confirmed",
@@ -152,7 +152,7 @@ export const credentials: Credential[] = [
     evidence: "evidence",
     verifyUrl: "https://www.credly.com/badges/confluent",
     evidenceAssets: [
-      { asset: "/evidence/credentials/confluent-streaming.pdf", trustLevel: "evidence", source: "certificate-document", reviewState: "confirmed" },
+      { asset: "/evidence/credentials/confluent-streaming.png", trustLevel: "evidence", source: "certificate-image", reviewState: "confirmed" },
     ],
     reconciliation: {
       certificateChecked: "confirmed",
@@ -175,7 +175,7 @@ export const credentials: Credential[] = [
     evidence: "evidence",
     verifyUrl: "https://mylearn.oracle.com/ou/learning-path/oracle-data-platform-2025/148670",
     evidenceAssets: [
-      { asset: "/evidence/credentials/oracle-data-platform.webp", trustLevel: "evidence", source: "certificate-image", reviewState: "confirmed" },
+      { asset: "/evidence/credentials/oracle-data-platform.jpg", trustLevel: "evidence", source: "certificate-image", reviewState: "confirmed" },
     ],
     reconciliation: {
       certificateChecked: "confirmed",
@@ -197,7 +197,7 @@ export const credentials: Credential[] = [
     evidence: "evidence",
     verifyUrl: "https://www.datacamp.com/certificate/DE0019952373125",
     evidenceAssets: [
-      { asset: "/evidence/credentials/datacamp-data-engineer.webp", trustLevel: "evidence", source: "certificate-image", reviewState: "confirmed" },
+      { asset: "/evidence/credentials/datacamp-de.jpg", trustLevel: "evidence", source: "certificate-image", reviewState: "confirmed" },
     ],
     reconciliation: {
       certificateChecked: "confirmed",
@@ -214,12 +214,11 @@ export const credentials: Credential[] = [
     credentialType: "certification",
     description: "Foundational data engineering certification — data pipelines, SQL, and Python.",
     skills: ["SQL", "Python", "Data Pipelines"],
-    featured: true,
     showOnResume: true,
     evidence: "evidence",
     verifyUrl: "https://www.datacamp.com/certificate/DEA0011335828080",
     evidenceAssets: [
-      { asset: "/evidence/credentials/datacamp-associate-da.webp", trustLevel: "evidence", source: "certificate-image", reviewState: "confirmed" },
+      { asset: "/evidence/credentials/datacamp-associate-da.jpg", trustLevel: "evidence", source: "certificate-image", reviewState: "confirmed" },
     ],
     reconciliation: {
       certificateChecked: "confirmed",
@@ -236,10 +235,11 @@ export const credentials: Credential[] = [
     credentialType: "certification",
     description: "Foundational data engineering certification — data pipelines, SQL, and Python.",
     skills: ["SQL", "Python", "Data Pipelines"],
+    featured: true,
     showOnResume: true,
     evidence: "evidence",
     evidenceAssets: [
-      { asset: "/evidence/credentials/datacamp-associate-de.webp", trustLevel: "evidence", source: "certificate-image", reviewState: "confirmed" },
+      { asset: "/evidence/credentials/datacamp-associate-de.jpg", trustLevel: "evidence", source: "certificate-image", reviewState: "confirmed" },
     ],
     reconciliation: {
       certificateChecked: "confirmed",
@@ -260,7 +260,7 @@ export const credentials: Credential[] = [
     evidence: "evidence",
     verifyUrl: "https://www.datacamp.com/certificate/DAA0018128133270",
     evidenceAssets: [
-      { asset: "/evidence/credentials/datacamp-da-associate.webp", trustLevel: "evidence", source: "certificate-image", reviewState: "confirmed" },
+      { asset: "/evidence/credentials/datacamp-associate-de.jpg", trustLevel: "evidence", source: "certificate-image", reviewState: "confirmed" },
     ],
     reconciliation: {
       certificateChecked: "confirmed",
@@ -282,7 +282,7 @@ export const credentials: Credential[] = [
     evidence: "evidence",
     verifyUrl: "https://credentials.databricks.com/accreditation/view/databricks-fundamentals",
     evidenceAssets: [
-      { asset: "/evidence/credentials/databricks-fundamentals.webp", trustLevel: "evidence", source: "certificate-image", reviewState: "confirmed" },
+      { asset: "/evidence/credentials/databricks-fundamentals.png", trustLevel: "evidence", source: "certificate-image", reviewState: "confirmed" },
     ],
     reconciliation: {
       certificateChecked: "confirmed",
@@ -305,7 +305,7 @@ export const credentials: Credential[] = [
     evidence: "evidence",
     verifyUrl: "https://learn.microsoft.com/en-us/users/me/credentials",
     evidenceAssets: [
-      { asset: "/evidence/credentials/microsoft-azure-databricks-v2.webp", trustLevel: "evidence", source: "certificate-image", reviewState: "confirmed" },
+      { asset: "/evidence/credentials/azure-databricks.jpg", trustLevel: "evidence", source: "certificate-image", reviewState: "confirmed" },
     ],
     reconciliation: {
       certificateChecked: "confirmed",
@@ -327,7 +327,7 @@ export const credentials: Credential[] = [
     evidence: "evidence",
     verifyUrl: "https://learn.microsoft.com/en-us/users/me/credentials",
     evidenceAssets: [
-      { asset: "/evidence/credentials/microsoft-azure-fundamentals-v2.webp", trustLevel: "evidence", source: "certificate-image", reviewState: "confirmed" },
+      { asset: "/evidence/credentials/azure-fundamentals.jpg", trustLevel: "evidence", source: "certificate-image", reviewState: "confirmed" },
     ],
     reconciliation: {
       certificateChecked: "confirmed",
@@ -351,7 +351,7 @@ export const credentials: Credential[] = [
     evidence: "evidence",
     verifyUrl: "https://coursera.org/verify/professional-cert/LH80SWNTCC",
     evidenceAssets: [
-      { asset: "/evidence/credentials/google-data-analytics.webp", trustLevel: "evidence", source: "certificate-image", reviewState: "confirmed" },
+      { asset: "/evidence/credentials/google-data-analytics.jpg", trustLevel: "evidence", source: "certificate-image", reviewState: "confirmed" },
     ],
     reconciliation: {
       certificateChecked: "confirmed",
@@ -373,7 +373,7 @@ export const credentials: Credential[] = [
     evidence: "evidence",
     verifyUrl: "https://coursera.org/verify/professional-cert/2VDUMA1LE5CS",
     evidenceAssets: [
-      { asset: "/evidence/credentials/google-advanced-analytics.webp", trustLevel: "evidence", source: "certificate-image", reviewState: "confirmed" },
+      { asset: "/evidence/credentials/google-advanced-analytics.jpg", trustLevel: "evidence", source: "certificate-image", reviewState: "confirmed" },
     ],
     reconciliation: {
       certificateChecked: "confirmed",
@@ -395,7 +395,7 @@ export const credentials: Credential[] = [
     evidence: "evidence",
     verifyUrl: "https://coursera.org/verify/professional-cert/IT5T0UEIHHC",
     evidenceAssets: [
-      { asset: "/evidence/credentials/google-bi.webp", trustLevel: "evidence", source: "certificate-image", reviewState: "confirmed" },
+      { asset: "/evidence/credentials/google-bi.jpg", trustLevel: "evidence", source: "certificate-image", reviewState: "confirmed" },
     ],
     reconciliation: {
       certificateChecked: "confirmed",
@@ -416,7 +416,7 @@ export const credentials: Credential[] = [
     showOnResume: true,
     evidence: "evidence",
     evidenceAssets: [
-      { asset: "/evidence/credentials/testcenter-data-analysis.pdf", trustLevel: "evidence", source: "certificate-document", reviewState: "confirmed" },
+      { asset: "/evidence/credentials/testcenter-data-analysis.png", trustLevel: "evidence", source: "certificate-image", reviewState: "confirmed" },
     ],
     reconciliation: {
       certificateChecked: "confirmed",
@@ -439,7 +439,7 @@ export const credentials: Credential[] = [
     evidence: "evidence",
     verifyUrl: "https://www.hackerrank.com/certificates/sql-advanced",
     evidenceAssets: [
-      { asset: "/evidence/credentials/hackerrank-sql-advanced.webp", trustLevel: "evidence", source: "certificate-image", reviewState: "confirmed" },
+      { asset: "/evidence/credentials/hackerrank-sql-advanced.jpg", trustLevel: "evidence", source: "certificate-image", reviewState: "confirmed" },
     ],
     reconciliation: {
       certificateChecked: "confirmed",
@@ -460,11 +460,52 @@ export const credentials: Credential[] = [
     evidence: "evidence",
     verifyUrl: "https://www.hackerrank.com/certificates/sql-intermediate",
     evidenceAssets: [
-      { asset: "/evidence/credentials/hackerrank-sql-intermediate.webp", trustLevel: "evidence", source: "certificate-image", reviewState: "confirmed" },
+      { asset: "/evidence/credentials/hackerrank-sql-intermediate.jpg", trustLevel: "evidence", source: "certificate-image", reviewState: "confirmed" },
     ],
     reconciliation: {
       certificateChecked: "confirmed",
       verifyUrlChecked: "confirmed",
+      existingDataMatched: "confirmed",
+    },
+  },
+  {
+    id: "hackerrank-sql-basic",
+    title: "SQL (Basic)",
+    issuer: "HackerRank",
+    issued: "2025",
+    category: "sql",
+    credentialType: "assessment",
+    description: "Basic SQL certification — queries, joins, and aggregation fundamentals.",
+    skills: ["SQL", "Queries"],
+    showOnResume: true,
+    evidence: "evidence",
+    verifyUrl: "https://www.hackerrank.com/certificates/sql-basic",
+    evidenceAssets: [
+      { asset: "/evidence/credentials/hackerrank-sql-basic.jpg", trustLevel: "evidence", source: "certificate-image", reviewState: "confirmed" },
+    ],
+    reconciliation: {
+      certificateChecked: "confirmed",
+      verifyUrlChecked: "confirmed",
+      existingDataMatched: "confirmed",
+    },
+  },
+  {
+    id: "google-gemini",
+    title: "Google Gemini for Data Analytics",
+    issuer: "Google",
+    issued: "2025",
+    category: "analytics",
+    credentialType: "course",
+    description: "Using Google Gemini AI for data analysis and visualization tasks.",
+    skills: ["AI", "Data Analysis", "Google Gemini"],
+    showOnResume: true,
+    evidence: "evidence",
+    evidenceAssets: [
+      { asset: "/evidence/credentials/google-gemini.jpg", trustLevel: "evidence", source: "certificate-image", reviewState: "confirmed" },
+    ],
+    reconciliation: {
+      certificateChecked: "confirmed",
+      verifyUrlChecked: "not-applicable",
       existingDataMatched: "confirmed",
     },
   },
@@ -484,7 +525,7 @@ export const credentials: Credential[] = [
     evidence: "verified",
     verifyUrl: "https://coursera.org/verify/professional-cert/73C2VT8L7B3S",
     evidenceAssets: [
-      { asset: "/evidence/credentials/google-project-management.webp", trustLevel: "evidence", source: "certificate-image", reviewState: "confirmed" },
+      { asset: "/evidence/credentials/google-project-management.jpg", trustLevel: "evidence", source: "certificate-image", reviewState: "confirmed" },
     ],
     reconciliation: {
       certificateChecked: "confirmed",
@@ -505,7 +546,7 @@ export const credentials: Credential[] = [
     evidence: "evidence",
     verifyUrl: "https://verified.sertifier.com/en/verify/09675129761516/",
     evidenceAssets: [
-      { asset: "/evidence/credentials/axon-active-scrum.webp", trustLevel: "evidence", source: "certificate-image", reviewState: "confirmed" },
+      { asset: "/evidence/credentials/axon-scrum.jpg", trustLevel: "evidence", source: "certificate-image", reviewState: "confirmed" },
     ],
     reconciliation: {
       certificateChecked: "confirmed",
@@ -524,7 +565,7 @@ export const credentials: Credential[] = [
     skills: ["Critical Thinking"],
     evidence: "evidence",
     evidenceAssets: [
-      { asset: "/evidence/credentials/thinking-school-1.webp", trustLevel: "evidence", source: "certificate-image", reviewState: "confirmed" },
+      { asset: "/evidence/credentials/thinking-school-1.jpg", trustLevel: "evidence", source: "certificate-image", reviewState: "confirmed" },
     ],
     reconciliation: {
       certificateChecked: "confirmed",
@@ -543,7 +584,7 @@ export const credentials: Credential[] = [
     skills: ["Critical Thinking"],
     evidence: "evidence",
     evidenceAssets: [
-      { asset: "/evidence/credentials/thinking-school-2.webp", trustLevel: "evidence", source: "certificate-image", reviewState: "confirmed" },
+      { asset: "/evidence/credentials/thinking-school-2.jpg", trustLevel: "evidence", source: "certificate-image", reviewState: "confirmed" },
     ],
     reconciliation: {
       certificateChecked: "confirmed",
@@ -564,9 +605,9 @@ export const credentials: Credential[] = [
       "Vietnamese Standardized Test of English — Level 4 / CEFR B2. Overall 6.0/10.",
     skills: ["English"],
     showOnResume: true,
-    evidence: "redacted",
+    evidence: "evidence",
     evidenceAssets: [
-      { asset: "/evidence/academic/vstep-b2-redacted.webp", trustLevel: "redacted", source: "redacted-derivative", reviewState: "pending" },
+      { asset: "/evidence/credentials/vstep-b2.jpg", trustLevel: "evidence", source: "certificate-image", reviewState: "confirmed" },
     ],
     reconciliation: {
       certificateChecked: "confirmed",
@@ -589,7 +630,7 @@ export const credentials: Credential[] = [
     showOnResume: true,
     evidence: "evidence",
     evidenceAssets: [
-      { asset: "/evidence/academic/graduation-certificate.webp", trustLevel: "evidence", source: "certificate-image", reviewState: "confirmed" },
+      { asset: "/evidence/credentials/Graduation.jpg", trustLevel: "evidence", source: "certificate-image", reviewState: "confirmed" },
     ],
     reconciliation: {
       certificateChecked: "confirmed",
@@ -610,7 +651,7 @@ export const credentials: Credential[] = [
     skills: [],
     evidence: "evidence",
     evidenceAssets: [
-      { asset: "/evidence/academic/academic-excellence-2022.webp", trustLevel: "evidence", source: "certificate-image", reviewState: "confirmed" },
+      { asset: "/evidence/credentials/academic-excellence-2022.jpg", trustLevel: "evidence", source: "certificate-image", reviewState: "confirmed" },
     ],
     reconciliation: {
       certificateChecked: "confirmed",
@@ -629,7 +670,7 @@ export const credentials: Credential[] = [
     skills: [],
     evidence: "evidence",
     evidenceAssets: [
-      { asset: "/evidence/academic/academic-excellence-2023.webp", trustLevel: "evidence", source: "certificate-image", reviewState: "confirmed" },
+      { asset: "/evidence/credentials/academic-excellence-2023.jpg", trustLevel: "evidence", source: "certificate-image", reviewState: "confirmed" },
     ],
     reconciliation: {
       certificateChecked: "confirmed",
@@ -648,7 +689,7 @@ export const credentials: Credential[] = [
     skills: [],
     evidence: "evidence",
     evidenceAssets: [
-      { asset: "/evidence/academic/academic-excellence-2024.webp", trustLevel: "evidence", source: "certificate-image", reviewState: "confirmed" },
+      { asset: "/evidence/credentials/academic-excellence-2024.jpg", trustLevel: "evidence", source: "certificate-image", reviewState: "confirmed" },
     ],
     reconciliation: {
       certificateChecked: "confirmed",
@@ -669,7 +710,7 @@ export const credentials: Credential[] = [
     skills: [],
     evidence: "evidence",
     evidenceAssets: [
-      { asset: "/evidence/activities/volunteer-manhghetmoi.pdf", trustLevel: "evidence", source: "certificate-document", reviewState: "confirmed" },
+      { asset: "/evidence/credentials/volunteer-manhghetmoi.png", trustLevel: "evidence", source: "certificate-image", reviewState: "confirmed" },
     ],
     reconciliation: {
       certificateChecked: "confirmed",
