@@ -22,6 +22,7 @@ const NAV_ITEMS: CommandItem[] = [
   { id: "method", label: "Engineering Method", category: "Navigation", href: "#method" },
   { id: "credentials", label: "Credentials", category: "Navigation", href: "#credentials" },
   { id: "contact", label: "Contact", category: "Navigation", href: "#contact" },
+  { id: "blog", label: "Blog", category: "Navigation", href: "/blog" },
   { id: "resume", label: "Resume", category: "Navigation", href: "/resume" },
   { id: "cred-page", label: "All Credentials", category: "Navigation", href: "/credentials" },
 ];

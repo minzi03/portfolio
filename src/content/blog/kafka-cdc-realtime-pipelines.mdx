@@ -1,0 +1,109 @@
+export const metadata = {
+  title: "Real-Time Data Pipelines with Kafka and CDC",
+  description:
+    "How to build reliable real-time data pipelines using Apache Kafka and Change Data Capture — patterns, pitfalls, and production tips.",
+  date: "2026-08-05",
+  tags: ["Apache Kafka", "CDC", "Streaming", "Data Pipelines"],
+  readTime: "6 min read",
+};
+
+# Real-Time Data Pipelines with Kafka and CDC
+
+The shift from batch to real-time isn't just about speed — it's about making better decisions with fresher data. Here's how to build reliable real-time pipelines with Apache Kafka and Change Data Capture.
+
+## Why CDC?
+
+Traditional ETL has a fundamental limitation: it's periodic. You extract data every hour (or day), transform it, and load it. By the time the data arrives, it's already stale.
+
+CDC solves this by capturing changes as they happen:
+
+```
+Database WAL → Debezium → Kafka → Spark/Flink → Lakehouse
+```
+
+- **Source**: PostgreSQL, MySQL, SQL Server WAL
+- **Capture**: Debezium reads the WAL stream
+- **Buffer**: Kafka provides durable, ordered event log
+- **Process**: Spark Structured Streaming or Flink consumes events
+- **Sink**: Lakehouse tables (Iceberg, Delta Lake)
+
+## Key Patterns
+
+### 1. Exactly-Once Semantics
+
+The holy grail of streaming: each event processed exactly once. Kafka makes this possible with:
+
+- **Producer**: Idempotent writes with `enable.idempotence=true`
+- **Consumer**: Transactional reads with `isolation.level=read_committed`
+- **Processor**: Checkpointing offsets within transactions
+
+### 2. Schema Evolution
+
+Data changes over time. Your pipeline must handle:
+
+- **New columns**: Add with defaults
+- **Renamed columns**: Map old → new
+- **Type changes**: Backward-compatible conversions
+- **Removed columns**: Ignore gracefully
+
+Use a Schema Registry (Confluent or Redpanda) to enforce compatibility rules.
+
+### 3. Late Arriving Data
+
+Real-time doesn't mean perfect ordering. Events can arrive late due to:
+
+- Network partitions
+- Producer retries
+- Consumer rebalancing
+
+Handle this with:
+- **Watermarking**: Define acceptable lateness
+- **Windowing**: Tumble, sliding, or session windows
+- **Late data handling**: Side outputs or reprocessing
+
+### 4. Dead Letter Queues
+
+Not every event will process cleanly. Build resilience with:
+
+```python
+try:
+    process_event(event)
+except Exception as e:
+    kafka_produce("dead-letter-topic", event, error=str(e))
+    metrics.increment("events.failed")
+```
+
+Monitor the dead letter queue — it's your early warning system.
+
+## Production Checklist
+
+- [ ] **Monitoring**: Lag, throughput, error rates per topic
+- [ ] **Alerting**: Consumer lag > threshold, error rate spike
+- [ ] **Backpressure**: Handle downstream slowdowns gracefully
+- [ ] **Idempotency**: Design processors to handle re-delivery
+- [ ] **Ordering**: Partition by entity ID for consistent ordering
+- [ ] **Retention**: Balance storage cost vs. replay capability
+
+## Common Pitfalls
+
+1. **Over-partitioning**: More partitions ≠ better performance. Start with 6-12 per topic.
+2. **Ignoring consumer lag**: Lag is the canary in the coal mine. Monitor it obsessively.
+3. **Tight coupling**: Producers and consumers should evolve independently via schemas.
+4. **No testing**: Streaming pipelines need integration tests, not just unit tests.
+
+## Results
+
+In my Banking Data Platform project, CDC with Kafka enabled:
+
+- **Latency**: From 24h (batch) to less than 5 seconds (streaming)
+- **Freshness**: Dashboard updates in real-time
+- **Reliability**: 99.95% event delivery with exactly-once semantics
+- **Scalability**: Handles 10K+ events/second on commodity hardware
+
+## Conclusion
+
+Real-time pipelines are powerful but complex. Start with CDC for your highest-value data, invest in observability early, and design for failure. The incremental complexity is worth the competitive advantage of fresh data.
+
+---
+
+*This post is based on my [Banking Data Platform](/projects/banking-data-platform) project, where I implemented CDC with Debezium and Kafka for real-time data ingestion.*

@@ -184,6 +184,14 @@ export default function Navbar() {
             {/* Command palette trigger */}
             <LazyCommandPalette />
 
+            {/* Blog */}
+            <a
+              href="/blog"
+              className="hidden items-center gap-1.5 rounded-lg border border-zinc-700/50 px-3 py-1.5 text-sm font-medium text-text-muted transition-all hover:border-accent/30 hover:text-accent sm:inline-flex"
+            >
+              Blog
+            </a>
+
             {/* Resume */}
             <a
               href={siteConfig.resumeUrl}
@@ -311,6 +319,15 @@ export default function Navbar() {
         </div>
 
         <div className="mt-4 border-t border-border pt-4">
+          <a
+            href="/blog"
+            className="flex items-center gap-2 rounded-lg border border-zinc-700/50 px-3 py-2.5 text-sm font-medium text-text-muted transition-all hover:border-accent/30 hover:text-accent"
+          >
+            Blog
+          </a>
+        </div>
+
+        <div className="mt-3 border-t border-border pt-3">
           <a
             href={siteConfig.resumeUrl}
             className="flex items-center gap-2 rounded-lg border border-accent/30 bg-accent/10 px-3 py-2.5 text-sm font-medium text-accent transition-all hover:bg-accent hover:text-bg"

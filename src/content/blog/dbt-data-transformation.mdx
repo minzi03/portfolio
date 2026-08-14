@@ -1,0 +1,135 @@
+export const metadata = {
+  title: "Why dbt Changed How I Think About Data Transformation",
+  description:
+    "From ad-hoc SQL scripts to version-controlled, tested, documented data models — how dbt transformed my approach to analytics engineering.",
+  date: "2026-07-28",
+  tags: ["dbt", "Data Transformation", "Analytics Engineering", "SQL"],
+  readTime: "5 min read",
+};
+
+# Why dbt Changed How I Think About Data Transformation
+
+Before dbt, data transformation was ad-hoc SQL scripts scattered across notebooks, cron jobs, and forgotten folders. After dbt, it became a disciplined engineering practice.
+
+## The Before State
+
+Sound familiar?
+
+- SQL scripts in a shared drive with no version control
+- "Who changed this query?" — no git history
+- "Does this break anything?" — no tests
+- "What does this column mean?" — no documentation
+- "Why is the dashboard wrong?" — no lineage
+
+## The dbt Shift
+
+dbt (data build tool) brings software engineering practices to data transformation:
+
+### 1. Version Control
+
+Every model is a file in git. You get:
+
+- **History**: Who changed what, when, and why
+- **Review**: Pull requests for schema changes
+- **Rollback**: Revert broken transformations instantly
+
+```sql
+-- models/marts/orders_daily.sql
+with orders as (
+    select * from {{ ref('stg_orders') }}
+),
+
+daily as (
+    select
+        date_trunc('day', order_date) as order_day,
+        count(*) as order_count,
+        sum(amount) as total_amount
+    from orders
+    group by 1
+)
+
+select * from daily
+```
+
+### 2. Testing
+
+dbt tests catch data quality issues before they reach dashboards:
+
+- **Unique**: No duplicate primary keys
+- **Not null**: Required fields are populated
+- **Referential integrity**: Foreign keys point to existing records
+- **Custom tests**: Business logic validation
+
+```yaml
+# models/marts/orders_daily.yml
+version: 2
+models:
+  - name: orders_daily
+    columns:
+      - name: order_day
+        tests:
+          - unique
+          - not_null
+      - name: total_amount
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+```
+
+### 3. Documentation
+
+dbt auto-generates documentation from your models:
+
+- **Schema**: Column names, types, descriptions
+- **Lineage**: Visual graph of model dependencies
+- **Freshness**: When each model last ran
+
+### 4. Lineage
+
+The lineage graph is dbt's killer feature. You can trace:
+
+- **Upstream**: What feeds this model?
+- **Downstream**: What breaks if I change this?
+- **Impact**: Which dashboards are affected?
+
+## dbt + Lakehouse
+
+dbt works beautifully with the Lakehouse architecture:
+
+- **dbt-spark**: Transform data in your lakehouse
+- **dbt-iceberg**: Native Iceberg table support
+- **dbt-bigquery**: If you're on BigQuery
+
+The pattern is the same regardless of warehouse:
+
+```
+Staging (stg_) → Intermediate (int_) → Marts (fct_/dim_)
+```
+
+## Results
+
+After adopting dbt in my projects:
+
+- **Confidence**: Tests catch issues before dashboards
+- **Speed**: New transformations in minutes, not hours
+- **Collaboration**: Team members can contribute via PRs
+- **Documentation**: Self-serve data discovery for analysts
+
+## Getting Started
+
+1. **Install dbt**: `pip install dbt-core`
+2. **Initialize**: `dbt init my_project`
+3. **Create your first model**: `models/staging/stg_orders.sql`
+4. **Add tests**: `models/staging/stg_orders.yml`
+5. **Run**: `dbt run && dbt test`
+
+Start small. One model, one test, one documentation page. Scale from there.
+
+## Conclusion
+
+dbt isn't just a tool — it's a mindset shift. It treats data transformation as a first-class engineering concern with version control, testing, and documentation. If you're still writing ad-hoc SQL scripts, dbt will change how you think about data.
+
+---
+
+*This post is based on my experience with dbt across multiple projects including the [Modern Data Stack](/projects/modern-data-stack) and [Banking Data Platform](/projects/banking-data-platform).*
