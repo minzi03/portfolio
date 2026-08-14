@@ -7,6 +7,7 @@ import { azureImpact, azureADRs, azureProblem, azureConstraints, azureLimitation
 import { movieImpact, movieADRs, movieProblem, movieConstraints, movieLimitations, movieImprovements } from "./projects/movie-data-warehouse/case-study";
 import { nexlabImpact, nexlabADRs, nexlabProblem, nexlabConstraints, nexlabLimitations, nexlabImprovements } from "./projects/nexlab-data-platform/case-study";
 import { cellphonesImpact, cellphonesADRs, cellphonesProblem, cellphonesConstraints, cellphonesLimitations, cellphonesImprovements } from "./projects/cellphones-analytics/case-study";
+import { dabImpact, dabADRs, dabProblem, dabConstraints, dabLimitations, dabImprovements } from "./projects/data-analysis-business/case-study";
 
 /** Project type — exported as `Project` for consumers */
 export type Project = ProjectBase;
@@ -220,6 +221,40 @@ export const projects: Project[] = [
     impact: cellphonesImpact,
     limitations: cellphonesLimitations,
     improvements: cellphonesImprovements,
+  },
+  {
+    id: "data-analysis-business",
+    slug: "data-analysis-business",
+    title: "Stock Price Forecasting — Vietnamese Pharma",
+    subtitle: "8-model comparison: LSTM, GRU, RNN, ARIMA, FFT, LightGBM on HOSE pharmaceutical stocks",
+    summary:
+      "Comprehensive stock price forecasting study comparing 8 models (statistical + ML + deep learning) across 3 Vietnamese pharmaceutical companies (AMV, DHT, DP3). 72 configurations tested (8 models × 3 stocks × 3 splits), 30/60/90-day forecasts. LSTM dominates with MAPE < 3.5%. Hybrid LSTM+LightGBM two-stage architecture explored. 42 Jupyter notebooks, 113 report figures, IEEE OJIES format paper with 87 references.",
+    category: "analytics",
+    status: "complete",
+    scope: "academic",
+    featured: false,
+    period: "Mar 2024 – May 2024",
+    tech: [
+      "Python",
+      "TensorFlow",
+      "Keras",
+      "Pandas",
+      "NumPy",
+      "Matplotlib",
+      "scikit-learn",
+      "LightGBM",
+      "pmdarima",
+      "LaTeX",
+    ],
+    tags: ["time-series", "deep-learning", "lstm", "stock-prediction", "machine-learning", "forecasting", "arima", "ieee"],
+    github: "https://github.com/minzi03/Data-Analysis-in-Business",
+    // Engineering reasoning
+    problem: dabProblem,
+    constraints: dabConstraints,
+    adrs: dabADRs,
+    impact: dabImpact,
+    limitations: dabLimitations,
+    improvements: dabImprovements,
   },
 ];
 
