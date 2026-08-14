@@ -1,11 +1,5 @@
 import type {
   Project as ProjectBase,
-  ProjectCategory,
-  ProjectStatus,
-  ProjectScope,
-  ProjectMetric,
-  ArchitectureReference,
-  ADR,
 } from "@/data/types";
 import { bankingImpact, bankingADRs, bankingProblem, bankingConstraints, bankingLimitations, bankingImprovements } from "./projects/banking/case-study";
 import { mdsImpact, mdsADRs, mdsProblem, mdsConstraints, mdsLimitations, mdsImprovements } from "./projects/modern-data-stack/case-study";
@@ -14,15 +8,6 @@ import { movieImpact, movieADRs, movieProblem, movieConstraints, movieLimitation
 
 /** Project type — exported as `Project` for consumers */
 export type Project = ProjectBase;
-
-export type {
-  ProjectCategory,
-  ProjectStatus,
-  ProjectScope,
-  ProjectMetric,
-  ArchitectureReference,
-  ADR,
-};
 
 export const projects: Project[] = [
   {
@@ -152,6 +137,3 @@ export function getProjectBySlug(slug: string): Project | undefined {
   return projects.find((p) => p.slug === slug);
 }
 
-export function getFeaturedProjects(): Project[] {
-  return projects.filter((p) => p.featured);
-}

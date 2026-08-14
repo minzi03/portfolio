@@ -7,15 +7,7 @@ import { projects } from "@/data/projects";
 import { certifications } from "@/data/credentials";
 import { education } from "@/data/education";
 import { skillCategories } from "@/data/skills";
-
-function formatDateRange(start: string, end?: string): string {
-  const s = new Date(start + "-01");
-  const startStr = s.toLocaleDateString("en-US", { month: "short", year: "numeric" });
-  if (!end) return `${startStr} – Present`;
-  const e = new Date(end + "-01");
-  const endStr = e.toLocaleDateString("en-US", { month: "short", year: "numeric" });
-  return `${startStr} – ${endStr}`;
-}
+import { formatDateRange } from "@/lib/format";
 
 export const metadata: Metadata = {
   title: "Resume",

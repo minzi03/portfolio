@@ -97,6 +97,14 @@ export const experiences: Experience[] = [
           "Designed YAML-configurable ingestion templates supporting CSV, Excel, REST API, and PDF sources, with a Raw → Staging → Clean pipeline flow for each",
         outcome:
           "Enabled new source onboarding through configuration changes without code modifications",
+        metrics: [
+          {
+            label: "source formats",
+            before: "Manual code per source",
+            after: "5 formats via YAML config",
+            value: "5 formats",
+          },
+        ],
         technologies: ["Python", "PostgreSQL"],
         projectIds: ["modern-data-stack"],
       },
@@ -116,6 +124,12 @@ export const experiences: Experience[] = [
           "Built PDF processing pipeline with page-level extraction, parsing structured data from multi-page documents into normalized outputs",
         outcome:
           "Enabled automated ingestion of PDF-sourced data into downstream systems",
+        metrics: [
+          {
+            label: "extraction capability",
+            value: "Page-level structured extraction",
+          },
+        ],
         technologies: ["Python"],
       },
       {
@@ -125,6 +139,12 @@ export const experiences: Experience[] = [
           "Created standardized output schemas consumed by PostgreSQL/pgvector, RAG pipelines, classification models, and Streamlit dashboards",
         outcome:
           "Established consistent data interfaces across multiple downstream consumers",
+        metrics: [
+          {
+            label: "downstream consumers",
+            value: "4 (PostgreSQL, RAG, ML, Streamlit)",
+          },
+        ],
         technologies: ["Python", "PostgreSQL", "pgvector"],
       },
       {
@@ -134,6 +154,14 @@ export const experiences: Experience[] = [
           "Built Docker Compose stacks for local development and deployment, packaging pipeline services with their dependencies",
         outcome:
           "Enabled reproducible development environments and consistent deployment across team",
+        metrics: [
+          {
+            label: "setup time",
+            before: "Manual dependency install",
+            after: "Single docker-compose up",
+            value: "Minutes → seconds",
+          },
+        ],
         technologies: ["Docker"],
       },
       {

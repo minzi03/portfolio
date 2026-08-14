@@ -62,8 +62,6 @@ export interface Credential {
   credentialType: CredentialType;
   description?: string;
   skills?: string[];
-  /** @deprecated Use evidenceAssets[].asset for new evidence. Kept for legacy image path. */
-  image?: string;
   verifyUrl?: string;
   featured?: boolean;
   showOnResume?: boolean;
@@ -705,11 +703,3 @@ export const certifications = credentials
     category: categoryLabels[c.category],
     verifyUrl: c.verifyUrl,
   }));
-
-export function getFeaturedCredentials(): Credential[] {
-  return credentials.filter((c) => c.featured);
-}
-
-export function getCredentialsByCategory(cat: CredentialCategory): Credential[] {
-  return credentials.filter((c) => c.category === cat);
-}

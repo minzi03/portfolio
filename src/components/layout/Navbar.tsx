@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useTheme } from "next-themes";
 import { siteConfig } from "@/data/site-config";
+import CommandPalette from "@/components/ui/CommandPalette";
 
 interface Section {
   id: string;
@@ -11,9 +12,9 @@ interface Section {
 
 const sections: Section[] = [
   { id: "hero", label: "Home" },
-  { id: "about", label: "About" },
   { id: "flagship", label: "Projects" },
   { id: "experience", label: "Experience" },
+  { id: "skills", label: "Skills" },
   { id: "method", label: "Method" },
   { id: "knowledge", label: "Credentials" },
   { id: "contact", label: "Contact" },
@@ -180,6 +181,9 @@ export default function Navbar() {
 
           {/* ── Right actions ── */}
           <div className="flex items-center gap-2">
+            {/* Command palette trigger */}
+            <CommandPalette />
+
             {/* Resume */}
             <a
               href={siteConfig.resumeUrl}

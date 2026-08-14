@@ -412,27 +412,9 @@ export const skills: Skill[] = [
   },
 ];
 
-/* ─── Backward-compatible exports ─── */
-/* Phase 1: keep existing consumers working. Remove after component migration. */
+/* ─── Category grouping ─── */
 
-export type { SkillLevel as SkillLevelCompat };
-
-export const levelLabels: Record<SkillLevel, string> = {
-  professional: "Professional",
-  project: "Project",
-  exploring: "Exploring",
-};
-
-export const levelColors: Record<SkillLevel, string> = {
-  professional:
-    "border-accent/30 bg-accent/10 text-accent",
-  project:
-    "border-border bg-bg-surface text-text-secondary",
-  exploring:
-    "border-border bg-bg text-text-muted",
-};
-
-export interface SkillCategoryGroup {
+interface SkillCategoryGroup {
   name: string;
   skills: { name: string; level: SkillLevel }[];
 }

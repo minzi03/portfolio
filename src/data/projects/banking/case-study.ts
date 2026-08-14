@@ -163,12 +163,6 @@ export const bankingImprovements: string[] = [
   "Define formal SLOs for freshness and quality",
 ];
 
-export const bankingOverview = {
-  role: "Solo Data Engineer",
-  domain: "Retail Banking",
-  architecture: "Medallion Lakehouse",
-  processing: "Batch + CDC",
-};
 
 export const bankingDataSources: string[] = [
   "customers",

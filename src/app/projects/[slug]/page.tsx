@@ -385,7 +385,20 @@ function BankingExtraSections() {
 
 /* ─── Unified data-driven case study ─── */
 
-function ProjectCaseStudy({ project }: { project: Project }) {
+interface ProjectNav {
+  slug: string;
+  title: string;
+}
+
+function ProjectCaseStudy({
+  project,
+  prevProject,
+  nextProject,
+}: {
+  project: Project;
+  prevProject?: ProjectNav;
+  nextProject?: ProjectNav;
+}) {
   const hasBankingGraphs = project.slug === "banking-data-platform";
   const evidence = getProjectEvidence(project.id);
 
@@ -440,13 +453,49 @@ function ProjectCaseStudy({ project }: { project: Project }) {
         </div>
       </div>
 
+      {/* Prev / Next navigation */}
+      {(prevProject || nextProject) && (
+        <nav className="grid gap-4 sm:grid-cols-2" aria-label="Project navigation">
+          {prevProject ? (
+            <Link
+              href={`/projects/${prevProject.slug}`}
+              className="group flex flex-col rounded-xl border border-border bg-bg-surface p-5 transition-colors hover:border-accent/30"
+            >
+              <span className="text-[10px] font-medium uppercase tracking-wider text-text-muted">
+                ← Previous
+              </span>
+              <span className="mt-1 text-sm font-semibold text-text-primary group-hover:text-accent">
+                {prevProject.title}
+              </span>
+            </Link>
+          ) : (
+            <div />
+          )}
+          {nextProject ? (
+            <Link
+              href={`/projects/${nextProject.slug}`}
+              className="group flex flex-col items-end rounded-xl border border-border bg-bg-surface p-5 text-right transition-colors hover:border-accent/30"
+            >
+              <span className="text-[10px] font-medium uppercase tracking-wider text-text-muted">
+                Next →
+              </span>
+              <span className="mt-1 text-sm font-semibold text-text-primary group-hover:text-accent">
+                {nextProject.title}
+              </span>
+            </Link>
+          ) : (
+            <div />
+          )}
+        </nav>
+      )}
+
       {/* Back navigation */}
-      <nav className="mt-8 flex items-center gap-3 text-sm" aria-label="Project navigation">
+      <nav className="mt-4 flex items-center gap-3 text-sm" aria-label="Breadcrumbs">
         <Link href="/#hero" className="text-text-muted transition-colors hover:text-text-primary">
           ← Portfolio
         </Link>
         <span className="text-text-muted/30">/</span>
-        <Link href="/projects" className="text-text-muted transition-colors hover:text-text-primary">
+        <Link href="/#projects" className="text-text-muted transition-colors hover:text-text-primary">
           Projects
         </Link>
       </nav>
@@ -459,6 +508,15 @@ export default async function ProjectPage({ params }: Props) {
   const { slug } = await params;
   const project = getProjectBySlug(slug);
   if (!project) notFound();
+
+  // Compute prev/next navigation
+  const currentIndex = projects.findIndex((p) => p.slug === slug);
+  const prevProject = currentIndex > 0
+    ? { slug: projects[currentIndex - 1].slug, title: projects[currentIndex - 1].title }
+    : undefined;
+  const nextProject = currentIndex < projects.length - 1
+    ? { slug: projects[currentIndex + 1].slug, title: projects[currentIndex + 1].title }
+    : undefined;
 
   return (
     <div className="bg-bg py-16 sm:py-24">
@@ -568,7 +626,7 @@ export default async function ProjectPage({ params }: Props) {
         </div>
 
         <div className="mt-12">
-          <ProjectCaseStudy project={project} />
+          <ProjectCaseStudy project={project} prevProject={prevProject} nextProject={nextProject} />
         </div>
       </Container>
     </div>

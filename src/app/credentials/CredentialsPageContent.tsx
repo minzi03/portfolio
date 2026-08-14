@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Container from "@/components/ui/Container";
 import CredentialCard from "@/components/credentials/CredentialCard";
 import CredentialModal from "@/components/credentials/CredentialModal";
@@ -8,17 +8,71 @@ import {
   credentials,
   credentialCategories,
   categoryLabels,
+  type Credential,
   type CredentialCategory,
 } from "@/data/credentials";
+import { fuzzySearch } from "@/lib/fuzzy-search";
+
+type SortOption = "newest" | "oldest" | "alpha" | "category";
+
+const SORT_LABELS: Record<SortOption, string> = {
+  newest: "Newest first",
+  oldest: "Oldest first",
+  alpha: "A → Z",
+  category: "By category",
+};
+
+function parseIssuedDate(cred: Credential): Date {
+  const raw = cred.issued ?? "";
+  // Handle "Apr 2026", "2025", "Oct 2025" etc.
+  const match = raw.match(/(\w+)\s+(\d{4})/);
+  if (match) {
+    const month = new Date(`${match[1]} 1, 2000`).getMonth();
+    return new Date(parseInt(match[2]), month);
+  }
+  const yearMatch = raw.match(/(\d{4})/);
+  if (yearMatch) return new Date(parseInt(yearMatch[1]), 0);
+  return new Date(0);
+}
+
+function sortCredentials(items: Credential[], sort: SortOption): Credential[] {
+  const sorted = [...items];
+  switch (sort) {
+    case "newest":
+      return sorted.sort((a, b) => parseIssuedDate(b).getTime() - parseIssuedDate(a).getTime());
+    case "oldest":
+      return sorted.sort((a, b) => parseIssuedDate(a).getTime() - parseIssuedDate(b).getTime());
+    case "alpha":
+      return sorted.sort((a, b) => a.title.localeCompare(b.title));
+    case "category":
+      return sorted.sort((a, b) => a.category.localeCompare(b.category) || parseIssuedDate(b).getTime() - parseIssuedDate(a).getTime());
+  }
+}
 
 export default function CredentialsPageContent() {
   const [active, setActive] = useState<CredentialCategory | "all">("all");
+  const [sort, setSort] = useState<SortOption>("newest");
+  const [search, setSearch] = useState("");
   const [selected, setSelected] = useState<string | null>(null);
 
-  const filtered =
-    active === "all"
-      ? credentials
-      : credentials.filter((c) => c.category === active);
+  const filtered = useMemo(() => {
+    let result = active === "all" ? credentials : credentials.filter((c) => c.category === active);
+
+    if (search.trim()) {
+      const fuzzyResults = fuzzySearch(
+        result,
+        search,
+        [
+          (c) => c.title,
+          (c) => c.issuer,
+          (c) => c.skills?.join(" "),
+        ]
+      );
+      result = fuzzyResults.map((r) => r.item);
+    }
+
+    return sortCredentials(result, sort);
+  }, [active, sort, search]);
 
   const selectedCredential = selected
     ? credentials.find((c) => c.id === selected) ?? null
@@ -58,8 +112,53 @@ export default function CredentialsPageContent() {
           ))}
         </div>
 
-        {/* Filter */}
-        <div className="mt-8 flex flex-wrap gap-2">
+        {/* Controls row: search + sort */}
+        <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          {/* Search */}
+          <div className="relative max-w-xs flex-1">
+            <label htmlFor="credential-search" className="sr-only">
+              Search credentials
+            </label>
+            <input
+              id="credential-search"
+              type="search"
+              placeholder="Search by title, issuer, or skill..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full rounded-lg border border-border bg-bg-surface px-3 py-2 pl-9 text-sm text-text-primary placeholder:text-text-muted focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent/30"
+            />
+            <svg
+              className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-text-muted"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+              aria-hidden="true"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </div>
+
+          {/* Sort */}
+          <div className="flex items-center gap-2">
+            <label htmlFor="credential-sort" className="text-xs text-text-muted">
+              Sort:
+            </label>
+            <select
+              id="credential-sort"
+              value={sort}
+              onChange={(e) => setSort(e.target.value as SortOption)}
+              className="rounded-lg border border-border bg-bg-surface px-3 py-2 text-sm text-text-secondary focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent/30"
+            >
+              {(Object.entries(SORT_LABELS) as [SortOption, string][]).map(([key, label]) => (
+                <option key={key} value={key}>{label}</option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        {/* Category filter */}
+        <div className="mt-4 flex flex-wrap gap-2">
           <button
             type="button"
             onClick={() => setActive("all")}
@@ -69,26 +168,48 @@ export default function CredentialsPageContent() {
                 : "border border-border text-text-secondary hover:text-text-primary"
             }`}
           >
-            All
+            All ({credentials.length})
           </button>
-          {credentialCategories.map((cat) => (
+          {credentialCategories.map((cat) => {
+            const count = credentials.filter((c) => c.category === cat).length;
+            if (count === 0) return null;
+            return (
+              <button
+                key={cat}
+                type="button"
+                onClick={() => setActive(cat)}
+                className={`rounded-lg px-3 py-1.5 text-sm transition-colors ${
+                  active === cat
+                    ? "bg-accent text-bg"
+                    : "border border-border text-text-secondary hover:text-text-primary"
+                }`}
+              >
+                {categoryLabels[cat]} ({count})
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Results count */}
+        <div className="mt-4 flex items-center gap-2">
+          <p className="text-xs text-text-muted">
+            {filtered.length} credential{filtered.length !== 1 ? "s" : ""}
+            {active !== "all" && <> in {categoryLabels[active]}</>}
+            {search.trim() && <> matching &ldquo;{search.trim()}&rdquo;</>}
+          </p>
+          {(active !== "all" || search.trim()) && (
             <button
-              key={cat}
               type="button"
-              onClick={() => setActive(cat)}
-              className={`rounded-lg px-3 py-1.5 text-sm transition-colors ${
-                active === cat
-                  ? "bg-accent text-bg"
-                  : "border border-border text-text-secondary hover:text-text-primary"
-              }`}
+              onClick={() => { setActive("all"); setSearch(""); }}
+              className="text-xs text-accent hover:text-accent-hover"
             >
-              {categoryLabels[cat]}
+              Clear filters
             </button>
-          ))}
+          )}
         </div>
 
         {/* Grid */}
-        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {filtered.map((cred) => (
             <CredentialCard
               key={cred.id}
@@ -99,7 +220,16 @@ export default function CredentialsPageContent() {
         </div>
 
         {filtered.length === 0 && (
-          <p className="mt-8 text-sm text-text-muted">No credentials in this category.</p>
+          <div className="mt-12 text-center">
+            <p className="text-sm text-text-muted">No credentials match your filters.</p>
+            <button
+              type="button"
+              onClick={() => { setActive("all"); setSearch(""); }}
+              className="mt-2 text-sm text-accent hover:text-accent-hover"
+            >
+              Reset filters
+            </button>
+          </div>
         )}
       </Container>
 

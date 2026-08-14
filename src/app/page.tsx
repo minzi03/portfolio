@@ -1,8 +1,11 @@
 import Link from "next/link";
 import Container from "@/components/ui/Container";
 import FadeIn from "@/components/ui/FadeIn";
+import AnimatedCounter from "@/components/ui/AnimatedCounter";
 import ArchitecturePreview from "@/components/projects/ArchitecturePreview";
 import ExperienceHighlightCard from "@/components/experience/ExperienceHighlightCard";
+import SkillsProficiency from "@/components/skills/SkillsProficiency";
+import ArchitectureTeaser from "@/components/projects/ArchitectureTeaser";
 import CredentialCardLink from "@/components/credentials/CredentialCardLink";
 import CredentialTrustBadge from "@/components/credentials/CredentialTrustBadge";
 import { siteConfig } from "@/data/site-config";
@@ -10,113 +13,13 @@ import { experiences } from "@/data/experience";
 import { projects } from "@/data/projects";
 import { credentials } from "@/data/credentials";
 import { education } from "@/data/education";
-
-function formatDateRange(start: string, end?: string): string {
-  const s = new Date(start + "-01");
-  const startStr = s.toLocaleDateString("en-US", { month: "short", year: "numeric" });
-  if (!end) return `${startStr} – Present`;
-  const e = new Date(end + "-01");
-  const endStr = e.toLocaleDateString("en-US", { month: "short", year: "numeric" });
-  return `${startStr} – ${endStr}`;
-}
+import { formatDateRange } from "@/lib/format";
 
 /* ═══════════════════════════════════════════════════════════════
-   01 — HERO
-   Engineering philosophy + role + proof
+   01 — HERO (merged with About)
+   Identity + proof + education — single above-the-fold section
    ═══════════════════════════════════════════════════════════════ */
 function Hero() {
-  return (
-    <section id="hero" aria-label="Hero" className="relative overflow-hidden border-b border-border bg-bg py-20 sm:py-28">
-      {/* Subtle gradient overlay */}
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-purple/5" />
-      <Container>
-        <div className="max-w-2xl">
-          <p className="mb-3 font-mono text-sm text-accent">Hello, I&apos;m</p>
-          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
-            <span className="gradient-text">{siteConfig.name}</span>
-          </h1>
-          <div className="mt-2 flex items-center gap-3">
-            <p className="text-xl font-semibold text-text-secondary">Data Engineer</p>
-            {siteConfig.availability.status === "open" && (
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-green-500/30 bg-green-500/10 px-3 py-0.5 text-xs font-medium text-green-400">
-                <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-green-400 animate-pulse" />
-                {siteConfig.availability.label}
-              </span>
-            )}
-          </div>
-
-          {/* Engineering philosophy */}
-          <p className="mt-5 max-w-lg text-base leading-relaxed text-text-secondary">
-            I build data platforms that stay reliable — from ingestion and CDC
-            through modeling to analytics-ready data.
-          </p>
-          <p className="mt-2 max-w-lg text-sm leading-relaxed text-text-muted">
-            I care about idempotency, observable pipelines, clear data contracts,
-            and architecture that can be explained — not just executed.
-          </p>
-
-          {/* CTAs */}
-          <div className="mt-8 flex flex-wrap gap-3">
-            <a
-              href="#flagship"
-              className="inline-flex h-11 items-center rounded-md bg-accent px-5 text-sm font-medium text-bg shadow-md shadow-accent/20 transition-all hover:bg-accent-hover hover:shadow-lg hover:shadow-accent/30"
-            >
-              Explore my work
-            </a>
-            <a
-              href={siteConfig.resumeUrl}
-              className="inline-flex h-11 items-center rounded-md border border-border px-5 text-sm font-medium text-text-secondary transition-colors hover:border-text-muted hover:text-text-primary"
-            >
-              Resume <span aria-hidden="true">↗</span>
-            </a>
-          </div>
-
-          {/* Links */}
-          <div className="mt-6 flex gap-4 text-sm text-text-muted">
-            <a href={siteConfig.github} target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-text-primary">
-              GitHub
-            </a>
-            <a href={siteConfig.linkedin} target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-text-primary">
-              LinkedIn
-            </a>
-            <a href={`mailto:${siteConfig.email}`} className="transition-colors hover:text-text-primary">
-              Email
-            </a>
-          </div>
-        </div>
-
-        {/* Architecture graphic — hidden on mobile */}
-        <div aria-hidden="true" className="pointer-events-none absolute bottom-0 right-0 hidden w-80 opacity-[0.06] lg:block">
-          <pre className="font-mono text-[10px] leading-tight text-text-primary">
-{`    Sources
-      │
-      ├──────────┐
-      ↓          ↓
-    Batch      CDC
-      │          │
-    Spark    Kafka
-      │          │
-      └────┬─────┘
-           ↓
-        Bronze
-           ↓
-        Silver
-           ↓
-         Gold
-           ↓
-      Analytics`}
-          </pre>
-        </div>
-      </Container>
-    </section>
-  );
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   02 — ABOUT
-   Professional summary + education + focus areas
-   ═══════════════════════════════════════════════════════════════ */
-function About() {
   const focusAreas = [
     { label: "Data Pipelines", detail: "ETL/ELT, batch & streaming" },
     { label: "Lakehouse", detail: "Iceberg, Spark, Medallion" },
@@ -124,56 +27,83 @@ function About() {
     { label: "Data Quality", detail: "Validation, contracts, lineage" },
   ];
 
-  return (
-    <section id="about" aria-label="About" className="border-b border-border bg-bg-surface py-16">
-      <Container>
-        <div className="mb-8">
-          <p className="mb-1 font-mono text-xs uppercase tracking-widest text-accent">About</p>
-          <h2 className="text-2xl font-bold tracking-tight text-text-primary">Who I Am</h2>
-        </div>
+  const proofStats = [
+    { target: 4.6, suffix: "M+", decimals: 1, label: "Transactions" },
+    { target: 53, suffix: "", decimals: 0, label: "Tables" },
+    { target: 28, suffix: "", decimals: 0, label: "Credentials" },
+    { target: 47, suffix: "", decimals: 0, label: "Skills" },
+  ];
 
+  return (
+    <section id="hero" aria-label="Hero" className="relative overflow-hidden border-b border-border bg-bg py-16 sm:py-20">
+      {/* Subtle gradient overlay */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-purple/5" />
+      <Container>
         <div className="grid gap-10 lg:grid-cols-5">
-          {/* ── Left: Summary + Focus ── */}
-          <div className="lg:col-span-3 space-y-6">
-            {/* Professional summary */}
-            <div className="space-y-3">
-              <p className="text-sm leading-relaxed text-text-secondary">
-                I&apos;m a Data Engineer who builds platforms that stay reliable — from
-                ingestion and CDC through modeling to analytics-ready data. I care
-                about idempotency, observable pipelines, and architecture that can
-                be explained, not just executed.
-              </p>
-              <p className="text-sm leading-relaxed text-text-secondary">
-                With hands-on experience at two startups and multiple production-grade
-                projects, I work across the full data lifecycle: designing ingestion
-                from heterogeneous sources, building medallion architectures, enforcing
-                data contracts, and delivering semantic models for BI.
-              </p>
+          {/* ── Left: Identity + proof ── */}
+          <div className="lg:col-span-3">
+            <p className="mb-3 font-mono text-sm text-accent">Hello, I&apos;m</p>
+            <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
+              <span className="gradient-text">{siteConfig.name}</span>
+            </h1>
+            <div className="mt-2 flex items-center gap-3">
+              <p className="text-xl font-semibold text-text-secondary">Data Engineer</p>
+              {siteConfig.availability.status === "open" && (
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-green-500/30 bg-green-500/10 px-3 py-0.5 text-xs font-medium text-green-400">
+                  <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-green-400 animate-pulse" />
+                  {siteConfig.availability.label}
+                </span>
+              )}
             </div>
 
-            {/* Technical focus areas */}
-            <div>
-              <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-text-muted">
-                Technical Focus
-              </h3>
-              <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-                {focusAreas.map((area) => (
-                  <div
-                    key={area.label}
-                    className="rounded-md border border-border bg-bg p-3"
-                  >
-                    <p className="text-sm font-semibold text-text-primary">{area.label}</p>
-                    <p className="mt-0.5 text-[11px] text-text-muted">{area.detail}</p>
-                  </div>
-                ))}
-              </div>
+            {/* Outcome-first tagline */}
+            <p className="mt-5 max-w-lg text-base leading-relaxed text-text-secondary">
+              I build data platforms that turn raw data into decisions — from ingestion
+              and CDC through modeling to analytics-ready data.
+            </p>
+
+            {/* Proof metrics — inline strip */}
+            <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
+              {proofStats.map((stat) => (
+                <div key={stat.label} className="rounded-lg border border-border bg-bg-surface px-3 py-2 text-center">
+                  <p className="text-lg font-bold font-mono text-accent">
+                    <AnimatedCounter target={stat.target} suffix={stat.suffix} decimals={stat.decimals} />
+                  </p>
+                  <p className="text-[11px] text-text-muted">{stat.label}</p>
+                </div>
+              ))}
+            </div>
+
+            {/* CTAs + links */}
+            <div className="mt-6 flex flex-wrap gap-3">
+              <a
+                href="#flagship"
+                className="inline-flex h-11 items-center rounded-md bg-accent px-5 text-sm font-medium text-bg shadow-md shadow-accent/20 transition-all hover:bg-accent-hover hover:shadow-lg hover:shadow-accent/30"
+              >
+                Explore my work
+              </a>
+              <a
+                href={siteConfig.resumeUrl}
+                className="inline-flex h-11 items-center rounded-md border border-border px-5 text-sm font-medium text-text-secondary transition-colors hover:border-text-muted hover:text-text-primary"
+              >
+                Resume <span aria-hidden="true">↗</span>
+              </a>
+              <a href={siteConfig.github} target="_blank" rel="noopener noreferrer" className="inline-flex h-11 items-center rounded-md border border-border px-5 text-sm font-medium text-text-secondary transition-colors hover:text-text-primary">
+                GitHub
+              </a>
+              <a href={siteConfig.linkedin} target="_blank" rel="noopener noreferrer" className="inline-flex h-11 items-center rounded-md border border-border px-5 text-sm font-medium text-text-secondary transition-colors hover:text-text-primary">
+                LinkedIn
+              </a>
+              <a href={`mailto:${siteConfig.email}`} className="inline-flex h-11 items-center rounded-md border border-border px-5 text-sm font-medium text-text-secondary transition-colors hover:text-text-primary">
+                Email
+              </a>
             </div>
           </div>
 
-          {/* ── Right: Education + Info ── */}
+          {/* ── Right: Education + Focus ── */}
           <div className="lg:col-span-2 space-y-4">
             {/* Education card */}
-            <div className="card-hover rounded-md border border-border bg-bg p-5">
+            <div className="rounded-md border border-border bg-bg-surface p-5">
               <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-text-muted">
                 Education
               </h3>
@@ -204,48 +134,49 @@ function About() {
               )}
             </div>
 
-            {/* Location */}
-            <div className="card-hover rounded-md border border-border bg-bg p-5">
-              <h3 className="mb-2 text-xs font-semibold uppercase tracking-wider text-text-muted">
-                Location
+            {/* Technical focus areas */}
+            <div className="rounded-md border border-border bg-bg-surface p-5">
+              <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-text-muted">
+                Technical Focus
               </h3>
-              <p className="text-sm text-text-secondary">{siteConfig.location}</p>
-              {siteConfig.availability.status === "open" && (
-                <div className="mt-2 flex items-center gap-1.5">
-                  <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-green-400 animate-pulse" />
-                  <span className="text-xs text-green-400">{siteConfig.availability.label}</span>
-                </div>
-              )}
+              <div className="grid grid-cols-2 gap-2">
+                {focusAreas.map((area) => (
+                  <div key={area.label} className="rounded-md border border-border bg-bg px-3 py-2">
+                    <p className="text-xs font-semibold text-text-primary">{area.label}</p>
+                    <p className="mt-0.5 text-[10px] text-text-muted">{area.detail}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Location */}
+            <div className="rounded-md border border-border bg-bg-surface p-5">
+              <p className="text-xs text-text-muted">{siteConfig.location}</p>
             </div>
           </div>
         </div>
-      </Container>
-    </section>
-  );
-}
 
-/* ═══════════════════════════════════════════════════════════════
-   03 — PROOF STRIP
-   High-level signals — no overlap with Flagship metrics
-   ═══════════════════════════════════════════════════════════════ */
-function ProofStrip() {
-  const stats = [
-    { value: "4.6M+", label: "Transactions", context: "curated" },
-    { value: "16", label: "Sources", context: "ingested" },
-    { value: "2", label: "Experiences", context: "professional" },
-  ];
-
-  return (
-    <section id="proof" aria-label="Key metrics" className="border-b border-border bg-bg-surface py-8">
-      <Container>
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
-          {stats.map((stat) => (
-            <div key={stat.label} className="text-center">
-              <p className="text-2xl font-bold font-mono text-accent">{stat.value}</p>
-              <p className="text-sm font-medium text-text-primary">{stat.label}</p>
-              <p className="text-[11px] text-text-muted">{stat.context}</p>
-            </div>
-          ))}
+        {/* Architecture graphic — hidden on mobile */}
+        <div aria-hidden="true" className="pointer-events-none absolute bottom-0 right-0 hidden w-80 opacity-[0.06] lg:block">
+          <pre className="font-mono text-[10px] leading-tight text-text-primary">
+{`    Sources
+      │
+      ├──────────┐
+      ↓          ↓
+    Batch      CDC
+      │          │
+    Spark    Kafka
+      │          │
+      └────┬─────┘
+           ↓
+        Bronze
+           ↓
+        Silver
+           ↓
+         Gold
+           ↓
+      Analytics`}
+          </pre>
         </div>
       </Container>
     </section>
@@ -292,6 +223,9 @@ function FlagshipProject() {
 
               {/* Architecture preview */}
               <ArchitecturePreview projectId={flagship.id} />
+
+              {/* Interactive architecture teaser */}
+              <ArchitectureTeaser />
 
               {/* Tech stack */}
               <div className="flex flex-wrap gap-1.5">
@@ -399,6 +333,9 @@ function ProjectsGrid() {
    Best evidence from each role — metric prominently displayed
    ═══════════════════════════════════════════════════════════════ */
 function ExperienceSection() {
+  // Build project lookup for cross-links
+  const projectMap = projects.map((p) => ({ id: p.id, title: p.title, slug: p.slug }));
+
   return (
     <section id="experience" aria-label="Experience" className="border-b border-border bg-bg-surface py-16">
       <Container>
@@ -414,6 +351,10 @@ function ExperienceSection() {
           {experiences.map((exp) => {
             const topHighlights = exp.highlights.slice(0, 2);
             const primaryMetric = exp.highlights[0]?.metrics?.[0];
+
+            // Resolve project links from highlight projectIds
+            const highlightProjectIds = topHighlights.flatMap((h) => h.projectIds ?? []);
+            const linkedProjects = projectMap.filter((p) => highlightProjectIds.includes(p.id));
 
             return (
               <div
@@ -452,7 +393,7 @@ function ExperienceSection() {
                 {topHighlights.length > 0 && (
                   <ul className="mt-4 space-y-2">
                     {topHighlights.map((h, i) => (
-                      <ExperienceHighlightCard key={i} highlight={h} compact />
+                      <ExperienceHighlightCard key={i} highlight={h} compact linkedProjects={linkedProjects} />
                     ))}
                   </ul>
                 )}
@@ -486,7 +427,7 @@ function ExperienceSection() {
 
 /* ═══════════════════════════════════════════════════════════════
    05 — HOW I BUILD DATA SYSTEMS
-   4 stages with evidence links
+   4 stages with evidence links + principles
    ═══════════════════════════════════════════════════════════════ */
 function EngineeringMethod() {
   const stages = [
@@ -494,162 +435,94 @@ function EngineeringMethod() {
       step: "01",
       title: "Ingest",
       icon: "⚡",
-      tools: "Apache NiFi · Kafka · Airflow · Python",
+      tools: "NiFi · Kafka · Airflow",
       detail:
-        "Extract from Oracle, PostgreSQL, REST APIs, flat files. Schema-on-read validation at ingestion boundary. Idempotent writes prevent duplicate processing.",
-      evidence: "Katalyst AI — NiFi Oracle→MinIO · QuanSkill — config-driven multi-source",
+        "Schema-on-read validation at ingestion boundary. Idempotent writes prevent duplicate processing.",
+      evidence: "Katalyst — NiFi Oracle→MinIO · QuanSkill — config-driven multi-source",
     },
     {
       step: "02",
       title: "Model",
       icon: "🏗️",
-      tools: "Spark · Iceberg · dbt · Star Schema",
+      tools: "Spark · Iceberg · dbt",
       detail:
-        "Medallion architecture (Bronze→Silver→Gold). Dimensional modeling with SCD Type 2. Data contracts define schema expectations between teams.",
+        "Medallion architecture (Bronze→Silver→Gold). Dimensional modeling with SCD Type 2.",
       evidence: "Banking — Iceberg + Spark Medallion · Movie DW — star schema",
     },
     {
       step: "03",
       title: "Reliability",
       icon: "🛡️",
-      tools: "Great Expectations · Monte Carlo · OpenMetadata",
+      tools: "OpenMetadata · Great Expectations",
       detail:
-        "Automated DQ checks at pipeline boundaries. Data freshness SLAs. Column-level lineage across 53+ tables. Row-level security and masking.",
-      evidence: "Banking — OpenMetadata 53 tables · Katalyst — row access + masking",
+        "Column-level lineage across 53+ tables. Row-level security and masking. DQ at pipeline boundaries.",
+      evidence: "Banking — 53 tables · Katalyst — row access + masking",
     },
     {
       step: "04",
       title: "Serve",
       icon: "📊",
-      tools: "Trino · Superset · Power BI · Presto",
+      tools: "Trino · Superset · Power BI",
       detail:
-        "Sub-second analytics on petabyte-scale. Semantic layers hide complexity. Materialized views for dashboards. Self-service BI for analysts.",
+        "Sub-second analytics. Semantic layers hide complexity. Self-service BI for analysts.",
       evidence: "Banking — Trino + Superset · Azure — Power BI dashboards",
     },
   ];
 
   const principles = [
-    {
-      title: "Infrastructure as Code",
-      desc: "Every pipeline versioned, reproducible, peer-reviewed.",
-      icon: "⚙️",
-    },
-    {
-      title: "Data Contracts First",
-      desc: "Schema and SLA agreed before code is written.",
-      icon: "📋",
-    },
-    {
-      title: "Observability by Default",
-      desc: "If it runs, it's monitored. If it breaks, it alerts.",
-      icon: "📡",
-    },
-    {
-      title: "Test at the Boundary",
-      desc: "Validate on ingest, not after a 3-hour transform.",
-      icon: "🧪",
-    },
-  ];
-
-  const techEcosystem = [
-    { category: "Orchestration", tools: ["Airflow", "Dagster", "NiFi"] },
-    { category: "Processing", tools: ["Spark", "Flink", "dbt"] },
-    { category: "Storage", tools: ["Iceberg", "Delta Lake", "MinIO"] },
-    { category: "Quality", tools: ["Great Expectations", "Monte Carlo"] },
-    { category: "Governance", tools: ["OpenMetadata", "DataHub"] },
-    { category: "Analytics", tools: ["Trino", "Superset", "Power BI"] },
+    "Infrastructure as Code — every pipeline versioned, reproducible",
+    "Data Contracts First — schema and SLA agreed before code",
+    "Observability by Default — if it runs, it&apos;s monitored",
+    "Test at the Boundary — validate on ingest, not after transform",
   ];
 
   return (
     <section id="method" aria-label="Engineering method" className="border-b border-border bg-bg py-16">
       <Container>
         {/* Header */}
-        <div className="mb-10">
+        <div className="mb-8">
           <p className="mb-1 font-mono text-xs uppercase tracking-widest text-accent">Method</p>
-          <h2 className="text-2xl font-bold tracking-tight text-text-primary sm:text-3xl">
+          <h2 className="text-2xl font-bold tracking-tight text-text-primary">
             How I Build Data Systems
           </h2>
-          <p className="mt-2 max-w-2xl text-sm text-text-muted">
-            A structured approach to data engineering — from raw ingestion to actionable analytics.
-            Every stage is deliberate, testable, and observable.
-          </p>
         </div>
 
-        {/* Pipeline visualization */}
-        <div className="mb-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {/* Pipeline stages — compact 4-col */}
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {stages.map((stage, i) => (
             <div
               key={stage.step}
-              className="card-hover group relative flex flex-col rounded-xl border border-border bg-bg-surface p-5 transition-all hover:border-accent/30"
+              className="group relative flex flex-col rounded-xl border border-border bg-bg-surface p-4 transition-all hover:border-accent/30"
             >
-              {/* Connector line (hidden on mobile) */}
               {i < stages.length - 1 && (
-                <div className="absolute right-0 top-1/2 hidden h-px w-4 -translate-y-1/2 bg-border lg:block" />
+                <div className="absolute right-0 top-1/2 hidden h-px w-3 -translate-y-1/2 bg-border lg:block" />
               )}
-
               <div className="flex items-center gap-2">
-                <span className="text-lg">{stage.icon}</span>
-                <p className="font-mono text-xs text-accent">{stage.step}</p>
+                <span className="text-base">{stage.icon}</span>
+                <p className="font-mono text-[11px] text-accent">{stage.step}</p>
               </div>
-              <h3 className="mt-2 text-lg font-bold text-text-primary">{stage.title}</h3>
-              <p className="mt-1 font-mono text-[11px] text-text-muted">{stage.tools}</p>
-              <p className="mt-2 text-xs leading-relaxed text-text-secondary">{stage.detail}</p>
-              <p className="mt-3 border-t border-border pt-3 text-[11px] text-text-muted">
+              <h3 className="mt-1.5 text-base font-bold text-text-primary">{stage.title}</h3>
+              <p className="mt-1 font-mono text-[10px] text-text-muted">{stage.tools}</p>
+              <p className="mt-1.5 text-[11px] leading-relaxed text-text-secondary">{stage.detail}</p>
+              <p className="mt-2 border-t border-border pt-2 text-[10px] text-text-muted">
                 {stage.evidence}
               </p>
             </div>
           ))}
         </div>
 
-        {/* Principles + Tech Ecosystem side by side */}
-        <div className="grid gap-8 lg:grid-cols-5">
-          {/* Principles */}
-          <div className="lg:col-span-3">
-            <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-text-secondary">
-              Engineering Principles
-            </h3>
-            <div className="grid gap-3 sm:grid-cols-2">
-              {principles.map((p) => (
-                <div
-                  key={p.title}
-                  className="flex items-start gap-3 rounded-lg border border-border bg-bg-surface p-4"
-                >
-                  <span className="text-base">{p.icon}</span>
-                  <div>
-                    <p className="text-sm font-semibold text-text-primary">{p.title}</p>
-                    <p className="mt-0.5 text-xs text-text-muted">{p.desc}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Tech Ecosystem */}
-          <div className="lg:col-span-2">
-            <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-text-secondary">
-              Tech Ecosystem
-            </h3>
-            <div className="rounded-xl border border-border bg-bg-surface p-4">
-              <div className="space-y-3">
-                {techEcosystem.map((cat) => (
-                  <div key={cat.category}>
-                    <p className="font-mono text-[10px] uppercase tracking-wider text-accent">
-                      {cat.category}
-                    </p>
-                    <div className="mt-1 flex flex-wrap gap-1">
-                      {cat.tools.map((tool) => (
-                        <span
-                          key={tool}
-                          className="rounded-md border border-border bg-bg px-2 py-0.5 font-mono text-[11px] text-text-secondary"
-                        >
-                          {tool}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+        {/* Principles — compact inline row */}
+        <div className="mt-6 rounded-xl border border-border bg-bg-surface p-4">
+          <p className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-text-muted">
+            Engineering Principles
+          </p>
+          <div className="flex flex-wrap gap-x-6 gap-y-1">
+            {principles.map((p) => (
+              <span key={p} className="flex items-center gap-1.5 text-xs text-text-secondary">
+                <span aria-hidden="true" className="h-1 w-1 shrink-0 rounded-full bg-accent/50" />
+                {p}
+              </span>
+            ))}
           </div>
         </div>
       </Container>
@@ -658,8 +531,8 @@ function EngineeringMethod() {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   06 — PROOF & KNOWLEDGE
-   Writing + Credentials combined
+   06 — CREDENTIALS
+   Featured certifications — compact grid
    ═══════════════════════════════════════════════════════════════ */
 function ProofAndKnowledge() {
   const featuredCredentials = credentials.filter((c) => c.featured);
@@ -667,32 +540,26 @@ function ProofAndKnowledge() {
   return (
     <section id="knowledge" aria-label="Credentials" className="border-b border-border bg-bg-surface py-16">
       <Container>
-        {/* Header */}
-        <div className="mb-8">
-          <p className="mb-1 font-mono text-xs uppercase tracking-widest text-accent">Knowledge</p>
-          <h2 className="text-2xl font-bold tracking-tight text-text-primary sm:text-3xl">
-            Certifications & Achievements
-          </h2>
-          <p className="mt-2 max-w-2xl text-sm text-text-muted">
-            {featuredCredentials.length} key certifications in data engineering, streaming, cloud, and governance.
-          </p>
+        <div className="mb-8 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="mb-1 font-mono text-xs uppercase tracking-widest text-accent">Credentials</p>
+            <h2 className="text-2xl font-bold tracking-tight text-text-primary">
+              {featuredCredentials.length} Key Certifications
+            </h2>
+          </div>
+          <Link
+            href="/credentials"
+            className="text-sm font-medium text-accent hover:text-accent-hover"
+          >
+            View all {credentials.length} credentials →
+          </Link>
         </div>
 
-        {/* Credentials grid — same card style as /credentials */}
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {/* Credentials grid — compact 2-col */}
+        <div className="grid gap-3 sm:grid-cols-2">
           {featuredCredentials.map((cred) => (
             <CredentialCardLink key={cred.id} credential={cred} />
           ))}
-        </div>
-
-        {/* CTA */}
-        <div className="mt-6">
-          <Link
-            href="/credentials"
-            className="inline-flex items-center gap-1.5 text-sm font-medium text-accent hover:text-accent-hover"
-          >
-            View all credentials with evidence →
-          </Link>
         </div>
       </Container>
     </section>
@@ -738,17 +605,16 @@ function Contact() {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   PAGE
+   PAGE — 8 sections (compressed from 10)
    ═══════════════════════════════════════════════════════════════ */
 export default function Home() {
   return (
     <>
       <Hero />
-      <FadeIn><About /></FadeIn>
-      <FadeIn><ProofStrip /></FadeIn>
       <FadeIn><FlagshipProject /></FadeIn>
       <FadeIn><ProjectsGrid /></FadeIn>
       <FadeIn><ExperienceSection /></FadeIn>
+      <FadeIn><SkillsProficiency /></FadeIn>
       <FadeIn><EngineeringMethod /></FadeIn>
       <FadeIn><ProofAndKnowledge /></FadeIn>
       <FadeIn><Contact /></FadeIn>

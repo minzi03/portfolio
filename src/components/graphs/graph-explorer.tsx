@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-export type GraphNode = {
+type GraphNode = {
   id: string;
   label: string;
   type: string;
@@ -11,13 +11,13 @@ export type GraphNode = {
   metadata?: Record<string, unknown>;
 };
 
-export type GraphEdge = {
+type GraphEdge = {
   source: string;
   target: string;
   label?: string;
 };
 
-export type GraphData = {
+type GraphData = {
   title: string;
   nodes: GraphNode[];
   edges: GraphEdge[];

@@ -159,47 +159,5 @@ export interface Skill {
 
 /* ─── Credentials ─── */
 
-export type CredentialCategory =
-  | "data-engineering"
-  | "cloud"
-  | "analytics"
-  | "sql"
-  | "academic"
-  | "award"
-  | "activity"
-  | "soft-skills";
-
-export interface Credential {
-  id: string;
-  title: string;
-  issuer: string;
-  date: string;
-  issued: string;
-  category: CredentialCategory;
-  level?: string;
-  description?: string;
-  relatedProjectIds?: string[];
-  relatedSkillIds?: string[];
-  verifyUrl?: string;
-  evidenceLevel?: "verified" | "issued" | "self-reported";
-}
-
-/* ─── Evidence Graph Helpers ─── */
-
-/** Resolve an entity by ID from a collection */
-export function findById<T extends { id: string }>(
-  collection: T[],
-  id: string,
-): T | undefined {
-  return collection.find((item) => item.id === id);
-}
-
-/** Resolve multiple entities by IDs from a collection */
-export function findManyById<T extends { id: string }>(
-  collection: T[],
-  ids: string[],
-): T[] {
-  return ids
-    .map((id) => collection.find((item) => item.id === id))
-    .filter((item): item is T => item !== undefined);
-}
+// Credential types are defined in @/data/credentials (canonical source)
+// Import from there: import { type Credential, type CredentialCategory } from "@/data/credentials";
