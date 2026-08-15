@@ -1,9 +1,9 @@
 {
   "pipeline": "portfolio-data",
   "status": "success",
-  "started_at": "2026-08-14T15:09:49.611516+00:00",
-  "completed_at": "2026-08-14T15:09:50.542774+00:00",
-  "duration_seconds": 0.9,
+  "started_at": "2026-08-15T14:42:55.956076+00:00",
+  "completed_at": "2026-08-15T14:42:57.006495+00:00",
+  "duration_seconds": 1.1,
   "records_processed": 35,
   "dq": {
     "total": 8,
