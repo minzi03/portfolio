@@ -3,16 +3,16 @@
   "active_repos": 35,
   "total_stars": 0,
   "total_forks": 0,
-  "total_size_kb": 2018166,
+  "total_size_kb": 2018168,
   "languages": 6,
-  "last_updated": "2026-08-18 14:57:26",
+  "last_updated": "2026-08-19 15:17:09",
   "language_breakdown": [
     {
-      "language": "Jupyter Notebook",
+      "language": "Python",
       "count": 9
     },
     {
-      "language": "Python",
+      "language": "Jupyter Notebook",
       "count": 9
     },
     {
