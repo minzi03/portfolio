@@ -3,16 +3,16 @@
   "active_repos": 35,
   "total_stars": 4,
   "total_forks": 0,
-  "total_size_kb": 2019981,
+  "total_size_kb": 2020366,
   "languages": 6,
-  "last_updated": "2026-09-21 17:57:15",
+  "last_updated": "2026-09-22 14:42:46",
   "language_breakdown": [
     {
-      "language": "Jupyter Notebook",
+      "language": "Python",
       "count": 9
     },
     {
-      "language": "Python",
+      "language": "Jupyter Notebook",
       "count": 9
     },
     {
@@ -24,11 +24,11 @@
       "count": 1
     },
     {
-      "language": "TypeScript",
+      "language": "PLSQL",
       "count": 1
     },
     {
-      "language": "PLSQL",
+      "language": "TypeScript",
       "count": 1
     }
   ]
