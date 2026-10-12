@@ -3,9 +3,9 @@
   "active_repos": 35,
   "total_stars": 5,
   "total_forks": 0,
-  "total_size_kb": 2021649,
+  "total_size_kb": 2021590,
   "languages": 6,
-  "last_updated": "2026-10-10 18:41:31",
+  "last_updated": "2026-10-11 18:59:08",
   "language_breakdown": [
     {
       "language": "Python",
@@ -20,11 +20,11 @@
       "count": 2
     },
     {
-      "language": "PLSQL",
+      "language": "TypeScript",
       "count": 1
     },
     {
-      "language": "TypeScript",
+      "language": "PLSQL",
       "count": 1
     },
     {
